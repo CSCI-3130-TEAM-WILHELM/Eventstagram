@@ -2,4 +2,4 @@ language: java
 install:
 - mvn install
 jdk:
-- oraclejk8
+- oraclejdk8
