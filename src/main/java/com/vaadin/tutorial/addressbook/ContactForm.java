@@ -22,7 +22,7 @@ import com.vaadin.v7.ui.TextField;
  * with @PropertyId annotation.
  */
 
-//CHANGES 
+//CHANGES 1
 
 public class ContactForm extends FormLayout {
 

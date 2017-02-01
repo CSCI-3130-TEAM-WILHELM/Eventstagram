@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 // Backend service class. This is just a typical Java backend implementation
 // class and nothing Vaadin specific.
 
-//CHANGES 
+//CHANGES 1
 
 public class ContactService {
 
