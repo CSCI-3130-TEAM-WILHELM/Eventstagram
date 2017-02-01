@@ -46,7 +46,7 @@ public class ContactService {
                 contact.setTask("+ 358 555 " + (100 + r.nextInt(900)));
                 cal.set(1930 + r.nextInt(70),
                         r.nextInt(11), r.nextInt(28));
-                contact.setBirthDate(cal.getTime());
+                contact.setStartDate(cal.getTime());
                 contactService.save(contact);
             }
             instance = contactService;
