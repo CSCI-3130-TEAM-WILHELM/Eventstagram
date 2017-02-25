@@ -29,13 +29,13 @@ import com.vaadin.v7.ui.TextField;
 
 public class ProfilePageUI extends FormLayout 
 {	
-	Label userNameLabel = new Label("your username");
+	Label userNameLabel = new Label("Your username");
 	Label userNameContent = new Label("");
-	Label userInterestsLabel = new Label("your interests");
-	Label locationLabel = new Label("your are here");
+	Label userInterestsLabel = new Label("Your interests");
+	Label locationLabel = new Label("You are here");
 	
 	Button changeInterestButton = new Button("Modify Interests");
-	TextField interestsTextField = new TextField("my interests");
+	TextField interestsTextField = new TextField("My interests");
 	Button submitNewInterestsButton = new Button("Submit Interests");
 	
 	Button changePasswordButton = new Button("Change Password");
