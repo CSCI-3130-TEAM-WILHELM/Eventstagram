@@ -15,6 +15,11 @@ import com.vaadin.tutorial.addressbook.backend.UserService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+
+
+import com.vaadin.ui.Notification.Type;
+
+
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -174,13 +179,13 @@ public class AddressbookUI extends UI {
     }
     private void logout(){
     	showingLoginButton=true;							//Change login button state
+    	Notification.show("Goodbye " + profilePageUI.userNameContent.getValue() + ".", Type.TRAY_NOTIFICATION); //goodbye message
     	loginForm.clearLoginForm();							//Clear the password and username from the login form
     	loginButton.setVisible(showingLoginButton);			//Show login button
     	logoutButton.setVisible(!showingLoginButton);		//Hide logout button
     	profilePageButton.setVisible(!showingLoginButton);	//Hide profile button
         profilePageUI.userNameContent.setValue("");			//Clear the username from the profile page
         profilePageUI.setVisible(!showingLoginButton); 		//Hide the profile page if showing.
-
 
 
     }
