@@ -174,11 +174,14 @@ public class AddressbookUI extends UI {
     }
     private void logout(){
     	showingLoginButton=true;							//Change login button state
+    	loginForm.clearLoginForm();							//Clear the password and username from the login form
     	loginButton.setVisible(showingLoginButton);			//Show login button
     	logoutButton.setVisible(!showingLoginButton);		//Hide logout button
     	profilePageButton.setVisible(!showingLoginButton);	//Hide profile button
-        profilePageUI.userNameContent.setValue("");			//Clear the username from the form
+        profilePageUI.userNameContent.setValue("");			//Clear the username from the profile page
         profilePageUI.setVisible(!showingLoginButton); 		//Hide the profile page if showing.
+
+
 
     }
 
