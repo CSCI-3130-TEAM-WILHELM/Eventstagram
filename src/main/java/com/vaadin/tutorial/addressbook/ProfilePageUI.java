@@ -16,7 +16,7 @@ import com.vaadin.ui.FormLayout;
 
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.tutorial.addressbook.backend.Contact;
-
+import com.vaadin.tutorial.addressbook.backend.User;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
@@ -34,6 +34,8 @@ public class ProfilePageUI extends FormLayout
 	Label userNameContent = new Label("");
 	Label userInterestsLabel = new Label("Your interests");
 	Label locationLabel = new Label("You are here");
+	
+	
 	
 	Button changeInterestButton = new Button("Modify Interests");
 	TextField interestsTextField = new TextField("My interests");
@@ -77,7 +79,11 @@ public class ProfilePageUI extends FormLayout
 	
 	//INCOMPLETE
 	private boolean compareNewtoOldPassword() {
-		
+		if (newPasswordField.getValue().equals(getUI().currentUser.getPassword())){
+			System.err.println("New and Old Passwords do not match");
+			passInfoLabel.setValue("New and Old passwords do not match");
+			return false;
+		}
 		return true;
 	}
 
