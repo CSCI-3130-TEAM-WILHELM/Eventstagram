@@ -21,6 +21,7 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
@@ -40,9 +41,10 @@ public class ProfilePageUI extends FormLayout
 	
 	Button changePasswordButton = new Button("Change Password");
 	Button submitNewPasswordButton = new Button("Submit New Password");
-	TextField oldPasswordTextField = new TextField("Old Password:");
-	TextField newPasswordTextField = new TextField("New Password");
-	TextField confirmNewPasswordTextField = new TextField("Confirm New Password:");
+	PasswordField oldPasswordField = new PasswordField("Old Password:");
+	PasswordField newPasswordField = new PasswordField("New Password");
+	PasswordField confirmNewPasswordField = new PasswordField("Confirm New Password:");
+	Label passInfoLabel = new Label("test");
 	
 	ProfilePageUI()
 	{
@@ -59,13 +61,34 @@ public class ProfilePageUI extends FormLayout
 		buildLayout(1);
 	}
 	
-	private void changePassword()
+	private void changePasswordLayout()
 	{
 		clearLayout();
-		
 		buildLayout(2);
 	}
 	
+	private void checkPasswordIntegrity(){
+		System.out.println("Testing password integrity");
+		if (compareNewPasswords() && compareNewtoOldPassword()){
+			buildLayout(0);
+			addComponents(new Label("Password has been succesfully updated."));
+		}
+	}
+	
+	//INCOMPLETE
+	private boolean compareNewtoOldPassword() {
+		
+		return true;
+	}
+
+	private boolean compareNewPasswords(){
+		if (!newPasswordField.getValue().equals(confirmNewPasswordField.getValue())){
+			System.err.println("New password does not match");;
+			passInfoLabel.setValue("Passwords do not match");
+			return false;
+		}
+		return true;
+	}
 	private void updateInterests()
 	{
 		userInterestsLabel.setValue(interestsTextField.getValue().toString());
@@ -79,7 +102,8 @@ public class ProfilePageUI extends FormLayout
 	{		
 		changeInterestButton.addClickListener(e -> modifyUserInterests());
 		submitNewInterestsButton.addClickListener(e -> updateInterests());
-		changePasswordButton.addClickListener(e -> changePassword());
+		changePasswordButton.addClickListener(e -> changePasswordLayout());
+		submitNewPasswordButton.addClickListener(e -> checkPasswordIntegrity());
 	}
 	
 	private void buildLayout(int extraPieces)
@@ -96,8 +120,8 @@ public class ProfilePageUI extends FormLayout
         			  	  interestsTextField, submitNewInterestsButton);
         else if (extraPieces == 2)
         	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
-  			  	  		  changeInterestButton, changePasswordButton, oldPasswordTextField,
-  			  	  		  newPasswordTextField, confirmNewPasswordTextField, submitNewPasswordButton);
+  			  	  		  changeInterestButton, changePasswordButton, oldPasswordField,
+  			  	  		  newPasswordField, confirmNewPasswordField, passInfoLabel, submitNewPasswordButton);
 	}
 	
 	private void clearLayout()
