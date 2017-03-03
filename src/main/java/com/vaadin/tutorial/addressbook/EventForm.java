@@ -24,7 +24,7 @@ import com.vaadin.v7.ui.TextField;
 
 //CHANGES 2
 
-public class ContactForm extends FormLayout {
+public class EventForm extends FormLayout {
 
     Button save = new Button("Save", this::save);
     Button cancel = new Button("Cancel", this::cancel);
@@ -35,7 +35,7 @@ public class ContactForm extends FormLayout {
     // Easily bind forms to beans and manage validation and buffering
     BeanFieldGroup<Contact> formFieldBindings;
 
-    public ContactForm() {
+    public EventForm() {
         configureComponents();
         buildLayout();
     }

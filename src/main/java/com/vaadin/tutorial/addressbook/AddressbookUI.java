@@ -61,7 +61,7 @@ public class AddressbookUI extends UI {
     Button logoutButton = new Button("Logout");
 
     // ContactForm is an example of a custom component class
-    ContactForm contactForm = new ContactForm();
+    EventForm eventForm = new EventForm();
     LoginForm loginForm = new LoginForm();
     
     ProfilePageUI profilePageUI = new ProfilePageUI();
@@ -93,7 +93,7 @@ public class AddressbookUI extends UI {
          * to synchronously handle those events. Vaadin automatically sends only
          * the needed changes to the web page without loading a new page.
          */
-        newContact.addClickListener(e -> contactForm.edit(new Contact()));
+        newContact.addClickListener(e -> eventForm.edit(new Contact()));
         loginButton.addClickListener(e -> openLoginPage());
         logoutButton.setVisible(!showingLoginButton);       //Set the visibility of the logout button opposite of the login button
         logoutButton.addClickListener(e -> logout()); 		//Add the action to the logout button
@@ -108,7 +108,7 @@ public class AddressbookUI extends UI {
         contactList.setColumnOrder("event");
         contactList.removeColumn("id");
         contactList.setSelectionMode(Grid.SelectionMode.SINGLE);
-        contactList.addSelectionListener(e -> contactForm.edit((Contact) contactList.getSelectedRow()));
+        contactList.addSelectionListener(e -> eventForm.edit((Contact) contactList.getSelectedRow()));
         refreshContacts();
     }
 
@@ -135,7 +135,7 @@ public class AddressbookUI extends UI {
         contactList.setSizeFull();
         left.setExpandRatio(contactList, 1);
 
-        HorizontalLayout mainLayout = new HorizontalLayout(left, contactForm, profilePageUI, loginForm);
+        HorizontalLayout mainLayout = new HorizontalLayout(left, eventForm, profilePageUI, loginForm);
         mainLayout.setSizeFull();
         mainLayout.setExpandRatio(left, 1);
 
@@ -157,7 +157,7 @@ public class AddressbookUI extends UI {
 
     private void refreshContacts(String stringFilter) {
         contactList.setContainerDataSource(new BeanItemContainer<>(Contact.class, service.findAll(stringFilter)));
-        contactForm.setVisible(false);
+        eventForm.setVisible(false);
         profilePageUI.setVisible(false);
         loginForm.setVisible(showingLoginForm);
     }
