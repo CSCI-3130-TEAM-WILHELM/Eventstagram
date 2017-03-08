@@ -18,6 +18,7 @@ import javax.persistence.Id;
 // class and nothing Vaadin specific.
 
 //For information on @entity and @Id and stuff, visit http://www.objectdb.com/java/jpa/entity/types
+//
 
 @Entity
 public class Contact implements Serializable, Cloneable {

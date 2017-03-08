@@ -16,6 +16,7 @@ import javax.persistence.Id;
  */
 // Backend DTO class. This is just a typical Java backend implementation
 // class and nothing Vaadin specific.
+//
 
 @Entity 
 public class User implements Serializable, Cloneable {
