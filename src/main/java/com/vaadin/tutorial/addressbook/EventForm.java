@@ -200,5 +200,4 @@ public class EventForm extends FormLayout {
     public AddressbookUI getUI() {
         return (AddressbookUI) super.getUI();
     }
-
 }
