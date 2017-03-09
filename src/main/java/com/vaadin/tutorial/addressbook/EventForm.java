@@ -31,7 +31,8 @@ public class EventForm extends FormLayout {
     private Label eventDescriptionLabel = new Label();
     private Label eventDateLabel = new Label();
     private Label eventLocationLabel = new Label();
-    private Label headCountLabel = new Label();
+    private Label attendingCountLabel = new Label();
+    private Label interestedCountLabel = new Label(); 
     
     private Button attendingButton = new Button("Attending");
     private Button interestedButton = new Button("Interested");
@@ -44,6 +45,7 @@ public class EventForm extends FormLayout {
         configureComponents();
         buildLayout();
     }
+
 
     private void configureComponents() {
         /*
@@ -59,6 +61,8 @@ public class EventForm extends FormLayout {
     	eventDescriptionLabel.setValue("A real fun time");
     	eventDateLabel.setValue("February 29th 2017 at 7:00pm");
     	eventLocationLabel.setValue("Dalhousie University");
+    	attendingCountLabel.setValue("0 people attending");
+    	interestedCountLabel.setValue("0 people are interested");
         setVisible(false);
     }
 
@@ -67,7 +71,7 @@ public class EventForm extends FormLayout {
         setMargin(true);
         HorizontalLayout actions = new HorizontalLayout(attendingButton, interestedButton);
         actions.setSpacing(true);
-        addComponents(actions, eventNameLabel, eventDateLabel, eventLocationLabel, eventDescriptionLabel);
+        addComponents(actions, eventNameLabel, eventDateLabel, eventLocationLabel, eventDescriptionLabel, attendingCountLabel, interestedCountLabel);
     }
 
     /*
@@ -107,17 +111,86 @@ public class EventForm extends FormLayout {
         getUI().contactList.select(null);
     }
 */ 
+  //method to update user's attendance
     private void attendingEvent()
     {
-    	//method to update user's attendance
+    	attendingButton.setEnabled(false);
+    	String attendingCountLabelText = attendingCountLabel.getValue();
+    	
+    	
+    	String updatedCountText = updateCount(attendingCountLabelText, true, "\\s+");
+    	attendingCountLabel.setValue(updatedCountText);
+    		
+    	
+    	//if they were previously interested
+    	if (!interestedButton.isEnabled())
+    	{
+    		interestedButton.setEnabled(true);
+    		updatedCountText = updateCount(interestedCountLabel.getValue(), false, "\\s+");
+    		interestedCountLabel.setValue(updatedCountText);
+    	}
+
+    	
     }
     
+  //method to update user's interestedness
     private void interestedEvent()
     {
-    	//method to update user's interestedness
+    	interestedButton.setEnabled(false);
+    	String interestedCountLabelText = interestedCountLabel.getValue(); 	
+    	String updatedCountText = updateCount(interestedCountLabelText, true, "\\s+");
+    	interestedCountLabel.setValue(updatedCountText);   
+    	
+    	//if they were previously attending
+    	if (!attendingButton.isEnabled())
+    	{
+    		attendingButton.setEnabled(true);
+    		updatedCountText = updateCount(attendingCountLabel.getValue(), false, "\\s+");
+    		attendingCountLabel.setValue(updatedCountText);
+    	}
+    	
     }
     
-    void edit(Contact contact) {
+    private String updateCount(String text, boolean isIncrement, String toSplit)
+    {
+    	String [] splitUpText = text.split(toSplit);
+    	int newCount = Integer.parseInt(splitUpText[0]);
+    	
+    	if (isIncrement)
+    	{
+    		newCount++;
+    	}
+    	else
+    	{
+    		newCount--;
+    	}
+    	
+    	StringBuilder stringBuilder = new StringBuilder();
+    	stringBuilder.append(newCount);
+    	
+    	for (int i = 1; i < splitUpText.length; i++)
+    	{
+    		stringBuilder.append(" " + splitUpText[i]);
+    	}
+
+    	return stringBuilder.toString();
+    }
+    
+    
+    
+    void edit(Contact contact, boolean isLoggedin){
+    	
+    	if(!isLoggedin)
+    	{
+    		attendingButton.setEnabled(false);
+    		interestedButton.setEnabled(false);
+    	}
+    	if (isLoggedin)
+    	{
+    		attendingButton.setEnabled(true);
+    		interestedButton.setEnabled(true);
+    	}
+    
         this.contact = contact;
         if (contact != null) {
             // Bind the properties of the contact POJO to fields in this form
