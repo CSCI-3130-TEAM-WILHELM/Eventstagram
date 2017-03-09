@@ -42,7 +42,6 @@ public class EventForm extends FormLayout {
         buildLayout();
     }
 
-
     private void configureComponents() {
         /*
          * Highlight primary actions.
