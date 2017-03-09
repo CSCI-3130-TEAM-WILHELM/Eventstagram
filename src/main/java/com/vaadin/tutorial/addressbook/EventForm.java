@@ -23,8 +23,6 @@ import com.vaadin.v7.ui.TextField;
  * with @PropertyId annotation.
  */
 
-//CHANGES 2
-
 public class EventForm extends FormLayout {
     Contact contact;
     private Label eventNameLabel = new Label(); 
@@ -32,8 +30,7 @@ public class EventForm extends FormLayout {
     private Label eventDateLabel = new Label();
     private Label eventLocationLabel = new Label();
     private Label attendingCountLabel = new Label();
-    private Label interestedCountLabel = new Label(); 
-    
+    private Label interestedCountLabel = new Label();    
     private Button attendingButton = new Button("Attending");
     private Button interestedButton = new Button("Interested");
     		
