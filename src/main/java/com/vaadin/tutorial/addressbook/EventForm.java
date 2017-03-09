@@ -34,7 +34,6 @@ public class EventForm extends FormLayout {
     private Button attendingButton = new Button("Attending");
     private Button interestedButton = new Button("Interested");
     		
-
     // Easily bind forms to beans and manage validation and buffering
     BeanFieldGroup<Contact> formFieldBindings;
 
