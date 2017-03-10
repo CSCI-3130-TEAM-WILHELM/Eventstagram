@@ -46,7 +46,6 @@ public class ProfilePageUI extends FormLayout
 	PasswordField oldPasswordField = new PasswordField("Old Password:");
 	PasswordField newPasswordField = new PasswordField("New Password");
 	PasswordField confirmNewPasswordField = new PasswordField("Confirm New Password:");
-	Label passInfoLabel = new Label("test");
 	
 	ProfilePageUI()
 	{
@@ -72,25 +71,36 @@ public class ProfilePageUI extends FormLayout
 	private void checkPasswordIntegrity(){
 		System.out.println("Testing password integrity");
 		if (compareNewPasswords() && compareNewtoOldPassword()){
+			clearLayout();
 			buildLayout(0);
-			addComponents(new Label("Password has been succesfully updated."));
+			Notification.show("Password has been succesfully updated.", Type.TRAY_NOTIFICATION);
 		}
 	}
 	
 	//INCOMPLETE
 	private boolean compareNewtoOldPassword() {
-		if (newPasswordField.getValue().equals(getUI().currentUser.getPassword())){
+		if (!oldPasswordField.getValue().equals(getUI().currentUser.getPassword())){
 			System.err.println("New and Old Passwords do not match");
-			passInfoLabel.setValue("New and Old passwords do not match");
+			System.err.println("Current Pass ="+getUI().currentUser.getPassword());
+			System.err.println("New Pass ="+newPasswordField.getValue());
+			Notification.show("New and Old passwords do not match.", Type.TRAY_NOTIFICATION);
 			return false;
 		}
+		//change password of currentUser object (DOES NOT CHANGE DATABASE OBJECT!!)
+		getUI().currentUser.setPassword(newPasswordField.getValue());
+		
+		
+		///////////////////////////////////// changing userservice database object
+		getUI().userService.delete(getUI().currentUser);
+		getUI().userService.save(getUI().currentUser);
+		/////////////////////////////////////
 		return true;
 	}
 
 	private boolean compareNewPasswords(){
 		if (!newPasswordField.getValue().equals(confirmNewPasswordField.getValue())){
-			System.err.println("New password does not match");;
-			passInfoLabel.setValue("Passwords do not match");
+			System.err.println("New password does not match");
+			Notification.show("Passwords do not match.", Type.TRAY_NOTIFICATION);
 			return false;
 		}
 		return true;
@@ -120,6 +130,7 @@ public class ProfilePageUI extends FormLayout
         if (extraPieces == 0)
         	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
         			  	  changeInterestButton, changePasswordButton);
+        
         if (extraPieces == 1)
         	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
         			  	  changeInterestButton, changePasswordButton, changeInterestButton,
@@ -127,7 +138,7 @@ public class ProfilePageUI extends FormLayout
         else if (extraPieces == 2)
         	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
   			  	  		  changeInterestButton, changePasswordButton, oldPasswordField,
-  			  	  		  newPasswordField, confirmNewPasswordField, passInfoLabel, submitNewPasswordButton);
+  			  	  		  newPasswordField, confirmNewPasswordField, submitNewPasswordButton);
 	}
 	
 	private void clearLayout()
