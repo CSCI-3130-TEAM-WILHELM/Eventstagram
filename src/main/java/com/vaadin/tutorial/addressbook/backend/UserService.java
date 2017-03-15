@@ -2,6 +2,8 @@ package com.vaadin.tutorial.addressbook.backend;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import com.vaadin.tutorial.addressbook.AddressbookUI;
+
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,9 +32,8 @@ public class UserService {
 
     public static UserService createDemoService() {
         if (instance == null) {
-
             final UserService userService = new UserService();
-
+            
             //Random r = new Random(0);
             Calendar cal = Calendar.getInstance();
             for (int i = 0; i < 20; i++) {
@@ -48,7 +49,7 @@ public class UserService {
     }
 
     private HashMap<Long, User> users = new HashMap<>();
-    private long nextId = 0;
+    private long nextId = 1;
 
     //old header = public synchronized List<User> findAll(String stringFilter) {
     public synchronized ArrayList<User> findAll(String stringFilter) {
@@ -94,6 +95,10 @@ public class UserService {
             throw new RuntimeException(ex);
         }
         users.put(entry.getId(), entry);
+        
+        /////////////DATABASE/////////
+        AddressbookUI.Users.addEntity(entry);
+        //////////////////////////////
     }
 
 }

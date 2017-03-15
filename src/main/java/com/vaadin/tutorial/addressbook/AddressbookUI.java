@@ -2,6 +2,8 @@ package com.vaadin.tutorial.addressbook;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -68,14 +70,17 @@ public class AddressbookUI extends UI {
     LoginForm loginForm = new LoginForm();
     
     ProfilePageUI profilePageUI = new ProfilePageUI();
-
+    
+    public static JPAContainer<User> Users = JPAContainerFactory.make(User.class, "EventstagramDB");
+    
+    
     // ContactService is a in-memory mock DAO that mimics
     // a real-world datasource. Typically implemented for
     // example as EJB or Spring Data based service.
     ContactService service = ContactService.createDemoService();
     UserService userService = UserService.createDemoService();
 
-    /*
+    /*s
      * The "Main method".
      *
      * This is the entry point method executed to initialize and configure the
@@ -176,6 +181,10 @@ public class AddressbookUI extends UI {
     }
     private void openLoginPage()
     {
+    	
+    	//////////////////////////////////////
+    	//Notification.show(String.valueOf(Users.size()), Type.TRAY_NOTIFICATION);
+    	//////////////////////////////////////
     	showingLoginForm = !showingLoginForm;
     	
     	loginForm.setVisible(showingLoginForm);
