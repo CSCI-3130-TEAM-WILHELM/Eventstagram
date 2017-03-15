@@ -15,6 +15,11 @@ import com.vaadin.tutorial.addressbook.backend.UserService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
+
+
+import com.vaadin.ui.Notification.Type;
+
+
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.v7.data.util.BeanItemContainer;
@@ -47,6 +52,9 @@ public class AddressbookUI extends UI {
      * com.vaadin.ui package and there are over 500 more in
      * vaadin.com/directory.
      */
+	
+	User currentUser = new User();
+	
     TextField filter = new TextField();
     Grid contactList = new Grid();
     Button newContact = new Button("New Editor");
@@ -55,8 +63,9 @@ public class AddressbookUI extends UI {
     Button loginButton = new Button("Login");
     Button logoutButton = new Button("Logout");
 
-    // ContactForm is an example of a custom component class
-    ContactForm contactForm = new ContactForm();
+    // EventForm is an example of a custom component class
+  
+    EventForm eventForm = new EventForm();
     LoginForm loginForm = new LoginForm();
     
     ProfilePageUI profilePageUI = new ProfilePageUI();
@@ -88,7 +97,8 @@ public class AddressbookUI extends UI {
          * to synchronously handle those events. Vaadin automatically sends only
          * the needed changes to the web page without loading a new page.
          */
-        newContact.addClickListener(e -> contactForm.edit(new Contact()));
+        newContact.addClickListener(e -> eventForm.edit(new Contact(), !showingLoginButton));
+      
         loginButton.addClickListener(e -> openLoginPage());
         logoutButton.setVisible(!showingLoginButton);       //Set the visibility of the logout button opposite of the login button
         logoutButton.addClickListener(e -> logout()); 		//Add the action to the logout button
@@ -103,7 +113,9 @@ public class AddressbookUI extends UI {
         contactList.setColumnOrder("event");
         contactList.removeColumn("id");
         contactList.setSelectionMode(Grid.SelectionMode.SINGLE);
-        contactList.addSelectionListener(e -> contactForm.edit((Contact) contactList.getSelectedRow()));
+
+        contactList.addSelectionListener(e -> eventForm.edit((Contact) contactList.getSelectedRow(), !showingLoginButton));
+
         refreshContacts();
     }
 
@@ -130,7 +142,7 @@ public class AddressbookUI extends UI {
         contactList.setSizeFull();
         left.setExpandRatio(contactList, 1);
 
-        HorizontalLayout mainLayout = new HorizontalLayout(left, contactForm, profilePageUI, loginForm);
+        HorizontalLayout mainLayout = new HorizontalLayout(left, eventForm, profilePageUI, loginForm);
         mainLayout.setSizeFull();
         mainLayout.setExpandRatio(left, 1);
 
@@ -152,7 +164,7 @@ public class AddressbookUI extends UI {
 
     private void refreshContacts(String stringFilter) {
         contactList.setContainerDataSource(new BeanItemContainer<>(Contact.class, service.findAll(stringFilter)));
-        contactForm.setVisible(false);
+        eventForm.setVisible(false);
         profilePageUI.setVisible(false);
         loginForm.setVisible(showingLoginForm);
     }
@@ -163,7 +175,6 @@ public class AddressbookUI extends UI {
     private void openProfilePage()
     {
     	showingProfilePage = !showingProfilePage;
-    	
     	profilePageUI.setVisible(showingProfilePage);
     }
     private void openLoginPage()
@@ -174,11 +185,14 @@ public class AddressbookUI extends UI {
     }
     private void logout(){
     	showingLoginButton=true;							//Change login button state
+    	Notification.show("Goodbye " + profilePageUI.userNameContent.getValue() + ".", Type.TRAY_NOTIFICATION); //goodbye message
+    	loginForm.clearLoginForm();							//Clear the password and username from the login form
     	loginButton.setVisible(showingLoginButton);			//Show login button
     	logoutButton.setVisible(!showingLoginButton);		//Hide logout button
     	profilePageButton.setVisible(!showingLoginButton);	//Hide profile button
-        profilePageUI.userNameContent.setValue("");			//Clear the username from the form
+        profilePageUI.userNameContent.setValue("");			//Clear the username from the profile page
         profilePageUI.setVisible(!showingLoginButton); 		//Hide the profile page if showing.
+
 
     }
 

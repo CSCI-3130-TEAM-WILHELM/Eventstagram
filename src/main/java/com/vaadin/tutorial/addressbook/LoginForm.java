@@ -112,6 +112,7 @@ public class LoginForm extends FormLayout {
         			getUI().profilePageButton.setVisible(!getUI().showingLoginButton);   //Show the profile button
         			getUI().showingLoginForm=!getUI().showingLoginForm;                  //Swap the login form value
         			getUI().loginForm.setVisible(getUI().showingLoginForm);              //Hide the login form
+        			getUI().currentUser=usernamelist.get(0);							 //Give current user object to parent
         		}
         		//username and password do not match
         		else{
