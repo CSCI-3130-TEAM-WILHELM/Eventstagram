@@ -5,6 +5,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * A simple DTO for the address book example.
  *
@@ -14,11 +17,13 @@ import java.util.Date;
 // Backend DTO class. This is just a typical Java backend implementation
 // class and nothing Vaadin specific.
 
-//CHANGES 1
+//For information on @entity and @Id and stuff, visit http://www.objectdb.com/java/jpa/entity/types
+//
 
-
+@Entity
 public class Contact implements Serializable, Cloneable {
 
+	@Id
     private Long id;
     private String event = "";
 

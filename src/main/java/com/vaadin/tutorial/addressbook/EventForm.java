@@ -24,6 +24,7 @@ import com.vaadin.v7.ui.TextField;
  */
 
 public class EventForm extends FormLayout {
+
     Contact contact;
     private Label eventNameLabel = new Label(); 
     private Label eventDescriptionLabel = new Label();

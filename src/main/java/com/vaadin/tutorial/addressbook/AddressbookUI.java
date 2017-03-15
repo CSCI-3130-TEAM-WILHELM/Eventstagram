@@ -52,6 +52,9 @@ public class AddressbookUI extends UI {
      * com.vaadin.ui package and there are over 500 more in
      * vaadin.com/directory.
      */
+	
+	User currentUser = new User();
+	
     TextField filter = new TextField();
     Grid contactList = new Grid();
     Button newContact = new Button("New Editor");
@@ -61,6 +64,7 @@ public class AddressbookUI extends UI {
     Button logoutButton = new Button("Logout");
 
     // EventForm is an example of a custom component class
+  
     EventForm eventForm = new EventForm();
     LoginForm loginForm = new LoginForm();
     
@@ -94,6 +98,7 @@ public class AddressbookUI extends UI {
          * the needed changes to the web page without loading a new page.
          */
         newContact.addClickListener(e -> eventForm.edit(new Contact(), !showingLoginButton));
+      
         loginButton.addClickListener(e -> openLoginPage());
         logoutButton.setVisible(!showingLoginButton);       //Set the visibility of the logout button opposite of the login button
         logoutButton.addClickListener(e -> logout()); 		//Add the action to the logout button
@@ -108,7 +113,9 @@ public class AddressbookUI extends UI {
         contactList.setColumnOrder("event");
         contactList.removeColumn("id");
         contactList.setSelectionMode(Grid.SelectionMode.SINGLE);
+
         contactList.addSelectionListener(e -> eventForm.edit((Contact) contactList.getSelectedRow(), !showingLoginButton));
+
         refreshContacts();
     }
 
