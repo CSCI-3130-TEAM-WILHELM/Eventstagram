@@ -7,24 +7,31 @@ import com.vaadin.ui.Image;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Events implements Serializable, Cloneable {
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-private int id;   
-private String title;
-private Date releaseDate;
-private Date open ;
-private Date start;
-private int locationId;
-private String description;
-private Image image;
+@Entity
+public class Event implements Serializable, Cloneable {
+
+	
+@Id
+private long id;
+//Unique event ID
+private String title;						// Title	
+private Date releaseDate;					// Date to be published
+private Date open ;							//Doors open Time
+private Date start;							//Event start Time
+private long locationId;					//Location ID
+private String description;					//Event Description
+private Image image;						//Image
 
 
-public Events()
+public Event()
 {
 	
 }
 
-public int getId()
+public long getId()
 {
 	return id;
 }
@@ -49,7 +56,7 @@ public Date getStart()
 	return start;
 }
 
-public int getLocationId()
+public long getLocationId()
 {
 	return locationId;
 }
@@ -64,7 +71,7 @@ public Image getImage()
 	return image;
 }
 
-public void setId(int id)
+public void setId(long id)
 {
 	this.id=id;
 }
@@ -89,7 +96,7 @@ public void setStart(Date start)
 	this.start=start;
 }
 
-public void setLocationId(int locationId)
+public void setLocationId(long locationId)
 {
 	this.locationId=locationId;
 }
@@ -104,5 +111,10 @@ public void setImage(Image image)
 	this.image=image;
 }
 
+@Override
+public String toString()
+{
+    return "Event{" + "id=" + id + ", Title = " + title + '}';
+}
 
 }
