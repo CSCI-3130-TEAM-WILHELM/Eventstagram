@@ -106,6 +106,7 @@ public class LoginForm extends FormLayout {
         		if (usernamelist.get(0).getPassword().equals(password.getValue())){
         			msg = "Hello "+username.getValue()+".";
         			getUI().profilePageUI.userNameContent.setValue(username.getValue()); //Set the profile page username
+        			getUI().profilePageUI.userInterestsContent.setValue(usernamelist.get(0).getInterest()); //Set the profile page user interests
         			getUI().showingLoginButton=!getUI().showingLoginButton;              //Swap the showing login button value
         			getUI().loginButton.setVisible(getUI().showingLoginButton);          //Hide the login button
         			getUI().logoutButton.setVisible(!getUI().showingLoginButton);        //Show the logout button

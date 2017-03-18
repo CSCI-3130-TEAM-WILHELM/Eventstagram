@@ -26,6 +26,7 @@ public class User implements Serializable, Cloneable {
 	
     private String username = "";
     private String password = "";
+    private String interest = "";
     
     public Long getId()
     {
@@ -57,6 +58,16 @@ public class User implements Serializable, Cloneable {
         this.password = password;
     }
 
+    public String getInterest()
+    {
+    	return interest;
+    }
+    
+    public void setInterest(String interest)
+    {
+    	this.interest = interest;
+    }
+    
     @Override
     public User clone() throws CloneNotSupportedException {
         try {
