@@ -94,6 +94,7 @@ public class ProfilePageUI extends FormLayout
 		getUI().userService.delete(getUI().currentUser);
 		getUI().userService.save(getUI().currentUser);
 		/////////////////////////////////////
+		
 		return true;
 	}
 

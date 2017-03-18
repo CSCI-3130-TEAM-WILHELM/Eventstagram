@@ -140,6 +140,10 @@ public class LoginForm extends FormLayout {
     	System.out.println("Cancel Pressed");
         // Place to call business logic.
         Notification.show("Cancelled", Type.TRAY_NOTIFICATION);
+        
+        ///////////////////////////////////////
+        Notification.show(String.valueOf(AddressbookUI.Users.size()), Type.TRAY_NOTIFICATION);
+        ///////////////////////////////////////
         closeLoginForm();
     }
     void closeLoginForm() {
