@@ -8,6 +8,8 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.tutorial.addressbook.backend.Event;
+import com.vaadin.tutorial.addressbook.backend.EventService;
 import com.vaadin.tutorial.addressbook.backend.Contact;
 import com.vaadin.tutorial.addressbook.backend.ContactService;
 import com.vaadin.tutorial.addressbook.backend.User;
@@ -73,7 +75,7 @@ public class AddressbookUI extends UI {
     // ContactService is a in-memory mock DAO that mimics
     // a real-world datasource. Typically implemented for
     // example as EJB or Spring Data based service.
-    ContactService service = ContactService.createDemoService();
+    EventService service = EventService.createDemoService();
     UserService userService = UserService.createDemoService();
 
     /*

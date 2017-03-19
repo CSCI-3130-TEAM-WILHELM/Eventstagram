@@ -13,25 +13,24 @@ import javax.persistence.Id;
 @Entity
 public class Event implements Serializable, Cloneable {
 
-	
-@Id
-private long id;
-//Unique event ID
-private String title;						// Title	
-private Date releaseDate;					// Date to be published
-private Date open ;							//Doors open Time
-private Date start;							//Event start Time
-private long locationId;					//Location ID
-private String description;					//Event Description
-private Image image;						//Image
+	@Id
+	private long id;							//Unique event ID
+	private String title;						//Title	
+	private Date releaseDate;					//Date to be published
+	private Date open ;							//Doors open Time
+	private Date start;							//Event start Time
+	private Date end;							//Event end Time
+	private long locationId;					//Location ID
+	private String description;					//Event Description
+	private Image image;						//Image
 
 
-public Event()
-{
-	
-}
+//public Event()
+//{
+//	
+//}
 
-public long getId()
+public Long getId()
 {
 	return id;
 }
@@ -55,7 +54,9 @@ public Date getStart()
 {
 	return start;
 }
-
+public Date getEnd() {
+	return end;
+}
 public long getLocationId()
 {
 	return locationId;
@@ -96,6 +97,10 @@ public void setStart(Date start)
 	this.start=start;
 }
 
+public void setEnd(Date end) {
+	this.end=end;
+}
+
 public void setLocationId(long locationId)
 {
 	this.locationId=locationId;
@@ -109,6 +114,15 @@ public void setDescription(String description)
 public void setImage(Image image)
 {
 	this.image=image;
+}
+
+@Override
+public Event clone() throws CloneNotSupportedException {
+    try {
+        return (Event) BeanUtils.cloneBean(this);
+    } catch (Exception ex) {
+        throw new CloneNotSupportedException();
+    }
 }
 
 @Override
