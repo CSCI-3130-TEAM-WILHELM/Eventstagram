@@ -77,34 +77,36 @@ public class ProfilePageUI extends FormLayout
 		}
 	}
 	
-	//INCOMPLETE
+	//Checking passwords 
 	private boolean compareNewtoOldPassword() {
 		if (!oldPasswordField.getValue().equals(getUI().currentUser.getPassword())){
-			System.err.println("New and Old Passwords do not match");
-			System.err.println("Current Pass ="+getUI().currentUser.getPassword());
-			System.err.println("New Pass ="+newPasswordField.getValue());
-			Notification.show("New and Old passwords do not match.", Type.TRAY_NOTIFICATION);
+			System.err.println("Old Password is not correct!");//print out the issue
+			System.err.println("Current Pass ="+getUI().currentUser.getPassword()); // print out the current password
+			System.err.println("New Pass ="+newPasswordField.getValue());//get the new password that user entered 
+			Notification.show("Old passwords do not match with current passwords.", Type.TRAY_NOTIFICATION);
 			return false;
 		}
 		//change password of currentUser object (DOES NOT CHANGE DATABASE OBJECT!!)
 		getUI().currentUser.setPassword(newPasswordField.getValue());
 		
 		
-		///////////////////////////////////// changing userservice database object
+		///////////////////////////////////// changing userservice database object 
 		getUI().userService.delete(getUI().currentUser);
 		getUI().userService.save(getUI().currentUser);
 		/////////////////////////////////////
+		
 		return true;
 	}
-
+	//check new passwords if they are matching
 	private boolean compareNewPasswords(){
 		if (!newPasswordField.getValue().equals(confirmNewPasswordField.getValue())){
 			System.err.println("New password does not match");
-			Notification.show("Passwords do not match.", Type.TRAY_NOTIFICATION);
+			Notification.show("New passwords do not match.", Type.TRAY_NOTIFICATION);
 			return false;
 		}
 		return true;
 	}
+	
 	private void updateInterests()
 	{
 		userInterestsLabel.setValue(interestsTextField.getValue().toString());
