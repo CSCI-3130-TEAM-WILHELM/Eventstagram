@@ -90,7 +90,7 @@ public class ProfilePageUI extends FormLayout
 		getUI().currentUser.setPassword(newPasswordField.getValue());
 		
 		
-		///////////////////////////////////// changing userservice database object
+		///////////////////////////////////// changing userservice database object 
 		getUI().userService.delete(getUI().currentUser);
 		getUI().userService.save(getUI().currentUser);
 		/////////////////////////////////////
