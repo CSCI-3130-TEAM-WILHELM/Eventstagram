@@ -58,7 +58,7 @@ public class AddressbookUI extends UI {
 	User currentUser = new User();
 	
     TextField filter = new TextField();
-    Grid contactList = new Grid();
+    Grid eventList = new Grid();
     Button newContact = new Button("New Editor");
     
     Button profilePageButton = new Button("Profile Page");
@@ -109,16 +109,16 @@ public class AddressbookUI extends UI {
         profilePageButton.addClickListener(e -> openProfilePage());
 
         filter.setInputPrompt("Filter Editors...");
-        filter.addTextChangeListener(e -> refreshContacts(e.getText()));
+        filter.addTextChangeListener(e -> refreshEvents(e.getText()));
 
-        contactList.setContainerDataSource(new BeanItemContainer<>(Contact.class));
-        contactList.setColumnOrder("event");
-        contactList.removeColumn("id");
-        contactList.setSelectionMode(Grid.SelectionMode.SINGLE);
+        eventList.setContainerDataSource(new BeanItemContainer<>(Event.class));
+        eventList.setColumnOrder("event");
+        eventList.removeColumn("id");
+        eventList.setSelectionMode(Grid.SelectionMode.SINGLE);
 
-        contactList.addSelectionListener(e -> eventForm.edit((Contact) contactList.getSelectedRow(), !showingLoginButton));
+        eventList.addSelectionListener(e -> eventForm.edit((Contact) eventList.getSelectedRow(), !showingLoginButton));
 
-        refreshContacts();
+        refreshEvents();
     }
 
     /*
@@ -139,10 +139,10 @@ public class AddressbookUI extends UI {
         filter.setWidth("100%");
         actions.setExpandRatio(filter, 1);
 
-        VerticalLayout left = new VerticalLayout(actions, contactList);
+        VerticalLayout left = new VerticalLayout(actions, eventList);
         left.setSizeFull();
-        contactList.setSizeFull();
-        left.setExpandRatio(contactList, 1);
+        eventList.setSizeFull();
+        left.setExpandRatio(eventList, 1);
 
         HorizontalLayout mainLayout = new HorizontalLayout(left, eventForm, profilePageUI, loginForm);
         mainLayout.setSizeFull();
@@ -160,12 +160,12 @@ public class AddressbookUI extends UI {
      * your code into classes to easier maintenance. With Vaadin you can follow
      * MVC, MVP or any other design pattern you choose.
      */
-    void refreshContacts() {
-        refreshContacts(filter.getValue());
+    void refreshEvents() {
+        refreshEvents(filter.getValue());
     }
 
-    private void refreshContacts(String stringFilter) {
-        contactList.setContainerDataSource(new BeanItemContainer<>(Contact.class, service.findAll(stringFilter)));
+    private void refreshEvents(String stringFilter) {
+        eventList.setContainerDataSource(new BeanItemContainer<>(Event.class, service.findAll(stringFilter)));
         eventForm.setVisible(false);
         profilePageUI.setVisible(false);
         loginForm.setVisible(showingLoginForm);
