@@ -83,7 +83,7 @@ public class ProfilePageUI extends FormLayout
 			System.err.println("Old Password is not correct!");//print out the issue
 			System.err.println("Current Pass ="+getUI().currentUser.getPassword()); // print out the current password
 			System.err.println("New Pass ="+newPasswordField.getValue());//get the new password that user entered 
-			Notification.show("Old passwords do not match with current passwords.", Type.TRAY_NOTIFICATION);
+			Notification.show("Old passwords do not match with current passwords.", Type.TRAY_NOTIFICATION); 
 			return false;
 		}
 		//change password of currentUser object (DOES NOT CHANGE DATABASE OBJECT!!)
