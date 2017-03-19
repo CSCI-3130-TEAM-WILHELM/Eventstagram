@@ -80,9 +80,9 @@ public class ProfilePageUI extends FormLayout
 	//Checking passwords 
 	private boolean compareNewtoOldPassword() {
 		if (!oldPasswordField.getValue().equals(getUI().currentUser.getPassword())){
-			System.err.println("Old Password is not correct!");
+			System.err.println("Old Password is not correct!");//print out the issue
 			System.err.println("Current Pass ="+getUI().currentUser.getPassword()); // print out the current password
-			System.err.println("New Pass ="+newPasswordField.getValue());
+			System.err.println("New Pass ="+newPasswordField.getValue());//get the new password that user entered 
 			Notification.show("Old passwords do not match with current passwords.", Type.TRAY_NOTIFICATION);
 			return false;
 		}
