@@ -20,10 +20,8 @@ import javax.persistence.Id;
 //For information on @entity and @Id and stuff, visit http://www.objectdb.com/java/jpa/entity/types
 //
 
-@Entity
 public class Contact implements Serializable, Cloneable {
 
-	@Id
     private Long id;
     private String event = "";
 
