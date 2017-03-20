@@ -58,7 +58,7 @@ public class AddressbookUI extends UI {
 	User currentUser = new User();
 	
     TextField filter = new TextField();
-    Grid contactList = new Grid();
+    Grid eventList = new Grid();
     Button newContact = new Button("New Editor");
     
     Button profilePageButton = new Button("Profile Page");
@@ -111,12 +111,12 @@ public class AddressbookUI extends UI {
         filter.setInputPrompt("Filter Editors...");
         filter.addTextChangeListener(e -> refreshEvents(e.getText()));
        
-        contactList.setContainerDataSource(new BeanItemContainer<>(Event.class));
-//        eventList.setColumnOrder("description");
+        eventList.setContainerDataSource(new BeanItemContainer<>(Event.class));
+        eventList.setColumnOrder("Connector");
 //        eventList.removeColumn("id");
-        contactList.setSelectionMode(Grid.SelectionMode.SINGLE);
+        eventList.setSelectionMode(Grid.SelectionMode.SINGLE);
 
-        contactList.addSelectionListener(e -> eventForm.edit((Contact) contactList.getSelectedRow(), !showingLoginButton));
+        eventList.addSelectionListener(e -> eventForm.edit((Contact) eventList.getSelectedRow(), !showingLoginButton));
 
         refreshEvents();
     }
@@ -139,10 +139,10 @@ public class AddressbookUI extends UI {
         filter.setWidth("100%");
         actions.setExpandRatio(filter, 1);
 
-        VerticalLayout left = new VerticalLayout(actions, contactList);
+        VerticalLayout left = new VerticalLayout(actions, eventList);
         left.setSizeFull();
-        contactList.setSizeFull();
-        left.setExpandRatio(contactList, 1);
+        eventList.setSizeFull();
+        left.setExpandRatio(eventList, 1);
 
         HorizontalLayout mainLayout = new HorizontalLayout(left, eventForm, profilePageUI, loginForm);
         mainLayout.setSizeFull();
@@ -169,7 +169,7 @@ public class AddressbookUI extends UI {
 /*        eventList.setContainerDataSource(new BeanItemContainer<>(
         		Event.class, eventservice.findAll(stringFilter)));
 */
-        contactList.setContainerDataSource(new BeanItemContainer<>(
+        eventList.setContainerDataSource(new BeanItemContainer<>(
                 Event.class, service.findAll(stringFilter)));
     	eventForm.setVisible(false);
         profilePageUI.setVisible(false);
