@@ -52,13 +52,13 @@ public class EventService {
 
             final EventService eventService = new EventService();
 
-            Calendar cal = Calendar.getInstance();
+//            Calendar cal = Calendar.getInstance();
             for (int i = 0; i < 20; i++) {
                 Event event = new Event();
                 event.setTitle(eventnames[i]);
-                event.setStart(cal.getTime());
-                event.setEnd(cal.getTime());
-                event.setDescription(eventdescriptions[i]);
+//                event.setStart(cal.getTime());
+//                event.setEnd(cal.getTime());
+//                event.setDescription(eventdescriptions[i]);
                 eventService.save(event);
             }
             instance = eventService;
