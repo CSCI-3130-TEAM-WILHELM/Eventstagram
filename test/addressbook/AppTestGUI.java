@@ -244,4 +244,29 @@ public class AppTestGUI extends TestBenchTestCase
 		
 		Assert.assertNotEquals(firstAttendingText, allLabels.get(5).getText());
 	}
+	
+	@Test
+	public void openingProfilePage()
+	{
+		openTestUrl();
+
+		// The steps to log in
+		ButtonElement loginButton = $(ButtonElement.class).id("loginButtonId");
+		loginButton.click();
+		
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(1).setValue("Mike");
+		PasswordFieldElement passwordField = $(PasswordFieldElement.class).first();
+		passwordField.setValue("Jones");
+		
+		List<ButtonElement> allButtons = $(ButtonElement.class).all();
+		allButtons.get(3).click();
+		
+		// opening profile page
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(1).click();
+		
+		allButtons = $(ButtonElement.class).all();
+		Assert.assertEquals(5, allButtons.size());
+	}
 }
