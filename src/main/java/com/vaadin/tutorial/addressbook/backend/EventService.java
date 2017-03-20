@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class EventService {
 
     // Create dummy data by randomly combining first and last names
-    static String[] eventnames = { "Grateful Dead", "Blackeyed Peas", "Metallica", "Led Zepplin", "The Beatles",
+/*    static String[] eventnames = { "Grateful Dead", "Blackeyed Peas", "Metallica", "Led Zepplin", "The Beatles",
     							   "Green Day", "Blink-182", "Radiohead", "AC/DC", "Pearl Jam",
     							   "Megadeth", "Nickleback", "Blackstreet", "Limp Bizkit", "Steve Tyler",
     							   "Duran Duran", "Guns 'N Roses", "Sex Pistols", "U2", "The Smashing Pumpkins" };
@@ -38,7 +38,7 @@ public class EventService {
                                           "Curabitur quis magna sed quam fermentum tincidunt. Aenean efficitur ligula vitae elit auctor commodo. Integer congue nulla leo, quis tincidunt sem vehicula nec.", 
                                           "Sed eu diam ac massa pellentesque faucibus. Quisque dolor nulla, imperdiet ullamcorper metus quis, vehicula convallis nisl. Phasellus risus mauris, tristique id accumsan eu, rutrum nec purus.", 
                                           "Integer id ullamcorper dolor. Suspendisse in nunc metus. Integer varius augue nulla, nec mollis leo bibendum ut. Suspendisse potenti.", 
-                                          "Sed sagittis neque odio, pretium consequat felis tincidunt eu. Nam mattis sem id dui condimentum vestibulum. Nunc et massa mi.", 
+                                         "Sed sagittis neque odio, pretium consequat felis tincidunt eu. Nam mattis sem id dui condimentum vestibulum. Nunc et massa mi.", 
                                           "Vivamus eu leo luctus, faucibus magna in, cursus libero. Suspendisse ullamcorper, nunc a vestibulum tristique, purus orci mattis mauris, ut sagittis leo justo sit amet nisi.",
                                           "Sed id vulputate libero. Maecenas eu ullamcorper velit, et faucibus elit. Ut quis lobortis elit. Aenean porta id sapien egestas volutpat.", 
                                           "Cras lacinia, ex vitae pellentesque pharetra, felis tellus maximus eros, a ultrices arcu nisi nec lectus.", 
@@ -117,3 +117,85 @@ public class EventService {
 
 
 }
+*/
+
+	    // Create dummy data by randomly combining first and last names
+	    static String[] fnames = { "Peter", "Aliee", "John", "Mike", "Olivia",
+	            "Nina", "Alex", "Rita", "Dan", "Umberto", "Henrik", "Rene", "Lisa",
+	            "Linda", "Timothy", "Daniel", "Brian", "George", "Scott",
+	            "Jennifer" };
+	    static String[] lnames = { "Smith", "Johnson", "Williams", "Jones",
+	            "Brown", "Davis", "Miller", "Wilson", "Moore", "Taylor",
+	            "Anderson", "Thomas", "Jackson", "White", "Harris", "Martin",
+	            "Thompson", "Young", "King", "Robinson" };
+
+	    private static EventService instance;
+
+	    public static EventService createDemoService() {
+	        if (instance == null) {
+
+	            final EventService contactService = new EventService();
+
+	            Random r = new Random(0);
+	            Calendar cal = Calendar.getInstance();
+	            for (int i = 0; i < 100; i++) {
+	                Contact contact = new Contact();
+	                contact.setEvent(fnames[r.nextInt(fnames.length)]);
+	                contactService.save(contact);
+	            }
+	            instance = contactService;
+	        }
+
+	        return instance;
+	    }
+
+	    private HashMap<Long, Contact> contacts = new HashMap<>();
+	    private long nextId = 0;
+
+	    public synchronized List<Contact> findAll(String stringFilter) {
+	        ArrayList arrayList = new ArrayList();
+	        for (Contact contact : contacts.values()) {
+	            try {
+	                boolean passesFilter = (stringFilter == null || stringFilter.isEmpty())
+	                        || contact.toString().toLowerCase()
+	                                .contains(stringFilter.toLowerCase());
+	                if (passesFilter) {
+	                    arrayList.add(contact.clone());
+	                }
+	            } catch (CloneNotSupportedException ex) {
+	                Logger.getLogger(ContactService.class.getName()).log(
+	                        Level.SEVERE, null, ex);
+	            }
+	        }
+	        Collections.sort(arrayList, new Comparator<Contact>() {
+
+	            @Override
+	            public int compare(Contact o1, Contact o2) {
+	                return (int) (o2.getId() - o1.getId());
+	            }
+	        });
+	        return arrayList;
+	    }
+
+	    public synchronized long count() {
+	        return contacts.size();
+	    }
+
+	    public synchronized void delete(Contact value) {
+	        contacts.remove(value.getId());
+	    }
+
+	    public synchronized void save(Contact entry) {
+	        if (entry.getId() == null) {
+	            entry.setId(nextId++);
+	        }
+	        try {
+	            entry = (Contact) BeanUtils.cloneBean(entry);
+	        } catch (Exception ex) {
+	            throw new RuntimeException(ex);
+	        }
+	        contacts.put(entry.getId(), entry);
+	    }
+
+	}
+

@@ -58,7 +58,7 @@ public class AddressbookUI extends UI {
 	User currentUser = new User();
 	
     TextField filter = new TextField();
-    Grid eventList = new Grid();
+    Grid contactList = new Grid();
     Button newContact = new Button("New Editor");
     
     Button profilePageButton = new Button("Profile Page");
@@ -75,7 +75,7 @@ public class AddressbookUI extends UI {
     // ContactService is a in-memory mock DAO that mimics
     // a real-world datasource. Typically implemented for
     // example as EJB or Spring Data based service.
-    EventService eventservice = EventService.createDemoService();
+    EventService service = EventService.createDemoService();
     UserService userService = UserService.createDemoService();
 
     /*
@@ -111,12 +111,12 @@ public class AddressbookUI extends UI {
         filter.setInputPrompt("Filter Editors...");
         filter.addTextChangeListener(e -> refreshEvents(e.getText()));
        
-        eventList.setContainerDataSource(new BeanItemContainer<>(Event.class));
+        contactList.setContainerDataSource(new BeanItemContainer<>(Event.class));
 //        eventList.setColumnOrder("description");
 //        eventList.removeColumn("id");
-        eventList.setSelectionMode(Grid.SelectionMode.SINGLE);
+        contactList.setSelectionMode(Grid.SelectionMode.SINGLE);
 
-        eventList.addSelectionListener(e -> eventForm.edit((Contact) eventList.getSelectedRow(), !showingLoginButton));
+        contactList.addSelectionListener(e -> eventForm.edit((Contact) contactList.getSelectedRow(), !showingLoginButton));
 
         refreshEvents();
     }
@@ -139,10 +139,10 @@ public class AddressbookUI extends UI {
         filter.setWidth("100%");
         actions.setExpandRatio(filter, 1);
 
-        VerticalLayout left = new VerticalLayout(actions, eventList);
+        VerticalLayout left = new VerticalLayout(actions, contactList);
         left.setSizeFull();
-        eventList.setSizeFull();
-        left.setExpandRatio(eventList, 1);
+        contactList.setSizeFull();
+        left.setExpandRatio(contactList, 1);
 
         HorizontalLayout mainLayout = new HorizontalLayout(left, eventForm, profilePageUI, loginForm);
         mainLayout.setSizeFull();
@@ -163,11 +163,15 @@ public class AddressbookUI extends UI {
     void refreshEvents() {
         refreshEvents(filter.getValue());
     }
+    
 
     private void refreshEvents(String stringFilter) {
-        eventList.setContainerDataSource(new BeanItemContainer<>(
+/*        eventList.setContainerDataSource(new BeanItemContainer<>(
         		Event.class, eventservice.findAll(stringFilter)));
-        eventForm.setVisible(false);
+*/
+        contactList.setContainerDataSource(new BeanItemContainer<>(
+                Contact.class, service.findAll(stringFilter)));
+    	eventForm.setVisible(false);
         profilePageUI.setVisible(false);
         loginForm.setVisible(showingLoginForm);
     }
