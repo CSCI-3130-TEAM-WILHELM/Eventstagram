@@ -25,10 +25,10 @@ public class Event implements Serializable, Cloneable {
 	private Image image;						//Image
 
 
-//public Event()
-//{
-//	
-//}
+public Event()
+{
+	
+}
 
 public Long getId()
 {
