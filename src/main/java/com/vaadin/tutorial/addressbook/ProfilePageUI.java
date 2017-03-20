@@ -33,6 +33,7 @@ public class ProfilePageUI extends FormLayout
 	Label userNameLabel = new Label("Your username");
 	Label userNameContent = new Label("");
 	Label userInterestsLabel = new Label("Your interests");
+	Label userInterestsContent = new Label("");
 	Label locationLabel = new Label("You are here");
 	
 	
@@ -77,38 +78,45 @@ public class ProfilePageUI extends FormLayout
 		}
 	}
 	
-	//INCOMPLETE
+	//Checking passwords 
 	private boolean compareNewtoOldPassword() {
 		if (!oldPasswordField.getValue().equals(getUI().currentUser.getPassword())){
-			System.err.println("New and Old Passwords do not match");
-			System.err.println("Current Pass ="+getUI().currentUser.getPassword());
-			System.err.println("New Pass ="+newPasswordField.getValue());
-			Notification.show("New and Old passwords do not match.", Type.TRAY_NOTIFICATION);
+			System.err.println("Old Password is not correct!");//print out the issue
+			System.err.println("Current Pass ="+getUI().currentUser.getPassword()); // print out the current password
+			System.err.println("New Pass ="+newPasswordField.getValue());//get the new password that user entered 
+			Notification.show("Old passwords do not match with current passwords.", Type.TRAY_NOTIFICATION);
 			return false;
 		}
 		//change password of currentUser object (DOES NOT CHANGE DATABASE OBJECT!!)
 		getUI().currentUser.setPassword(newPasswordField.getValue());
 		
 		
-		///////////////////////////////////// changing userservice database object
+		///////////////////////////////////// changing userservice database object 
 		getUI().userService.delete(getUI().currentUser);
 		getUI().userService.save(getUI().currentUser);
 		/////////////////////////////////////
 		
 		return true;
 	}
-
+	//check new passwords if they are matching
 	private boolean compareNewPasswords(){
 		if (!newPasswordField.getValue().equals(confirmNewPasswordField.getValue())){
 			System.err.println("New password does not match");
-			Notification.show("Passwords do not match.", Type.TRAY_NOTIFICATION);
+			Notification.show("New passwords do not match.", Type.TRAY_NOTIFICATION);
 			return false;
 		}
 		return true;
 	}
+	
 	private void updateInterests()
 	{
-		userInterestsLabel.setValue(interestsTextField.getValue().toString());
+		getUI().currentUser.setInterest(interestsTextField.getValue().toString());
+		userInterestsContent.setValue(getUI().currentUser.getInterest());
+		
+		///////////////////////////////////// changing userservice database object
+		getUI().userService.delete(getUI().currentUser);
+		getUI().userService.save(getUI().currentUser);
+		/////////////////////////////////////
 		
 		clearLayout();
 		
@@ -129,17 +137,20 @@ public class ProfilePageUI extends FormLayout
         setMargin(true);
 
         if (extraPieces == 0)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
-        			  	  changeInterestButton, changePasswordButton);
+        	addComponents(userNameLabel, userNameContent, userInterestsLabel, 
+        			      userInterestsContent, locationLabel, changeInterestButton, 
+        			      changePasswordButton);
         
         if (extraPieces == 1)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
-        			  	  changeInterestButton, changePasswordButton, changeInterestButton,
-        			  	  interestsTextField, submitNewInterestsButton);
+        	addComponents(userNameLabel, userNameContent, userInterestsLabel, 
+  			              userInterestsContent, locationLabel, changeInterestButton, 
+  			              changePasswordButton, changeInterestButton, interestsTextField, 
+  			              submitNewInterestsButton);
         else if (extraPieces == 2)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
-  			  	  		  changeInterestButton, changePasswordButton, oldPasswordField,
-  			  	  		  newPasswordField, confirmNewPasswordField, submitNewPasswordButton);
+        	addComponents(userNameLabel, userNameContent, userInterestsLabel, 
+		                  userInterestsContent, locationLabel, changeInterestButton, 
+		                  changePasswordButton, oldPasswordField, newPasswordField, 
+		                  confirmNewPasswordField, submitNewPasswordButton);
 	}
 	
 	private void clearLayout()
