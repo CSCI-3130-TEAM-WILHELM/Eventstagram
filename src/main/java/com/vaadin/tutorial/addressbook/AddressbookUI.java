@@ -75,7 +75,7 @@ public class AddressbookUI extends UI {
     // ContactService is a in-memory mock DAO that mimics
     // a real-world datasource. Typically implemented for
     // example as EJB or Spring Data based service.
-    EventService service = EventService.createDemoService();
+    EventService eventservice = EventService.createDemoService();
     UserService userService = UserService.createDemoService();
 
     /*
@@ -112,7 +112,7 @@ public class AddressbookUI extends UI {
         filter.addTextChangeListener(e -> refreshEvents(e.getText()));
 
         eventList.setContainerDataSource(new BeanItemContainer<>(Event.class));
-        eventList.setColumnOrder("event");
+        eventList.setColumnOrder("title");
         eventList.removeColumn("id");
         eventList.setSelectionMode(Grid.SelectionMode.SINGLE);
 
@@ -165,7 +165,7 @@ public class AddressbookUI extends UI {
     }
 
     private void refreshEvents(String stringFilter) {
-        eventList.setContainerDataSource(new BeanItemContainer<>(Event.class, service.findAll(stringFilter)));
+        eventList.setContainerDataSource(new BeanItemContainer<>(Event.class, eventservice.findAll(stringFilter)));
         eventForm.setVisible(false);
         profilePageUI.setVisible(false);
         loginForm.setVisible(showingLoginForm);

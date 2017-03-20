@@ -125,7 +125,7 @@ public class LoginForm extends FormLayout {
         }
         
         Notification.show(msg, Type.TRAY_NOTIFICATION);
-        getUI().refreshContacts();
+        getUI().refreshEvents();
         
         /*
         //USE FOR CREATE ACCOUNT

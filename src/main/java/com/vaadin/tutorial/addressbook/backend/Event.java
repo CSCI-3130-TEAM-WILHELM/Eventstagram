@@ -15,13 +15,13 @@ public class Event implements Serializable, Cloneable {
 
 	@Id
 	private long id;							//Unique event ID
-	private String title;						//Title	
+	private String title="";						//Title	
 	private Date releaseDate;					//Date to be published
 	private Date open ;							//Doors open Time
 	private Date start;							//Event start Time
 	private Date end;							//Event end Time
 	private long locationId;					//Location ID
-	private String description;					//Event Description
+	private String description="";					//Event Description
 	private Image image;						//Image
 
 
