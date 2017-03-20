@@ -60,7 +60,6 @@ public class EventService {
                 event.setEnd(cal.getTime());
                 event.setDescription(eventdescriptions[i]);
                 eventService.save(event);
-                System.out.println(i);
             }
             instance = eventService;
         }

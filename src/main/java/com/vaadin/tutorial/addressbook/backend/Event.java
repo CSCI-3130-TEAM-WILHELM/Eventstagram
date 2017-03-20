@@ -2,18 +2,18 @@ package com.vaadin.tutorial.addressbook.backend;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import com.vaadin.ui.Image;
-
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+//import com.vaadin.ui.Image;
 
-@Entity
+//import javax.persistence.Entity;
+//import javax.persistence.Id;
+
+//@Entity
 public class Event implements Serializable, Cloneable {
 
-	@Id
+//	@Id
 	private long id;							//Unique event ID
 	private String title="";						//Title	
 	private Date releaseDate;					//Date to be published
@@ -22,7 +22,7 @@ public class Event implements Serializable, Cloneable {
 	private Date end;							//Event end Time
 	private long locationId;					//Location ID
 	private String description="";					//Event Description
-	private Image image;						//Image
+//	private Image image;						//Image
 
 
 public Event()
@@ -67,10 +67,10 @@ public String getDescription()
 	return description;
 }
 
-public Image getImage()
-{
-	return image;
-}
+//public Image getImage()
+//{
+//	return image;
+//}
 
 public void setId(long id)
 {
@@ -111,10 +111,10 @@ public void setDescription(String description)
 	this.description=description;
 }
 
-public void setImage(Image image)
-{
-	this.image=image;
-}
+//public void setImage(Image image)
+//{
+//	this.image=image;
+//}
 
 @Override
 public Event clone() throws CloneNotSupportedException {

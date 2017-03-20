@@ -165,7 +165,8 @@ public class AddressbookUI extends UI {
     }
 
     private void refreshEvents(String stringFilter) {
-        eventList.setContainerDataSource(new BeanItemContainer<Event>(Event.class, eventservice.findAll(stringFilter)));
+        eventList.setContainerDataSource(new BeanItemContainer<Event>(
+        		Event.class, eventservice.findAll(stringFilter)));
         eventForm.setVisible(false);
         profilePageUI.setVisible(false);
         loginForm.setVisible(showingLoginForm);
