@@ -113,7 +113,7 @@ public class AddressbookUI extends UI {
        
         eventList.setContainerDataSource(new BeanItemContainer<>(Event.class));
 //        eventList.setColumnOrder("description");
-        eventList.removeColumn("id");
+//        eventList.removeColumn("id");
         eventList.setSelectionMode(Grid.SelectionMode.SINGLE);
 
         eventList.addSelectionListener(e -> eventForm.edit((Contact) eventList.getSelectedRow(), !showingLoginButton));
