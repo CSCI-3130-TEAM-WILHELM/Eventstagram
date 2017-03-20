@@ -76,7 +76,7 @@ public class EventService {
     private HashMap<Long, Event> events = new HashMap<>();
     private long nextId = 0;
 
-    public synchronized List<Event> findAll(String stringFilter) {
+    public synchronized Collection<? extends com.vaadin.ui.Component.Event> findAll(String stringFilter) {
         ArrayList arrayList = new ArrayList();
         for (Event event : events.values()) {
             try {
