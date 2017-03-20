@@ -170,7 +170,7 @@ public class AddressbookUI extends UI {
         		Event.class, eventservice.findAll(stringFilter)));
 */
         contactList.setContainerDataSource(new BeanItemContainer<>(
-                Contact.class, service.findAll(stringFilter)));
+                Event.class, service.findAll(stringFilter)));
     	eventForm.setVisible(false);
         profilePageUI.setVisible(false);
         loginForm.setVisible(showingLoginForm);
