@@ -112,7 +112,7 @@ public class AddressbookUI extends UI {
         filter.addTextChangeListener(e -> refreshEvents(e.getText()));
        
         eventList.setContainerDataSource(new BeanItemContainer<>(Event.class));
-        eventList.setColumnOrder("title");
+        eventList.setColumnOrder("title", "description");
         eventList.removeColumn("id");
         eventList.setSelectionMode(Grid.SelectionMode.SINGLE);
 
