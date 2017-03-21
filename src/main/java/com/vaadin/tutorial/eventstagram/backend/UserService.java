@@ -33,8 +33,6 @@ public class UserService {
 
             final UserService userService = new UserService();
 
-            //Random r = new Random(0);
-            Calendar cal = Calendar.getInstance();
             for (int i = 0; i < 20; i++) {
                 User user = new User();
                 user.setUsername(usernames[i]);
@@ -52,7 +50,7 @@ public class UserService {
 
     //old header = public synchronized List<User> findAll(String stringFilter) {
     public synchronized ArrayList<User> findAll(String stringFilter) {
-        ArrayList arrayList = new ArrayList();
+        ArrayList<User> arrayList = new ArrayList<User>();
         for (User contact : users.values()) {
             try {
                 boolean passesFilter = (stringFilter == null || stringFilter.isEmpty())

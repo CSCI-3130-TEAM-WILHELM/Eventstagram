@@ -3,7 +3,6 @@ package com.vaadin.tutorial.eventstagram.backend;
 import org.apache.commons.beanutils.BeanUtils;
 
 import java.io.Serializable;
-import java.util.Date;
 
 //import javax.persistence.Entity;
 //import javax.persistence.Id;
@@ -20,6 +19,11 @@ import java.util.Date;
 
 //@Entity 
 public class User implements Serializable, Cloneable {
+
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 //	@Id
     private Long id;
