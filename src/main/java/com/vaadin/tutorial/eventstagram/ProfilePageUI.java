@@ -10,26 +10,23 @@
 
 package com.vaadin.tutorial.eventstagram;
 
-import com.vaadin.server.VaadinRequest;
+//import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.tutorial.eventstagram.backend.Contact;
-import com.vaadin.tutorial.eventstagram.backend.User;
-import com.vaadin.ui.HorizontalLayout;
+//import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.themes.ValoTheme;
-import com.vaadin.v7.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.v7.data.fieldgroup.FieldGroup;
-import com.vaadin.v7.ui.DateField;
-import com.vaadin.v7.ui.TextField;
+import com.vaadin.ui.TextField;
 
 public class ProfilePageUI extends FormLayout 
 {	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Label userNameLabel = new Label("Your username");
 	Label userNameContent = new Label("");
 	Label userInterestsLabel = new Label("Your interests");
