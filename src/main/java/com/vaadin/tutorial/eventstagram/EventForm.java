@@ -189,7 +189,7 @@ public class EventForm extends FormLayout {
             eventTitle.setValue(ourEvent.getTitle());
             eventDescription.setValue(ourEvent.getDescription());
             attendingCountLabel.setValue(ourEvent.getAttending()+" people attending");
-        	interestedCountLabel.setValue(ourEvent.getInterested()+" people are interested");
+        	interestedCountLabel.setValue(ourEvent.getInterested()+" people interested");
         }
         setVisible(ourEvent != null);
     }
