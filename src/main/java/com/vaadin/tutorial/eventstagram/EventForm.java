@@ -1,5 +1,6 @@
 package com.vaadin.tutorial.eventstagram;
 
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
@@ -53,9 +54,9 @@ public class EventForm extends FormLayout {
     	interestedButton.addClickListener(e -> interestedEvent());
     	title.setWidth("100%");
     	description.setWidth("100%");
-    	start.setResolution(DateField.RESOLUTION_MIN);
-    	end.setResolution(DateField.RESOLUTION_MIN);
-    	open.setResolution(DateField.RESOLUTION_MIN);
+    	start.setResolution(Resolution.MINUTE);
+    	end.setResolution(Resolution.MINUTE);
+    	open.setResolution(Resolution.MINUTE);
     	eventLocationLabel.setValue("Dalhousie University");
         setVisible(false);
     }
@@ -100,13 +101,7 @@ public class EventForm extends FormLayout {
     {
     	attendingButton.setEnabled(false);
     	ourEvent.setAttending(ourEvent.getAttending()+1);
-    	attendingCountLabel.setValue(ourEvent.getAttending() + " people attending");
-//    	String attendingCountLabelText = attendingCountLabel.getValue();
-    	
-    	
-//    	String updatedCountText = updateCount(attendingCountLabelText, true, "\\s+");
-//    	attendingCountLabel.setValue(updatedCountText);
-    		
+    	attendingCountLabel.setValue(ourEvent.getAttending() + " people attending");    		
     	
     	//if they were previously interested
     	if (!interestedButton.isEnabled())
@@ -114,11 +109,7 @@ public class EventForm extends FormLayout {
     		interestedButton.setEnabled(true);
     		ourEvent.setInterested(ourEvent.getInterested()-1);
     		interestedCountLabel.setValue(ourEvent.getInterested() + " people interested");
-//    		updatedCountText = updateCount(interestedCountLabel.getValue(), false, "\\s+");
-//    		interestedCountLabel.setValue(updatedCountText);
-    	}
-
-    	
+    	}    	
     }
     
   //method to update user's interestedness
@@ -156,12 +147,10 @@ public class EventForm extends FormLayout {
         this.ourEvent = ourEvent;
         if (ourEvent != null) {
             // Bind the properties of the contact POJO to fields in this form
-            formFieldBindings = BeanFieldGroup.bindFieldsBuffered(ourEvent,
-                    this);
-            //event.focus();
-            start.setValue(ourEvent.getStart());
-            end.setValue(ourEvent.getEnd());
-            open.setValue(ourEvent.getOpen());
+            formFieldBindings = BeanFieldGroup.bindFieldsBuffered(ourEvent, this);
+            start.setData(ourEvent.getStart());
+            end.setData(ourEvent.getEnd());
+            open.setData(ourEvent.getOpen());
             eventEnd.setValue("End: "+ourEvent.getEnd()+"    ");
             eventOpen.setValue("Doors Open: "+ourEvent.getOpen()+"     ");
             eventTitle.setValue(ourEvent.getTitle());
