@@ -8,15 +8,15 @@
  * @brief ProfilePageUI		Used to display the logged in users information to them
  */
 
-package com.vaadin.tutorial.addressbook;
+package com.vaadin.tutorial.eventstagram;
 
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.tutorial.addressbook.backend.Contact;
-import com.vaadin.tutorial.addressbook.backend.User;
+import com.vaadin.tutorial.eventstagram.backend.Contact;
+import com.vaadin.tutorial.eventstagram.backend.User;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
@@ -147,7 +147,7 @@ public class ProfilePageUI extends FormLayout
 	}
 	
     @Override
-    public AddressbookUI getUI() {
-        return (AddressbookUI) super.getUI();
+    public EventstagramUI getUI() {
+        return (EventstagramUI) super.getUI();
     }
 }

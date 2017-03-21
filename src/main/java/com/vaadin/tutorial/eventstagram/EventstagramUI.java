@@ -1,4 +1,4 @@
-package com.vaadin.tutorial.addressbook;
+package com.vaadin.tutorial.eventstagram;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -8,12 +8,12 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.tutorial.addressbook.backend.Event;
-import com.vaadin.tutorial.addressbook.backend.EventService;
-import com.vaadin.tutorial.addressbook.backend.Contact;
-import com.vaadin.tutorial.addressbook.backend.ContactService;
-import com.vaadin.tutorial.addressbook.backend.User;
-import com.vaadin.tutorial.addressbook.backend.UserService;
+import com.vaadin.tutorial.eventstagram.backend.OurEvent;
+import com.vaadin.tutorial.eventstagram.backend.OurEventService;
+import com.vaadin.tutorial.eventstagram.backend.Contact;
+import com.vaadin.tutorial.eventstagram.backend.ContactService;
+import com.vaadin.tutorial.eventstagram.backend.User;
+import com.vaadin.tutorial.eventstagram.backend.UserService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -41,11 +41,12 @@ import com.vaadin.v7.ui.TextField;
 @Title("Eventstagram")
 @Theme("valo")
 @Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
-public class AddressbookUI extends UI {
+public class EventstagramUI extends UI {
 	
 	protected boolean showingProfilePage = false;
 	protected boolean showingLoginForm = false;
 	protected boolean showingLoginButton = true;
+	protected boolean eventEditing = false;
 
     /*
      * Hundreds of widgets. Vaadin's user interface components are just Java
@@ -59,7 +60,7 @@ public class AddressbookUI extends UI {
 	
     TextField filter = new TextField();
     Grid eventList = new Grid();
-    Button newContact = new Button("New Editor");
+    Button newEvent = new Button("New Event");
     
     Button profilePageButton = new Button("Profile Page");
     Button loginButton = new Button("Login");
@@ -75,7 +76,7 @@ public class AddressbookUI extends UI {
     // ContactService is a in-memory mock DAO that mimics
     // a real-world datasource. Typically implemented for
     // example as EJB or Spring Data based service.
-    EventService service = EventService.createDemoService();
+    OurEventService service = OurEventService.createDemoService();
     UserService userService = UserService.createDemoService();
 
     /*
@@ -99,25 +100,31 @@ public class AddressbookUI extends UI {
          * to synchronously handle those events. Vaadin automatically sends only
          * the needed changes to the web page without loading a new page.
          */
-        newContact.addClickListener(e -> eventForm.edit(new Contact(), !showingLoginButton));
+        newEvent.addClickListener(e -> eventForm.edit(new OurEvent()));
       
         loginButton.addClickListener(e -> openLoginPage());
         logoutButton.setVisible(!showingLoginButton);       //Set the visibility of the logout button opposite of the login button
         logoutButton.addClickListener(e -> logout()); 		//Add the action to the logout button
         profilePageButton.setVisible(!showingLoginButton);  //Set the visibility of the profile button opposite of the login button
+        newEvent.setVisible(!showingLoginButton); 			//Set the visibility of the new event button opposite of the login button
         
         profilePageButton.addClickListener(e -> openProfilePage());
 
-        filter.setInputPrompt("Filter Editors...");
+        filter.setInputPrompt("Filter Events...");
         filter.addTextChangeListener(e -> refreshEvents(e.getText()));
        
-        eventList.setContainerDataSource(new BeanItemContainer<>(Event.class));
-        eventList.setColumnOrder("Connector");
-//        eventList.removeColumn("id");
+//        eventList.setWidth("80%");
+        eventList.setContainerDataSource(new BeanItemContainer<>(OurEvent.class));
+        eventList.setColumnOrder("title", "description", "start", "end", "open");
+        eventList.getColumn("description").setWidth(400);
+        eventList.getColumn("open").setHeaderCaption("Doors Open");
+        eventList.removeColumn("id");
+        eventList.removeColumn("locationId");
+        eventList.removeColumn("releaseDate");
         eventList.setSelectionMode(Grid.SelectionMode.SINGLE);
 
-        eventList.addSelectionListener(e -> eventForm.edit((Contact) eventList.getSelectedRow(), !showingLoginButton));
-
+        eventList.addSelectionListener(e -> eventForm.display((OurEvent) eventList.getSelectedRow(), !showingLoginButton));
+        eventForm.setWidth("100%");
         refreshEvents();
     }
 
@@ -133,18 +140,18 @@ public class AddressbookUI extends UI {
      * choose to setup layout declaratively with Vaadin Designer, CSS and HTML.
      */
     private void buildLayout() {
-        HorizontalLayout actions = new HorizontalLayout(filter, newContact, profilePageButton,loginButton, logoutButton);
+        HorizontalLayout actions = new HorizontalLayout(filter, newEvent, profilePageButton,loginButton, logoutButton);
         
         actions.setWidth("100%");
         filter.setWidth("100%");
         actions.setExpandRatio(filter, 1);
 
-        VerticalLayout left = new VerticalLayout(actions, eventList);
+        VerticalLayout left = new VerticalLayout(actions, eventForm, eventList);
         left.setSizeFull();
         eventList.setSizeFull();
         left.setExpandRatio(eventList, 1);
 
-        HorizontalLayout mainLayout = new HorizontalLayout(left, eventForm, profilePageUI, loginForm);
+        HorizontalLayout mainLayout = new HorizontalLayout(left, profilePageUI, loginForm);
         mainLayout.setSizeFull();
         mainLayout.setExpandRatio(left, 1);
 
@@ -170,7 +177,7 @@ public class AddressbookUI extends UI {
         		Event.class, eventservice.findAll(stringFilter)));
 */
         eventList.setContainerDataSource(new BeanItemContainer<>(
-                Event.class, service.findAll(stringFilter)));
+                OurEvent.class, service.findAll(stringFilter)));
     	eventForm.setVisible(false);
         profilePageUI.setVisible(false);
         loginForm.setVisible(showingLoginForm);
@@ -199,6 +206,7 @@ public class AddressbookUI extends UI {
     	profilePageButton.setVisible(!showingLoginButton);	//Hide profile button
         profilePageUI.userNameContent.setValue("");			//Clear the username from the profile page
         profilePageUI.setVisible(!showingLoginButton); 		//Hide the profile page if showing.
+        newEvent.setVisible(!showingLoginButton);   		//Hide the newEvent button
 
 
     }
@@ -211,7 +219,7 @@ public class AddressbookUI extends UI {
      * application.
      */
     @WebServlet(urlPatterns = "/*")
-    @VaadinServletConfiguration(ui = AddressbookUI.class, productionMode = false)
+    @VaadinServletConfiguration(ui = EventstagramUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
 

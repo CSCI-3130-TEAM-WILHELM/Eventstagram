@@ -1,10 +1,10 @@
-package com.vaadin.tutorial.addressbook;
+package com.vaadin.tutorial.eventstagram;
 
 import java.util.ArrayList;
 
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.tutorial.addressbook.backend.Contact;
-import com.vaadin.tutorial.addressbook.backend.User;
+import com.vaadin.tutorial.eventstagram.backend.Contact;
+import com.vaadin.tutorial.eventstagram.backend.User;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -112,6 +112,7 @@ public class LoginForm extends FormLayout {
         			getUI().profilePageButton.setVisible(!getUI().showingLoginButton);   //Show the profile button
         			getUI().showingLoginForm=!getUI().showingLoginForm;                  //Swap the login form value
         			getUI().loginForm.setVisible(getUI().showingLoginForm);              //Hide the login form
+        			getUI().newEvent.setVisible(!getUI().showingLoginButton); 			 //Show the new Event button
         			getUI().currentUser=usernamelist.get(0);							 //Give current user object to parent
         		}
         		//username and password do not match
@@ -163,8 +164,8 @@ public class LoginForm extends FormLayout {
     }
 
     @Override
-    public AddressbookUI getUI() {
-        return (AddressbookUI) super.getUI();
+    public EventstagramUI getUI() {
+        return (EventstagramUI) super.getUI();
     }
 
 }

@@ -1,12 +1,12 @@
-package com.vaadin.tutorial.addressbook.backend;
+package com.vaadin.tutorial.eventstagram.backend;
 
 import org.apache.commons.beanutils.BeanUtils;
 
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+//import javax.persistence.Entity;
+//import javax.persistence.Id;
 
 /**
  * A simple DTO for the address book example.
@@ -16,16 +16,16 @@ import javax.persistence.Id;
  */
 // Backend DTO class. This is just a typical Java backend implementation
 // class and nothing Vaadin specific.
-
-//For information on @entity and @Id and stuff, visit http://www.objectdb.com/java/jpa/entity/types
 //
 
-@Entity
-public class Contact implements Serializable, Cloneable {
+//@Entity 
+public class User implements Serializable, Cloneable {
 
-	@Id
+//	@Id
     private Long id;
-    private String event = "";
+	
+    private String username = "";
+    private String password = "";
 
     public Long getId()
     {
@@ -37,20 +37,30 @@ public class Contact implements Serializable, Cloneable {
         this.id = id;
     }
 
-    public String getEvent()
+    public String getUsername()
     {
-        return event;
+        return username;
     }
 
-    public void setEvent(String event)
+    public void setUsername(String username)
     {
-        this.event = event;
+        this.username = username;
+    }
+    
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
     }
 
     @Override
-    public Contact clone() throws CloneNotSupportedException {
+    public User clone() throws CloneNotSupportedException {
         try {
-            return (Contact) BeanUtils.cloneBean(this);
+            return (User) BeanUtils.cloneBean(this);
         } catch (Exception ex) {
             throw new CloneNotSupportedException();
         }
@@ -59,7 +69,7 @@ public class Contact implements Serializable, Cloneable {
     @Override
     public String toString()
     {
-        return "Contact{" + "id=" + id + ", event = " + event + '}';
+        return "Contact{" + "id=" + id + ", User = " + username + '}';
     }
 
 }

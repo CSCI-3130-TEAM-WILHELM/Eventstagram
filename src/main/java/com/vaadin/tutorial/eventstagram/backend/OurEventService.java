@@ -1,6 +1,8 @@
-package com.vaadin.tutorial.addressbook.backend;
+package com.vaadin.tutorial.eventstagram.backend;
 
 import org.apache.commons.beanutils.BeanUtils;
+
+//import com.vaadin.tutorial.eventstagram.backend.Event;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -13,11 +15,7 @@ import java.util.logging.Logger;
  */
 // Backend service class. This is just a typical Java backend implementation
 // class and nothing Vaadin specific.
-
-//CHANGES 1
-
-
-public class EventService {
+public class OurEventService {
 
     // Create dummy data by randomly combining first and last names
     static String[] eventnames = { "Grateful Dead", "Blackeyed Peas", "Metallica", "Led Zepplin", "The Beatles",
@@ -45,50 +43,60 @@ public class EventService {
                                           "Vestibulum egestas, lectus sit amet molestie consectetur, nibh tellus cursus mauris, ut imperdiet neque purus vitae magna. Vestibulum sit amet urna eu libero facilisis tempor nec eu nulla.", 
                                           "Donec a nulla faucibus, maximus ligula nec, egestas augue. Proin pharetra ipsum sit amet ligula volutpat, et imperdiet nunc commodo." };
 
-    private static EventService instance;
+    private static OurEventService ourinstance;
 
-    public static EventService createDemoService() {
-        if (instance == null) {
+    public static OurEventService createDemoService() {
+        if (ourinstance == null) {
 
-            final EventService eventService = new EventService();
+            final OurEventService ourEventService = new OurEventService();
 
-//            Calendar cal = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance();
             for (int i = 0; i < 20; i++) {
-                Event event = new Event();
-                event.setTitle(eventnames[i]);
-//                event.setStart(cal.getTime());
-//                event.setEnd(cal.getTime());
-//                event.setDescription(eventdescriptions[i]);
-                eventService.save(event);
+                cal.set(Calendar.HOUR_OF_DAY, 18);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                OurEvent ourEvent = new OurEvent();
+                ourEvent.setTitle(eventnames[i]);
+                ourEvent.setOpen(cal.getTime());
+                cal.add(Calendar.HOUR, 2);
+                ourEvent.setStart(cal.getTime());
+                cal.add(Calendar.HOUR, 4);
+                ourEvent.setEnd(cal.getTime());
+                ourEvent.setDescription(eventdescriptions[i]);
+                ourEvent.setAttending(0);
+                ourEvent.setInterested(0);
+                ourEventService.save(ourEvent);
+                cal.add(Calendar.DATE, 12);
             }
-            instance = eventService;
+            ourinstance = ourEventService;
         }
 
-        return instance;
+        return ourinstance;
     }
 
-    private HashMap<Long, Event> events = new HashMap<>();
+    private HashMap<Long, OurEvent> events = new HashMap<>();
     private long nextId = 0;
 
-    public synchronized Collection<? extends com.vaadin.ui.Component.Event> findAll(String stringFilter) {
+//    public synchronized List<? extends com.vaadin.ui.Component.Event> findAll(String stringFilter) {
+    public synchronized List<OurEvent> findAll(String stringFilter) {
         ArrayList arrayList = new ArrayList();
-        for (Event event : events.values()) {
+        for (OurEvent ourEvent : events.values()) {
             try {
                 boolean passesFilter = (stringFilter == null || stringFilter.isEmpty())
-                        || event.toString().toLowerCase()
+                        || ourEvent.toString().toLowerCase()
                                 .contains(stringFilter.toLowerCase());
                 if (passesFilter) {
-                    arrayList.add(event.clone());
+                    arrayList.add(ourEvent.clone());
                 }
             } catch (CloneNotSupportedException ex) {
-                Logger.getLogger(EventService.class.getName()).log(
+                Logger.getLogger(OurEventService.class.getName()).log(
                         Level.SEVERE, null, ex);
             }
         }
-        Collections.sort(arrayList, new Comparator<Event>() {
+        Collections.sort(arrayList, new Comparator<OurEvent>() {
 
             @Override
-            public int compare(Event o1, Event o2) {
+            public int compare(OurEvent o1, OurEvent o2) {
                 return (int) (o2.getId() - o1.getId());
             }
         });
@@ -99,16 +107,16 @@ public class EventService {
         return events.size();
     }
 
-    public synchronized void delete(Event value) {
+    public synchronized void delete(OurEvent value) {
         events.remove(value.getId());
     }
 
-    public synchronized void save(Event entry) {
-        if (entry.getId() == null) {
+    public synchronized void save(OurEvent entry) {
+        if (entry.getId() == -1) {
             entry.setId(nextId++);
         }
         try {
-            entry = (Event) BeanUtils.cloneBean(entry);
+            entry = (OurEvent) BeanUtils.cloneBean(entry);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
