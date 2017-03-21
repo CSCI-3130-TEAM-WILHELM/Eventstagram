@@ -127,16 +127,8 @@ public class LoginForm extends FormLayout {
         }
         
         Notification.show(msg, Type.TRAY_NOTIFICATION);
-//        getUI().refreshEvents();
-        
-        /*
-        //USE FOR CREATE ACCOUNT
-        getUI().userService.save(user);
-        
-        String msg = String.format("Saved '%s'.", user.getUsername());
-        Notification.show(msg, Type.TRAY_NOTIFICATION);
-        getUI().refreshContacts();*///your will need to create this in AddressbookUI
-            
+        getUI().eventForm.attendingButton.setEnabled(true);
+        getUI().eventForm.interestedButton.setEnabled(true);
     }
     public void cancel(Button.ClickEvent event) {
     	System.out.println("Cancel Pressed");
