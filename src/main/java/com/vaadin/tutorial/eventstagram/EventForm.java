@@ -58,6 +58,7 @@ public class EventForm extends FormLayout {
     	end.setResolution(Resolution.MINUTE);
     	open.setResolution(Resolution.MINUTE);
     	eventLocationLabel.setValue("Dalhousie University");
+    	loginWarning.setVisible(true);
         setVisible(false);
     }
 
