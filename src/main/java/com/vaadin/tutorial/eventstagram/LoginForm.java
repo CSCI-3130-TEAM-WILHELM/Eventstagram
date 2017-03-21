@@ -3,7 +3,6 @@ package com.vaadin.tutorial.eventstagram;
 import java.util.ArrayList;
 
 import com.vaadin.event.ShortcutAction;
-import com.vaadin.tutorial.eventstagram.backend.Contact;
 import com.vaadin.tutorial.eventstagram.backend.User;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
@@ -13,9 +12,7 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.fieldgroup.BeanFieldGroup;
-import com.vaadin.v7.data.fieldgroup.FieldGroup;
-import com.vaadin.v7.ui.DateField;
-import com.vaadin.v7.ui.TextField;
+import com.vaadin.ui.TextField;
 
 /* Create custom UI Components.
  *
@@ -30,7 +27,11 @@ import com.vaadin.v7.ui.TextField;
 
 public class LoginForm extends FormLayout {
 
-    //Button save = new Button("Login", this::save);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	//Button save = new Button("Login", this::save);
     Button cancel = new Button("Cancel", this::cancel);
     TextField username = new TextField("Username");
     PasswordField password = new PasswordField("Password");
@@ -126,7 +127,7 @@ public class LoginForm extends FormLayout {
         }
         
         Notification.show(msg, Type.TRAY_NOTIFICATION);
-        getUI().refreshEvents();
+//        getUI().refreshEvents();
         
         /*
         //USE FOR CREATE ACCOUNT
