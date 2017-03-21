@@ -38,6 +38,7 @@ public class EventForm extends FormLayout {
     private Label interestedCountLabel = new Label();    
     Button attendingButton = new Button("Attending");
     Button interestedButton = new Button("Interested");
+    Label loginWarning = new Label("You must be logged in to use these features.");
     		
     // Easily bind forms to beans and manage validation and buffering
     BeanFieldGroup<OurEvent> formFieldBindings;
@@ -62,7 +63,7 @@ public class EventForm extends FormLayout {
     private void buildLayout() {
         setSizeUndefined();
         setMargin(true);
-        HorizontalLayout actions = new HorizontalLayout(attendingButton, interestedButton);
+        HorizontalLayout actions = new HorizontalLayout(attendingButton, interestedButton, loginWarning);
         actions.setSpacing(true);
         HorizontalLayout dates = new HorizontalLayout(start, eventStart, end, eventEnd, open, eventOpen);
         dates.setSpacing(true);
@@ -182,6 +183,7 @@ public class EventForm extends FormLayout {
 		attendingButton.getParent().setVisible(true);
 		attendingButton.setEnabled(isLoggedin);
 		interestedButton.setEnabled(isLoggedin);
+		loginWarning.setVisible(!isLoggedin);
         attendingCountLabel.setVisible(true);
     	interestedCountLabel.setVisible(true);
     

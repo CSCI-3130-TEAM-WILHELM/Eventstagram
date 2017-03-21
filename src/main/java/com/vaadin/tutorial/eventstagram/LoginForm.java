@@ -129,6 +129,8 @@ public class LoginForm extends FormLayout {
         Notification.show(msg, Type.TRAY_NOTIFICATION);
         getUI().eventForm.attendingButton.setEnabled(true);
         getUI().eventForm.interestedButton.setEnabled(true);
+        getUI().eventForm.loginWarning.setVisible(false);
+
     }
     public void cancel(Button.ClickEvent event) {
     	System.out.println("Cancel Pressed");

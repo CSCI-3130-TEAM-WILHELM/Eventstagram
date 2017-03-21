@@ -10,8 +10,6 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 import com.vaadin.tutorial.eventstagram.backend.OurEventService;
-import com.vaadin.tutorial.eventstagram.backend.Contact;
-import com.vaadin.tutorial.eventstagram.backend.ContactService;
 import com.vaadin.tutorial.eventstagram.backend.User;
 import com.vaadin.tutorial.eventstagram.backend.UserService;
 import com.vaadin.ui.Button;
@@ -26,7 +24,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.Grid;
-import com.vaadin.v7.ui.TextField;
+import com.vaadin.ui.TextField;
 
 /* User Interface written in Java.
  *
@@ -43,6 +41,10 @@ import com.vaadin.v7.ui.TextField;
 @Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
 public class EventstagramUI extends UI {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected boolean showingProfilePage = false;
 	protected boolean showingLoginForm = false;
 	protected boolean showingLoginButton = true;
@@ -110,8 +112,10 @@ public class EventstagramUI extends UI {
         
         profilePageButton.addClickListener(e -> openProfilePage());
 
-        filter.setInputPrompt("Filter Events...");
-        filter.addTextChangeListener(e -> refreshEvents(e.getText()));
+//        filter.setInputPrompt("Filter Events...");
+        filter.setPlaceholder("Filter Events...");
+//        filter.addTextChangeListener(e -> refreshEvents(e.getText()));
+        filter.addValueChangeListener(e -> refreshEvents(e.getValue()));
        
 //        eventList.setWidth("80%");
         eventList.setContainerDataSource(new BeanItemContainer<>(OurEvent.class));
@@ -207,7 +211,7 @@ public class EventstagramUI extends UI {
         profilePageUI.userNameContent.setValue("");			//Clear the username from the profile page
         profilePageUI.setVisible(!showingLoginButton); 		//Hide the profile page if showing.
         newEvent.setVisible(!showingLoginButton);   		//Hide the newEvent button
-
+        eventForm.setVisible(false); 						//Hide the event form on logout
 
     }
 
@@ -221,6 +225,11 @@ public class EventstagramUI extends UI {
     @WebServlet(urlPatterns = "/*")
     @VaadinServletConfiguration(ui = EventstagramUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 8450898083951649350L;
     }
 
 }
