@@ -24,7 +24,7 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.v7.ui.Grid;
-import com.vaadin.ui.TextField;
+import com.vaadin.v7.ui.TextField;
 
 /* User Interface written in Java.
  *
@@ -112,10 +112,10 @@ public class EventstagramUI extends UI {
         
         profilePageButton.addClickListener(e -> openProfilePage());
 
-//        filter.setInputPrompt("Filter Events...");
-        filter.setPlaceholder("Filter Events...");
-//        filter.addTextChangeListener(e -> refreshEvents(e.getText()));
-        filter.addValueChangeListener(e -> refreshEvents(e.getValue()));
+        filter.setInputPrompt("Filter Events...");
+//        filter.setPlaceholder("Filter Events...");
+        filter.addTextChangeListener(e -> refreshEvents(e.getText()));
+//        filter.addValueChangeListener(e -> refreshEvents(e.getValue()));
        
 //        eventList.setWidth("80%");
         eventList.setContainerDataSource(new BeanItemContainer<>(OurEvent.class));
