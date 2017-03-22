@@ -89,10 +89,8 @@ public class EventForm extends FormLayout {
         try {
             // Commit the fields from UI to DAO
             formFieldBindings.commit();
-
             // Save DAO to backend with direct synchronous service API
             getUI().service.save(contact);
-
             String msg = String.format("Saved '%s'.", contact.getEvent());
             Notification.show(msg, Type.TRAY_NOTIFICATION);
             getUI().refreshContacts();
@@ -100,7 +98,6 @@ public class EventForm extends FormLayout {
             // Validation exceptions could be shown here
         }
     }
-
     public void cancel(Button.ClickEvent event) {
         // Place to call business logic.
         Notification.show("Cancelled", Type.TRAY_NOTIFICATION);

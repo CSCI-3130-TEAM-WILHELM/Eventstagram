@@ -33,6 +33,7 @@ public class ProfilePageUI extends FormLayout
 	Label userNameLabel = new Label("Your username");
 	Label userNameContent = new Label("");
 	Label userInterestsLabel = new Label("Your interests");
+	Label userInterestsContent = new Label("");
 	Label locationLabel = new Label("You are here");
 	
 	
@@ -109,7 +110,13 @@ public class ProfilePageUI extends FormLayout
 	
 	private void updateInterests()
 	{
-		userInterestsLabel.setValue(interestsTextField.getValue().toString());
+		getUI().currentUser.setInterest(interestsTextField.getValue().toString());
+		userInterestsContent.setValue(getUI().currentUser.getInterest());
+		
+		///////////////////////////////////// changing userservice database object
+		getUI().userService.delete(getUI().currentUser);
+		getUI().userService.save(getUI().currentUser);
+		/////////////////////////////////////
 		
 		clearLayout();
 		
@@ -130,17 +137,20 @@ public class ProfilePageUI extends FormLayout
         setMargin(true);
 
         if (extraPieces == 0)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
-        			  	  changeInterestButton, changePasswordButton);
+        	addComponents(userNameLabel, userNameContent, userInterestsLabel, 
+        			      userInterestsContent, locationLabel, changeInterestButton, 
+        			      changePasswordButton);
         
         if (extraPieces == 1)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
-        			  	  changeInterestButton, changePasswordButton, changeInterestButton,
-        			  	  interestsTextField, submitNewInterestsButton);
+        	addComponents(userNameLabel, userNameContent, userInterestsLabel, 
+  			              userInterestsContent, locationLabel, changeInterestButton, 
+  			              changePasswordButton, changeInterestButton, interestsTextField, 
+  			              submitNewInterestsButton);
         else if (extraPieces == 2)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
-  			  	  		  changeInterestButton, changePasswordButton, oldPasswordField,
-  			  	  		  newPasswordField, confirmNewPasswordField, submitNewPasswordButton);
+        	addComponents(userNameLabel, userNameContent, userInterestsLabel, 
+		                  userInterestsContent, locationLabel, changeInterestButton, 
+		                  changePasswordButton, oldPasswordField, newPasswordField, 
+		                  confirmNewPasswordField, submitNewPasswordButton);
 	}
 	
 	private void clearLayout()
