@@ -65,7 +65,7 @@ public class AddressbookUI extends UI {
     Button loginButton = new Button("Login");
     Button logoutButton = new Button("Logout");
 
-    // EventForm is an example of a custom component class
+    // ContactForm is an example of a custom component class
     EventForm eventForm = new EventForm();
     LoginForm loginForm = new LoginForm();
     
@@ -100,9 +100,8 @@ public class AddressbookUI extends UI {
          * Receive user interaction events on the server-side. This allows you
          * to synchronously handle those events. Vaadin automatically sends only
          * the needed changes to the web page without loading a new page.
-         setElementIds();*/
-        newContact.addClickListener(e -> eventForm.edit(new Contact(), !showingLoginButton));
-      
+         */
+        newContact.addClickListener(e -> eventForm.edit(new Contact()));
         loginButton.addClickListener(e -> openLoginPage());
         logoutButton.setVisible(!showingLoginButton);       //Set the visibility of the logout button opposite of the login button
         logoutButton.addClickListener(e -> logout()); 		//Add the action to the logout button
@@ -117,16 +116,9 @@ public class AddressbookUI extends UI {
         contactList.setColumnOrder("event");
         contactList.removeColumn("id");
         contactList.setSelectionMode(Grid.SelectionMode.SINGLE);
-
-        contactList.addSelectionListener(e -> eventForm.edit((Contact) contactList.getSelectedRow(), !showingLoginButton));
-
+        contactList.addSelectionListener(e -> eventForm.edit((Contact) contactList.getSelectedRow()));
         refreshContacts();
     }
-    /*
-    private void setElementIds()
-    {
-    	loginButton.setId("loginButtonId");
-    }*/
 
     /*
      * Robust layouts.
@@ -184,6 +176,7 @@ public class AddressbookUI extends UI {
     private void openProfilePage()
     {
     	showingProfilePage = !showingProfilePage;
+    	
     	profilePageUI.setVisible(showingProfilePage);
     }
     private void openLoginPage()

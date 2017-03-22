@@ -174,8 +174,10 @@ public class EventForm extends FormLayout {
     
     
     
-    void edit(Contact contact, boolean isLoggedin){
-    	
+    void edit(Contact contact){
+    	/////////////////////////////////
+    	boolean isLoggedin=true;
+    	/////////////////////////////////
     	if(!isLoggedin)
     	{
     		attendingButton.setEnabled(false);
