@@ -6,7 +6,7 @@
     <artifactId>addressbook</artifactId>
     <packaging>war</packaging>
     <version>2.0</version>
-    <name>Vaadin Addressbook example</name>
+    <name>Team Wilhelm - Eventstagram</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,11 +36,6 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-compatibility-server</artifactId>
-            <version>${vaadin.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vaadin</groupId>
-            <artifactId>vaadin-compatibility-shared</artifactId>
             <version>${vaadin.version}</version>
         </dependency>
          <dependency>
