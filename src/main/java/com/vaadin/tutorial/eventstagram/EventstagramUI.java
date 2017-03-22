@@ -2,6 +2,8 @@ package com.vaadin.tutorial.eventstagram;
 
 import javax.servlet.annotation.WebServlet;
 
+import com.vaadin.addon.jpacontainer.JPAContainer;
+import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
@@ -41,9 +43,6 @@ import com.vaadin.v7.ui.TextField;
 @Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
 public class EventstagramUI extends UI {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	protected boolean showingProfilePage = false;
 	protected boolean showingLoginForm = false;
@@ -75,6 +74,8 @@ public class EventstagramUI extends UI {
     
     ProfilePageUI profilePageUI = new ProfilePageUI();
 
+    public static JPAContainer<User> Users = JPAContainerFactory.make(User.class, "EventstagramDB");
+    
     // ContactService is a in-memory mock DAO that mimics
     // a real-world datasource. Typically implemented for
     // example as EJB or Spring Data based service.
