@@ -36,6 +36,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.persistence.jpa"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.eclipse.persistence.core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/javax.persistence 2.0.0"/>
-	<classpathentry kind="lib" path="src/main/java/com/vaadin/tutorial/eventstagram/eclipselink-2.6.2.jar"/>
+	<classpathentry kind="lib" path="eclipselink-2.6.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
