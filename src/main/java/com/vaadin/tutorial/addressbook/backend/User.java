@@ -3,7 +3,6 @@ package com.vaadin.tutorial.addressbook.backend;
 import org.apache.commons.beanutils.BeanUtils;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,6 +20,11 @@ import javax.persistence.GenerationType;
 
 @Entity(name = "User")
 public class User implements Serializable, Cloneable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
