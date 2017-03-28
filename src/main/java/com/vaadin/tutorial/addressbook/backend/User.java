@@ -7,7 +7,8 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 /**
  * A simple DTO for the address book example.
  *
@@ -18,10 +19,11 @@ import javax.persistence.Id;
 // class and nothing Vaadin specific.
 //
 
-@Entity 
+@Entity(name = "User")
 public class User implements Serializable, Cloneable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 	
     private String username = "";
