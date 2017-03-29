@@ -114,6 +114,7 @@ public class LoginForm extends FormLayout {
         			getUI().showingLoginForm=!getUI().showingLoginForm;                  //Swap the login form value
         			getUI().loginForm.setVisible(getUI().showingLoginForm);              //Hide the login form
         			getUI().newEvent.setVisible(!getUI().showingLoginButton); 			 //Show the new Event button
+        			getUI().manageLocationsButton.setVisible(usernamelist.get(0).getAdmin()); //Set the visibility of the manage locations button to the admin status
         			getUI().currentUser=usernamelist.get(0);							 //Give current user object to parent
         		}
         		//username and password do not match
