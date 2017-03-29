@@ -41,9 +41,6 @@ import com.vaadin.v7.ui.TextField;
 @Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
 public class EventstagramUI extends UI {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	protected boolean showingProfilePage = false;
 	protected boolean showingLoginForm = false;
@@ -67,6 +64,7 @@ public class EventstagramUI extends UI {
     Button profilePageButton = new Button("Profile Page");
     Button loginButton = new Button("Login");
     Button logoutButton = new Button("Logout");
+    Button manageLocationsButton = new Button("Manage Locations");
 
     // EventForm is an example of a custom component class
   
@@ -109,6 +107,7 @@ public class EventstagramUI extends UI {
         logoutButton.addClickListener(e -> logout()); 		//Add the action to the logout button
         profilePageButton.setVisible(!showingLoginButton);  //Set the visibility of the profile button opposite of the login button
         newEvent.setVisible(!showingLoginButton); 			//Set the visibility of the new event button opposite of the login button
+        manageLocationsButton.setVisible(false); 			//Set the initial visibility to false
         
         profilePageButton.addClickListener(e -> openProfilePage());
 
@@ -144,7 +143,7 @@ public class EventstagramUI extends UI {
      * choose to setup layout declaratively with Vaadin Designer, CSS and HTML.
      */
     private void buildLayout() {
-        HorizontalLayout actions = new HorizontalLayout(filter, newEvent, profilePageButton,loginButton, logoutButton);
+        HorizontalLayout actions = new HorizontalLayout(filter, newEvent, manageLocationsButton, profilePageButton,loginButton, logoutButton);
         
         actions.setWidth("100%");
         filter.setWidth("100%");
@@ -212,6 +211,7 @@ public class EventstagramUI extends UI {
         profilePageUI.setVisible(!showingLoginButton); 		//Hide the profile page if showing.
         newEvent.setVisible(!showingLoginButton);   		//Hide the newEvent button
         eventForm.setVisible(false); 						//Hide the event form on logout
+        manageLocationsButton.setVisible(false); 			//Hide the manage Locations buttons on logout
 
     }
 
