@@ -7,16 +7,20 @@ import java.util.Date;
 
 //import com.vaadin.ui.Image;
 
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-//@Entity
+@Entity(name = "OurEvent")
 public class OurEvent implements Serializable, Cloneable {
 
-//	@Id
+	private static final long serialVersionUID = 1L;
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE) 
 	private long id=-1;							//Unique event ID
+    
 	private String title="";					//Title	
 	private Date releaseDate;					//Date to be published
 	private Date open ;							//Doors open Time
