@@ -30,6 +30,7 @@ public class User implements Serializable, Cloneable {
 	
     private String username = "";
     private String password = "";
+    private boolean admin = false;
 
     public Long getId()
     {
@@ -59,6 +60,14 @@ public class User implements Serializable, Cloneable {
     public void setPassword(String password)
     {
         this.password = password;
+    }
+    
+    public boolean getAdmin() {
+    	return admin;
+    }
+    
+    public void setAdmin(boolean admin){
+    	this.admin = admin;
     }
 
     @Override
