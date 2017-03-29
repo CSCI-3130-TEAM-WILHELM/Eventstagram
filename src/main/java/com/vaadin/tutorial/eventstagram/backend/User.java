@@ -4,8 +4,10 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import java.io.Serializable;
 
-//import javax.persistence.Entity;
-//import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * A simple DTO for the address book example.
@@ -17,15 +19,13 @@ import java.io.Serializable;
 // class and nothing Vaadin specific.
 //
 
-//@Entity 
+@Entity(name = "User")
 public class User implements Serializable, Cloneable {
 
-/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-//	@Id
+	@Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE) 
     private Long id;
 	
     private String username = "";

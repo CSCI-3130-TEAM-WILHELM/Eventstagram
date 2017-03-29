@@ -5,6 +5,13 @@ import org.apache.commons.beanutils.BeanUtils;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /** Separate Java service class.
  * Backend implementation for the address book application, with "detached entities"
@@ -15,6 +22,8 @@ import java.util.logging.Logger;
 // class and nothing Vaadin specific.
 
 public class UserService {
+
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("EventstagramDB");
 
     // Create dummy data by randomly combining first and last names
     static String[] usernames = { "Peter", "Aliee", "John", "Mike", "Olivia",
