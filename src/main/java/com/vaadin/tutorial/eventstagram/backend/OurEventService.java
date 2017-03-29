@@ -24,7 +24,7 @@ import javax.persistence.criteria.Root;
 // class and nothing Vaadin specific.
 public class OurEventService {
 	
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("newEvent");
+	EntityManagerFactory emf = Persistence.createEntityManagerFactory("EvenstagramDB");
 
     // Create dummy data by randomly combining first and last names
     static String[] eventnames = { "Grateful Dead", "Blackeyed Peas", "Metallica", "Led Zepplin", "The Beatles",
