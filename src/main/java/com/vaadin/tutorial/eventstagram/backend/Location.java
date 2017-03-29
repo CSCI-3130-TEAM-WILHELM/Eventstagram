@@ -64,9 +64,9 @@ public class Location implements Serializable, Cloneable {
     }
 
     @Override
-    public User clone() throws CloneNotSupportedException {
+    public Location clone() throws CloneNotSupportedException {
         try {
-            return (User) BeanUtils.cloneBean(this);
+            return (Location) BeanUtils.cloneBean(this);
         } catch (Exception ex) {
             throw new CloneNotSupportedException();
         }
