@@ -34,6 +34,7 @@ public class UserService {
             "Brown", "Davis", "Miller", "Wilson", "Moore", "Taylor",
             "Anderson", "Thomas", "Jackson", "White", "Harris", "Martin",
             "Thompson", "Young", "King", "Robinson" };
+    static boolean[] admins = {true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
 
     private static UserService instance;
 
@@ -46,6 +47,7 @@ public class UserService {
                 User user = new User();
                 user.setUsername(usernames[i]);
                 user.setPassword(passwords[i]);
+                user.setAdmin(admins[i]);
                 userService.save(user);
             }
             instance = userService;
