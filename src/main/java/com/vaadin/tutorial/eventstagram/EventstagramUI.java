@@ -70,7 +70,8 @@ public class EventstagramUI extends UI {
     Button logoutButton = new Button("Logout");
     Button manageLocationsButton = new Button("Manage Locations");			//Add a button to allow admins to manage locations
     Button newLocationButton = new Button("New Location");					//Add a button to allow admins to add a new location
-
+    Button closeLocationButton = new Button("Close");						//Add a button to allow admins to close the location manager
+    
     EventForm eventForm = new EventForm();
     LoginForm loginForm = new LoginForm();
     LocationForm locationForm = new LocationForm();
@@ -113,6 +114,9 @@ public class EventstagramUI extends UI {
         manageLocationsButton.addClickListener(e -> showLocations()); 		//Show locations on click
         locationForm.setVisible(false);						//Set the initial visibility to false
         newLocationButton.setVisible(false); 				//Set the initial visibility to false
+        newLocationButton.addClickListener(e -> newLocation());  			//Show the new location form
+        closeLocationButton.setVisible(false);				//Set the initial visibility to false
+        closeLocationButton.addClickListener(e -> closeManager());
         
         profilePageButton.addClickListener(e -> openProfilePage());
 
@@ -159,7 +163,8 @@ public class EventstagramUI extends UI {
         filter.setWidth("100%");
         actions.setExpandRatio(filter, 1);
         
-        VerticalLayout locationManager = new VerticalLayout(newLocationButton, locationList);
+        HorizontalLayout locationButtons = new HorizontalLayout(newLocationButton, closeLocationButton);
+        VerticalLayout locationManager = new VerticalLayout(locationButtons, locationList);
 
         VerticalLayout left = new VerticalLayout(actions, locationForm, locationManager, eventForm, eventList);
         left.setSizeFull();
@@ -209,6 +214,17 @@ public class EventstagramUI extends UI {
     private void showLocations(){
     	locationList.setVisible(true);
     	newLocationButton.setVisible(true);
+    	closeLocationButton.setVisible(true);
+    }
+    private void newLocation(){
+    	newLocationButton.setVisible(false);
+    	closeLocationButton.setVisible(false);
+    	locationForm.setVisible(true);
+    }
+    private void closeManager(){
+    	locationList.setVisible(false);
+    	newLocationButton.setVisible(false);
+    	closeLocationButton.setVisible(false);
     }
     private void openLoginPage()
     {
@@ -230,7 +246,7 @@ public class EventstagramUI extends UI {
         manageLocationsButton.setVisible(false); 			//Hide the manage Locations buttons on logout
         locationList.setVisible(false); 					//Hide the location list on logout
         newLocationButton.setVisible(false); 				//Hide the new Location button on logout
-
+        closeLocationButton.setVisible(false); 				//Hide the close location button on logout
     }
 
     /*

@@ -19,8 +19,8 @@ public class LocationForm extends FormLayout {
 	private static final long serialVersionUID = 1L;
 	
     TextField venue = new TextField("Venue");
-    TextField address = new TextField("address");
-    TextField city = new TextField("city");
+    TextField address = new TextField("Address");
+    TextField city = new TextField("City");
     Button submit = new Button("Submit", this::submit);
     Button cancel = new Button("Cancel", this::cancel);
 
@@ -78,6 +78,8 @@ public class LocationForm extends FormLayout {
     void closeLocationForm() {
     	clearLocationForm();
     	this.setVisible(false);
+    	getUI().newLocationButton.setVisible(true);
+    	getUI().closeLocationButton.setVisible(true);
     }
 
     void clearLocationForm() {
