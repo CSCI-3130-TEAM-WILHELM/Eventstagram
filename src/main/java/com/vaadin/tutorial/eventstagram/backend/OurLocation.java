@@ -11,7 +11,7 @@ import javax.persistence.Id;
 
 
 @Entity(name = "Location")
-public class Location implements Serializable, Cloneable {
+public class OurLocation implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,9 +64,9 @@ public class Location implements Serializable, Cloneable {
     }
 
     @Override
-    public Location clone() throws CloneNotSupportedException {
+    public OurLocation clone() throws CloneNotSupportedException {
         try {
-            return (Location) BeanUtils.cloneBean(this);
+            return (OurLocation) BeanUtils.cloneBean(this);
         } catch (Exception ex) {
             throw new CloneNotSupportedException();
         }

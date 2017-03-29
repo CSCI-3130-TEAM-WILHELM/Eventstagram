@@ -40,7 +40,7 @@ public class LocationService {
             final LocationService locationService = new LocationService();
 
             for (int i = 0; i < 20; i++) {
-                Location location = new Location();
+                OurLocation location = new OurLocation();
                 location.setVenue(venues[i]);
                 location.setAddress(addresses[i]);
                 location.setCity(cities[i]);
@@ -52,13 +52,13 @@ public class LocationService {
         return instance;
     }
 
-    private HashMap<Long, Location> locations = new HashMap<>();
+    private HashMap<Long, OurLocation> locations = new HashMap<>();
     private long nextId = 0;
 
     //old header = public synchronized List<User> findAll(String stringFilter) {
-    public synchronized ArrayList<Location> findAll(String stringFilter) {
-        ArrayList<Location> arrayList = new ArrayList<Location>();
-        for (Location location : locations.values()) {
+    public synchronized ArrayList<OurLocation> findAll(String stringFilter) {
+        ArrayList<OurLocation> arrayList = new ArrayList<OurLocation>();
+        for (OurLocation location : locations.values()) {
             try {
                 boolean passesFilter = (stringFilter == null || stringFilter.isEmpty())
                         || location.toString().toLowerCase()
@@ -71,10 +71,10 @@ public class LocationService {
                         Level.SEVERE, null, ex);
             }
         }
-        Collections.sort(arrayList, new Comparator<Location>() {
+        Collections.sort(arrayList, new Comparator<OurLocation>() {
 
             @Override
-            public int compare(Location o1, Location o2) {
+            public int compare(OurLocation o1, OurLocation o2) {
                 return (int) (o2.getId() - o1.getId());
             }
         });
@@ -85,16 +85,16 @@ public class LocationService {
         return locations.size();
     }
 
-    public synchronized void delete(Location value) {
+    public synchronized void delete(OurLocation value) {
         locations.remove(value.getId());
     }
 
-    public synchronized void save(Location entry) {
+    public synchronized void save(OurLocation entry) {
         if (entry.getId() == null) {
             entry.setId(nextId++);
         }
         try {
-            entry = (Location) BeanUtils.cloneBean(entry);
+            entry = (OurLocation) BeanUtils.cloneBean(entry);
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }

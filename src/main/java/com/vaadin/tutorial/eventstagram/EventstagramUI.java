@@ -2,12 +2,15 @@ package com.vaadin.tutorial.eventstagram;
 
 import javax.servlet.annotation.WebServlet;
 
+//import com.gargoylesoftware.htmlunit.javascript.host.Location;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.annotations.Widgetset;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.tutorial.eventstagram.backend.LocationService;
+import com.vaadin.tutorial.eventstagram.backend.OurLocation;
 import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 import com.vaadin.tutorial.eventstagram.backend.OurEventService;
 import com.vaadin.tutorial.eventstagram.backend.User;
@@ -59,6 +62,7 @@ public class EventstagramUI extends UI {
 	
     TextField filter = new TextField();
     Grid eventList = new Grid();
+    Grid locationList = new Grid();											//Add a grid to hold the locations for managing
     Button newEvent = new Button("New Event");
     
     Button profilePageButton = new Button("Profile Page");
@@ -70,6 +74,7 @@ public class EventstagramUI extends UI {
   
     EventForm eventForm = new EventForm();
     LoginForm loginForm = new LoginForm();
+    LocationForm locationForm = new LocationForm();
     
     ProfilePageUI profilePageUI = new ProfilePageUI();
 
@@ -78,6 +83,7 @@ public class EventstagramUI extends UI {
     // example as EJB or Spring Data based service.
     OurEventService service = OurEventService.createDemoService();
     UserService userService = UserService.createDemoService();
+    LocationService locationService = LocationService.createDemoService();
 
     /*
      * The "Main method".
@@ -108,6 +114,8 @@ public class EventstagramUI extends UI {
         profilePageButton.setVisible(!showingLoginButton);  //Set the visibility of the profile button opposite of the login button
         newEvent.setVisible(!showingLoginButton); 			//Set the visibility of the new event button opposite of the login button
         manageLocationsButton.setVisible(false); 			//Set the initial visibility to false
+        manageLocationsButton.addClickListener(e -> showLocations()); 		//Show locations on click
+        locationForm.setVisible(false);						//Set the initial visibility to false
         
         profilePageButton.addClickListener(e -> openProfilePage());
 
@@ -129,7 +137,12 @@ public class EventstagramUI extends UI {
         eventList.addSelectionListener(e -> eventForm.display((OurEvent) eventList.getSelectedRow(), !showingLoginButton));
         eventForm.setWidth("100%");
         refreshEvents();
-    }
+        
+        locationList.setVisible(false); 													//Hide the locationList by default
+        locationList.setContainerDataSource(new BeanItemContainer<>(OurLocation.class));	//Pull data from the location class
+        locationList.setSelectionMode(Grid.SelectionMode.SINGLE);							//Only allow one item to be selected at a time
+        
+    } 
 
     /*
      * Robust layouts.
@@ -149,7 +162,7 @@ public class EventstagramUI extends UI {
         filter.setWidth("100%");
         actions.setExpandRatio(filter, 1);
 
-        VerticalLayout left = new VerticalLayout(actions, eventForm, eventList);
+        VerticalLayout left = new VerticalLayout(actions, locationForm, locationList, eventForm, eventList);
         left.setSizeFull();
         eventList.setSizeFull();
         left.setExpandRatio(eventList, 1);
@@ -193,6 +206,9 @@ public class EventstagramUI extends UI {
     {
     	showingProfilePage = !showingProfilePage;
     	profilePageUI.setVisible(showingProfilePage);
+    }
+    private void showLocations(){
+    	locationList.setVisible(true);
     }
     private void openLoginPage()
     {
