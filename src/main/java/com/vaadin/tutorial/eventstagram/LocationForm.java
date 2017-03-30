@@ -12,6 +12,7 @@ import com.vaadin.ui.Notification.Type;
 //import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.ui.TextField;
 
 public class LocationForm extends FormLayout {
@@ -62,7 +63,20 @@ public class LocationForm extends FormLayout {
         		if (city.getValue()=="") {
         			msg="Please enter a city for this venue.";
         		} else {
-        			//Save the data
+        	        try {
+        	            // Commit the fields from UI to DAO
+        	            formFieldBindings.commit();
+
+        	            // Save DAO to backend with direct synchronous service API
+        	            getUI().locationService.save(ourLocation);
+
+        	            msg = String.format("Saved '%s %s %s'.", ourLocation.getVenue(),
+        	                    ourLocation.getAddress(), ourLocation.getCity());
+        	            Notification.show(msg, Type.TRAY_NOTIFICATION);
+        	            getUI().refreshLocations();
+        	        } catch (FieldGroup.CommitException e) {
+        	            // Validation exceptions could be shown here
+        	        }
         		}
         	}
         }

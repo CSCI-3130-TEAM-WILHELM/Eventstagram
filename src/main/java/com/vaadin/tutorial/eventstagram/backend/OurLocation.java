@@ -63,7 +63,7 @@ public class OurLocation implements Serializable, Cloneable {
         this.city = city;
     }
 
-    @Override
+/*    @Override
     public OurLocation clone() throws CloneNotSupportedException {
         try {
             return (OurLocation) BeanUtils.cloneBean(this);
@@ -71,11 +71,11 @@ public class OurLocation implements Serializable, Cloneable {
             throw new CloneNotSupportedException();
         }
     }
-
+*/
     @Override
     public String toString()
     {
-        return "Location{" + "id=" + id + ", Venue = " + venue + ", Address = " + address + ", City = " + city + "}";
+        return "OurLocation{" + "id=" + id + ", venue = " + venue + ", address = " + address + ", city = " + city + "}";
     }
 
 }

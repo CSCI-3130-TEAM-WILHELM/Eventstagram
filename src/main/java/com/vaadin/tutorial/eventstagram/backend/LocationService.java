@@ -52,7 +52,7 @@ public class LocationService {
         return instance;
     }
 
-    private HashMap<Long, OurLocation> locations = new HashMap<>();
+/*    private HashMap<Long, OurLocation> locations = new HashMap<>();
     private long nextId = 0;
 
     //old header = public synchronized List<User> findAll(String stringFilter) {
@@ -99,6 +99,65 @@ public class LocationService {
             throw new RuntimeException(ex);
         }
         locations.put(entry.getId(), entry);
+    }
+*/
+    public synchronized List<OurLocation> findAll(String stringFilter) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(OurLocation.class));
+            Query q = em.createQuery(cq);
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public synchronized long count() {
+       EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            Root<OurLocation> rt = cq.from(OurLocation.class);
+            cq.select(em.getCriteriaBuilder().count(rt));
+            Query q = em.createQuery(cq);
+            return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+
+    public synchronized void delete(OurLocation value) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.remove(value);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public synchronized void save(OurLocation entry) {
+        EntityManager em = getEntityManager();
+        
+        try {
+          
+            em.getTransaction().begin();
+            em.persist(entry);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }finally
+        {
+            em.close();
+        }
+    }
+
+    private EntityManager getEntityManager() {
+        return this.emf.createEntityManager();
     }
 
 }
