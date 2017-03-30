@@ -32,8 +32,6 @@ public class ProfilePageUI extends FormLayout
 	Label userInterestsLabel = new Label("Your interests");
 	Label locationLabel = new Label("You are here");
 	
-	
-	
 	Button changeInterestButton = new Button("Modify Interests");
 	TextField interestsTextField = new TextField("My interests");
 	Button submitNewInterestsButton = new Button("Submit Interests");

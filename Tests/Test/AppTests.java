@@ -1,4 +1,4 @@
-package Tests;
+package Test;
 
 import java.util.List;
 
@@ -16,9 +16,11 @@ import com.vaadin.testbench.elements.GridElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.PasswordFieldElement;
 import com.vaadin.testbench.elements.TextFieldElement;
+import com.vaadin.ui.TextField;
 
-public class AppGuiTests extends TestBenchTestCase
+public class AppTests extends TestBenchTestCase
 {
+	
 	@Rule
 	public ScreenshotOnFailureRule screenshotOnFailureRule = new ScreenshotOnFailureRule(this, true);
 	
@@ -281,4 +283,100 @@ public class AppGuiTests extends TestBenchTestCase
 		allButtons = $(ButtonElement.class).all();
 		Assert.assertEquals(5, allButtons.size());
 	}
+	
+	@Test
+	public void showsChangePassword()
+	{
+		openTestUrl();
+		
+		// The steps to log in
+		ButtonElement loginButton = $(ButtonElement.class).id("loginButtonId");
+		loginButton.click();
+		
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(1).setValue("Mike");
+		PasswordFieldElement passwordField = $(PasswordFieldElement.class).first();
+		passwordField.setValue("Jones");
+		
+		// clicking the login button
+		List<ButtonElement> allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// clicking the profile page button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(1).click();
+		
+		// clicking the change password button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(4).click();
+		
+		// gets the text fields of changing password
+		allTextFields = $(TextFieldElement.class).all();
+		Assert.assertEquals(4, allTextFields.size());
+	}
+	
+	@Test
+	public void successfulChangePassword()
+	{
+		openTestUrl();
+		
+		// The steps to log in
+		ButtonElement loginButton = $(ButtonElement.class).id("loginButtonId");
+		loginButton.click();
+		
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(1).setValue("Mike");
+		PasswordFieldElement passwordField = $(PasswordFieldElement.class).first();
+		passwordField.setValue("Jones");
+		
+		// clicking the login button
+		List<ButtonElement> allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// clicking the profile page button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(1).click();
+		
+		// clicking the change password button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(4).click();
+		
+		// gets the text fields of changing password
+		List<PasswordFieldElement> allPasswordField = $(PasswordFieldElement.class).all();
+		
+		// old password
+		allPasswordField.get(0).setValue("Jones");
+		// new password 
+		allPasswordField.get(1).setValue("Jones123");;
+		// new password reconfirm
+		allPasswordField.get(2).setValue("Jones123");
+		
+		// clicking the submission button for a new password
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(5).click();
+		
+		// checking out how many buttons are there, the profile page should close leaving 3 buttons
+		allButtons = $(ButtonElement.class).all();
+		Assert.assertEquals(5, allButtons.size());
+		
+		/** Reverting the password **/
+		// clicking the change password button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(4).click();
+		
+		// gets the text fields of changing password
+		allPasswordField = $(PasswordFieldElement.class).all();
+		
+		// old password
+		allPasswordField.get(0).setValue("Jones123");
+		// new password 
+		allPasswordField.get(1).setValue("Jones");;
+		// new password reconfirm
+		allPasswordField.get(2).setValue("Jones");
+		
+		// clicking the submission button for a new password
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(5).click();
+	}
+
 }
