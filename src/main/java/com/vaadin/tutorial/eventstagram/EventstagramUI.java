@@ -103,6 +103,8 @@ public class EventstagramUI extends UI {
          * to synchronously handle those events. Vaadin automatically sends only
          * the needed changes to the web page without loading a new page.
          */
+    	loginButton.setId("loginButtonId");
+    	
         newEvent.addClickListener(e -> eventForm.edit(new OurEvent()));
       
         loginButton.addClickListener(e -> openLoginPage());
