@@ -637,6 +637,44 @@ public class AppTests extends TestBenchTestCase
 		Assert.assertTrue(true);
 	}
 	
+	@Test
+	public void descriptionColumnCheck()
+	{
+		openTestUrl();
+		
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals(grid.getCell(0, 1).getText(), "Donec a nulla faucibus, maximus ligula nec, egestas augue. Proin pharetra ipsum sit amet ligula volutpat, et imperdiet nunc commodo.");
+	}
 	
+	@Test
+	public void startColumnCheck()
+	{
+		openTestUrl();
+		
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals(grid.getCell(0, 2).getText(), "Dec 3, 2017 8:00:00 PM");
+	}
+	
+	@Test
+	public void endColumnCheck()
+	{
+		openTestUrl();
+		
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals(grid.getCell(0, 3).getText(), "Apr 1, 2017 12:00:00 AM");
+	}
+	
+	@Test
+	public void doorsOpenColumnCheck()
+	{
+		openTestUrl();
+		
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals(grid.getCell(0, 4).getText(), "Mar 31, 2017 6:00:00 PM");
+	}
 
 }
