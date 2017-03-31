@@ -245,12 +245,12 @@ public class EventstagramUI extends UI {
     }
     private void logout(){
     	showingLoginButton=true;							//Change login button state
-    	Notification.show("Goodbye " + profilePageUI.userNameContent.getValue() + ".", Type.TRAY_NOTIFICATION); //goodbye message
+    	Notification.show("Goodbye " + profilePageUI.userNameLabel.getValue() + ".", Type.TRAY_NOTIFICATION); //goodbye message
     	loginForm.clearLoginForm();							//Clear the password and username from the login form
     	loginButton.setVisible(showingLoginButton);			//Show login button
     	logoutButton.setVisible(!showingLoginButton);		//Hide logout button
     	profilePageButton.setVisible(!showingLoginButton);	//Hide profile button
-        profilePageUI.userNameContent.setValue("");			//Clear the username from the profile page
+        profilePageUI.userNameLabel.setValue("");			//Clear the username from the profile page
         profilePageUI.setVisible(!showingLoginButton); 		//Hide the profile page if showing.
         newEvent.setVisible(!showingLoginButton);   		//Hide the newEvent button
         eventForm.setVisible(false); 						//Hide the event form on logout

@@ -28,7 +28,6 @@ public class ProfilePageUI extends FormLayout
 	 */
 	private static final long serialVersionUID = 1L;
 	Label userNameLabel = new Label("Your username");
-	Label userNameContent = new Label("");
 	Label userInterestsLabel = new Label("Your interests");
 	Label locationLabel = new Label("You are here");
 	
@@ -123,15 +122,15 @@ public class ProfilePageUI extends FormLayout
         setMargin(true);
 
         if (extraPieces == 0)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
+        	addComponents(userNameLabel, userInterestsLabel, locationLabel, 
         			  	  changeInterestButton, changePasswordButton);
         
         if (extraPieces == 1)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
+        	addComponents(userNameLabel, userInterestsLabel, locationLabel, 
         			  	  changeInterestButton, changePasswordButton, changeInterestButton,
         			  	  interestsTextField, submitNewInterestsButton);
         else if (extraPieces == 2)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
+        	addComponents(userNameLabel, userInterestsLabel, locationLabel, 
   			  	  		  changeInterestButton, changePasswordButton, oldPasswordField,
   			  	  		  newPasswordField, confirmNewPasswordField, submitNewPasswordButton);
 	}
