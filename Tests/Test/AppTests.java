@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import com.vaadin.testbench.ScreenshotOnFailureRule;
 import com.vaadin.testbench.TestBenchTestCase;
 import com.vaadin.testbench.elements.ButtonElement;
+import com.vaadin.testbench.elements.DateFieldElement;
 import com.vaadin.testbench.elements.GridElement;
 import com.vaadin.testbench.elements.LabelElement;
 import com.vaadin.testbench.elements.PasswordFieldElement;
@@ -563,5 +564,79 @@ public class AppTests extends TestBenchTestCase
 		
 		Assert.assertNotEquals("Your location", labelValue);
 	}
+	
+	@Test
+	public void newEventIsOpened()
+	{
+		openTestUrl();
+		
+		// The steps to log in
+		ButtonElement loginButton = $(ButtonElement.class).id("loginButtonId");
+		loginButton.click();
+		
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(1).setValue("Mike");
+		PasswordFieldElement passwordField = $(PasswordFieldElement.class).first();
+		passwordField.setValue("Jones");
+		
+		// clicking the login submit button
+		List<ButtonElement> allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// clicking the new event button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// getting all the text fields
+		allTextFields = $(TextFieldElement.class).all();
+		
+		// getting all date fields
+		List<DateFieldElement> allDateFields = $(DateFieldElement.class).all();
+		
+		Assert.assertEquals(3, allTextFields.size());
+		Assert.assertEquals(3, allDateFields.size());
+	}
+	
+	@Test
+	public void newEventFieldsFilledIn()
+	{
+		openTestUrl();
+		
+		// The steps to log in
+		ButtonElement loginButton = $(ButtonElement.class).id("loginButtonId");
+		loginButton.click();
+		
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(1).setValue("Mike");
+		PasswordFieldElement passwordField = $(PasswordFieldElement.class).first();
+		passwordField.setValue("Jones");
+		
+		// clicking the login submit button
+		List<ButtonElement> allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// clicking the new event button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// getting all the text fields
+		allTextFields = $(TextFieldElement.class).all();
+		
+		// setting text field values
+		allTextFields.get(1).setValue("blah");
+		allTextFields.get(2).setValue("blah");
+		
+		// getting all date fields
+		List<DateFieldElement> allDateFields = $(DateFieldElement.class).all();
+		
+		// setting date values
+		allDateFields.get(0).setValue("3/9/17 01:06 PM");
+		allDateFields.get(0).setValue("3/21/17 01:06 PM");
+		allDateFields.get(0).setValue("3/9/17 01:06 PM");
+		
+		Assert.assertTrue(true);
+	}
+	
+	
 
 }
