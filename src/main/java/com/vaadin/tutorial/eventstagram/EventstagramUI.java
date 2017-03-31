@@ -143,6 +143,8 @@ public class EventstagramUI extends UI {
         
         locationList.setVisible(false); 													//Hide the locationList by default
         locationList.setContainerDataSource(new BeanItemContainer<>(OurLocation.class));	//Pull data from the location class
+        locationList.setColumnOrder("venue", "address", "city"); 							//
+        locationList.removeColumn("id");
         locationList.setSelectionMode(Grid.SelectionMode.SINGLE);							//Only allow one item to be selected at a time
         locationList.addSelectionListener(e -> locationForm.edit((OurLocation) locationList.getSelectedRow()));
         refreshLocations();
@@ -206,12 +208,7 @@ public class EventstagramUI extends UI {
         loginForm.setVisible(showingLoginForm);
     }
     void refreshLocations() {
-        refreshLocations(filter.getValue());
-    }
-    private void refreshLocations(String stringFilter) {
-        locationList.setContainerDataSource(new BeanItemContainer<>(
-                OurLocation.class, locationService.findAll(stringFilter)));
-        locationForm.setVisible(false);
+    	locationList.setContainerDataSource(new BeanItemContainer<>(OurLocation.class, locationService.findAll(null)));
     }
     
     /**!
@@ -230,6 +227,8 @@ public class EventstagramUI extends UI {
     private void newLocation(){
     	newLocationButton.setVisible(false);
     	closeLocationButton.setVisible(false);
+    	locationForm.submit.setVisible(true);
+    	locationForm.update.setVisible(false);
     	locationForm.setVisible(true);
     }
     private void closeManager(){

@@ -142,11 +142,27 @@ public class LocationService {
 
     public synchronized void save(OurLocation entry) {
         EntityManager em = getEntityManager();
-        
         try {
           
             em.getTransaction().begin();
             em.persist(entry);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }finally
+        {
+            em.close();
+        }
+    }
+    public synchronized void update(OurLocation entry) {
+        EntityManager em = getEntityManager();
+        
+        try {
+            OurLocation ourLocation = em.find(OurLocation.class, entry.getId());
+            em.getTransaction().begin();
+            ourLocation.setVenue(entry.getVenue());
+            ourLocation.setAddress(entry.getAddress());
+            ourLocation.setCity(entry.getCity());
             em.getTransaction().commit();
         } catch (Exception ex) {
             throw new RuntimeException(ex);

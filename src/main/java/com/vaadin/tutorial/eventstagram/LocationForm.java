@@ -4,6 +4,7 @@ package com.vaadin.tutorial.eventstagram;
 
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.tutorial.eventstagram.backend.OurLocation;
+//import com.vaadin.tutorial.eventstagram.backend.LocationService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
@@ -18,14 +19,15 @@ import com.vaadin.ui.TextField;
 public class LocationForm extends FormLayout {
 
 	private static final long serialVersionUID = 1L;
+    private OurLocation ourLocation = new OurLocation();
 	
     TextField venue = new TextField("Venue");
     TextField address = new TextField("Address");
     TextField city = new TextField("City");
     Button submit = new Button("Submit", this::submit);
+    Button update = new Button("Update", this::update);
     Button cancel = new Button("Cancel", this::cancel);
 
-    OurLocation ourLocation;
     
     BeanFieldGroup<OurLocation> formFieldBindings;
     
@@ -36,23 +38,24 @@ public class LocationForm extends FormLayout {
 
     private void configureComponents() {
         submit.setStyleName(ValoTheme.BUTTON_PRIMARY);
-        submit.setClickShortcut(ShortcutAction.KeyCode.ENTER);		//Allows form submission on ENTER
     	
-        setVisible(true);											//Make all components visible
+        venue.setVisible(true);
+        address.setVisible(true);
+        city.setVisible(true);
+        cancel.setVisible(true);
     }
 
     private void buildLayout() {
         setSizeUndefined();
         setMargin(true);
 
-        HorizontalLayout actions = new HorizontalLayout(submit, cancel);
+        HorizontalLayout actions = new HorizontalLayout(submit, update,  cancel);
         actions.setSpacing(true);
 
         addComponents(venue, address, city, actions);
     }
 
     public void submit(Button.ClickEvent event){
-    	System.out.println("Submit Pressed");
 		String msg = "";
         if (venue.getValue()==""){
         	msg="Please enter a name for this venue.";
@@ -64,13 +67,56 @@ public class LocationForm extends FormLayout {
         			msg="Please enter a city for this venue.";
         		} else {
         	        try {
+        	        	
         	            // Commit the fields from UI to DAO
-        	            formFieldBindings.commit();
+//        	            formFieldBindings.commit();
+        	            ourLocation.setVenue(this.venue.getValue());
+        	            ourLocation.setAddress(this.address.getValue());
+        	            ourLocation.setCity(this.city.getValue());
+        	            this.setId(null);
 
         	            // Save DAO to backend with direct synchronous service API
         	            getUI().locationService.save(ourLocation);
 
         	            msg = String.format("Saved '%s %s %s'.", ourLocation.getVenue(),
+        	                    ourLocation.getAddress(), ourLocation.getCity());
+        	            Notification.show(msg, Type.TRAY_NOTIFICATION);
+        	            this.setVisible(false);
+        	            getUI().closeLocationButton.setVisible(true);
+        	            getUI().newLocationButton.setVisible(true);
+        	            getUI().refreshLocations();
+        	        } catch (Exception e) {
+        	            // Validation exceptions could be shown here
+        	        }
+        		}
+        	}
+        }
+        Notification.show(msg, Type.TRAY_NOTIFICATION);
+    }
+    public void update(Button.ClickEvent event){
+    	System.out.println("Update Pressed  id "+ ourLocation.getId());
+		String msg = "";
+        if (venue.getValue()==""){
+        	msg="Please enter a name for this venue.";
+        } else {
+        	if (address.getValue()=="") {
+        		msg="Please enter an address for this venue.";
+        	} else {
+        		if (city.getValue()=="") {
+        			msg="Please enter a city for this venue.";
+        		} else {
+        	        try {
+        	        	
+        	            // Commit the fields from UI to DAO
+        	            formFieldBindings.commit();
+        	            ourLocation.setVenue(this.venue.getValue());
+        	            ourLocation.setAddress(this.address.getValue());
+        	            ourLocation.setCity(this.city.getValue());
+
+        	            // Save DAO to backend with direct synchronous service API
+        	            getUI().locationService.update(ourLocation);
+
+        	            msg = String.format("Updated '%s %s %s'.", ourLocation.getVenue(),
         	                    ourLocation.getAddress(), ourLocation.getCity());
         	            Notification.show(msg, Type.TRAY_NOTIFICATION);
         	            getUI().refreshLocations();
@@ -107,9 +153,15 @@ public class LocationForm extends FormLayout {
         if (ourLocation != null) {
             // Bind the properties of the contact POJO to fields in this form
             formFieldBindings = BeanFieldGroup.bindFieldsBuffered(ourLocation,this);
+            venue.setValue(this.ourLocation.getVenue());
+            address.setValue(this.ourLocation.getAddress());
+            city.setValue(this.ourLocation.getCity());
+            System.out.println("Editing location id "+this.ourLocation.getId());
             venue.focus();
         }
-        setVisible(ourLocation != null);
+        update.setVisible(true);
+        submit.setVisible(false);
+        this.setVisible(true);
     }
 
     @Override
