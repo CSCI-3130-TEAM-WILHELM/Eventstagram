@@ -495,19 +495,73 @@ public class AppTests extends TestBenchTestCase
 		List<ButtonElement> allButtons = $(ButtonElement.class).all();
 		allButtons.get(2).click();
 		
+		// clicking the profile page button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(1).click();
 		
+		// getting label text
+		List<LabelElement> allLabels = $(LabelElement.class).all();
+		String labelValue = allLabels.get(0).getText();
+		
+		Assert.assertNotEquals("Your username", labelValue);
 	}
 	
 	@Test
 	public void interestShowsUp()
 	{
+		openTestUrl();
 		
+		// The steps to log in
+		ButtonElement loginButton = $(ButtonElement.class).id("loginButtonId");
+		loginButton.click();
+		
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(1).setValue("Mike");
+		PasswordFieldElement passwordField = $(PasswordFieldElement.class).first();
+		passwordField.setValue("Jones");
+		
+		// clicking the login submit button
+		List<ButtonElement> allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// clicking the profile page button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(1).click();
+		
+		// getting label text
+		List<LabelElement> allLabels = $(LabelElement.class).all();
+		String labelValue = allLabels.get(1).getText();
+		
+		Assert.assertNotEquals("Your interests", labelValue);	
 	}
 	
 	@Test
 	public void locationShowsUp()
 	{
+		openTestUrl();
 		
+		// The steps to log in
+		ButtonElement loginButton = $(ButtonElement.class).id("loginButtonId");
+		loginButton.click();
+		
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(1).setValue("Mike");
+		PasswordFieldElement passwordField = $(PasswordFieldElement.class).first();
+		passwordField.setValue("Jones");
+		
+		// clicking the login submit button
+		List<ButtonElement> allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// clicking the profile page button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(1).click();
+		
+		// getting label text
+		List<LabelElement> allLabels = $(LabelElement.class).all();
+		String labelValue = allLabels.get(2).getText();
+		
+		Assert.assertNotEquals("Your location", labelValue);
 	}
 
 }
