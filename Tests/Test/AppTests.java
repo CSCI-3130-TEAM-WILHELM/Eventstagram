@@ -377,6 +377,122 @@ public class AppTests extends TestBenchTestCase
 		// clicking the submission button for a new password
 		allButtons = $(ButtonElement.class).all();
 		allButtons.get(5).click();
+		
+		allButtons = $(ButtonElement.class).all();
+		Assert.assertEquals(5, allButtons.size());
+	}
+	
+	@Test
+	public void failedPasswordChange()
+	{
+		openTestUrl();
+		
+		// The steps to log in
+		ButtonElement loginButton = $(ButtonElement.class).id("loginButtonId");
+		loginButton.click();
+		
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(1).setValue("Mike");
+		PasswordFieldElement passwordField = $(PasswordFieldElement.class).first();
+		passwordField.setValue("Jones");
+		
+		// clicking the login button
+		List<ButtonElement> allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// clicking the profile page button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(1).click();
+		
+		// clicking the change password button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(4).click();
+		
+		// gets the text fields of changing password
+		List<PasswordFieldElement> allPasswordField = $(PasswordFieldElement.class).all();
+		
+		// old password
+		allPasswordField.get(0).setValue("J");
+		// new password 
+		allPasswordField.get(1).setValue("o");;
+		// new password reconfirm
+		allPasswordField.get(2).setValue("n");
+		
+		// clicking the submission button for a new password
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(5).click();
+		
+		// checking out how many buttons are there, the profile page should close leaving 3 buttons
+		allPasswordField = $(PasswordFieldElement.class).all();
+		Assert.assertEquals(3, allPasswordField.size());
+	}
+	
+	@Test
+	public void interestsChange()
+	{
+		openTestUrl();
+		
+		// The steps to log in
+		ButtonElement loginButton = $(ButtonElement.class).id("loginButtonId");
+		loginButton.click();
+		
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(1).setValue("Mike");
+		PasswordFieldElement passwordField = $(PasswordFieldElement.class).first();
+		passwordField.setValue("Jones");
+		
+		// clicking the login submit button
+		List<ButtonElement> allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// clicking the profile page button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(1).click();
+		
+		// getting the labels for the interest label
+		List<LabelElement> allLabels = $(LabelElement.class).all();
+		String currentInterests = allLabels.get(2).getText();
+		
+		// clicking the modify interests
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(3).click();
+		
+		// getting and changing the interest text
+		allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(0).setValue("new interests set by testbench blah blah blah");
+		
+		// clicking the profile page button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(1).click();
+		allButtons.get(1).click();
+		
+		// clicking the modify interests submit
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(5).click();
+		
+		// getting the labels for the interest label
+		allLabels = $(LabelElement.class).all();
+		String modifiedInterests = allLabels.get(2).getText();
+		
+		Assert.assertEquals(currentInterests, modifiedInterests);
+	}
+	
+	@Test
+	public void userNameShowsUp()
+	{
+		
+	}
+	
+	@Test
+	public void interestShowsUp()
+	{
+		
+	}
+	
+	@Test
+	public void locationShowsUp()
+	{
+		
 	}
 
 }
