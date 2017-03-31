@@ -81,10 +81,10 @@ public class LocationForm extends FormLayout {
         	            msg = String.format("Saved '%s %s %s'.", ourLocation.getVenue(),
         	                    ourLocation.getAddress(), ourLocation.getCity());
         	            Notification.show(msg, Type.TRAY_NOTIFICATION);
+        	            getUI().refreshLocations();
         	            this.setVisible(false);
         	            getUI().closeLocationButton.setVisible(true);
         	            getUI().newLocationButton.setVisible(true);
-        	            getUI().refreshLocations();
         	        } catch (Exception e) {
         	            // Validation exceptions could be shown here
         	        }
@@ -94,7 +94,6 @@ public class LocationForm extends FormLayout {
         Notification.show(msg, Type.TRAY_NOTIFICATION);
     }
     public void update(Button.ClickEvent event){
-    	System.out.println("Update Pressed  id "+ ourLocation.getId());
 		String msg = "";
         if (venue.getValue()==""){
         	msg="Please enter a name for this venue.";
@@ -120,6 +119,9 @@ public class LocationForm extends FormLayout {
         	                    ourLocation.getAddress(), ourLocation.getCity());
         	            Notification.show(msg, Type.TRAY_NOTIFICATION);
         	            getUI().refreshLocations();
+        	            this.setVisible(false);
+        	            getUI().closeLocationButton.setVisible(true);
+        	            getUI().newLocationButton.setVisible(true);
         	        } catch (FieldGroup.CommitException e) {
         	            // Validation exceptions could be shown here
         	        }
