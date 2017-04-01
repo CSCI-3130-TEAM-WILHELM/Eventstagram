@@ -26,19 +26,21 @@ public class UserService {
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("EventstagramDB");
 
     // Create dummy data by randomly combining first and last names
-    static String[] usernames = { "Peter", "Aliee", "John", "Mike", "Olivia",
+    static String[] usernames = { "Peter", "Aliee", "John","Mike", "Olivia",
             "Nina", "Alex", "Rita", "Dan", "Umberto", "Henrik", "Rene", "Lisa",
             "Linda", "Timothy", "Daniel", "Brian", "George", "Scott",
             "Jennifer" };
     static String[] passwords = { "Smith", "Johnson", "Williams", "Jones",
             "Brown", "Davis", "Miller", "Wilson", "Moore", "Taylor",
             "Anderson", "Thomas", "Jackson", "White", "Harris", "Martin",
-            "Thompson", "Young", "King", "Robinson" };
-    static boolean[] admins = {true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
-
+            "Thompson", "Young", "King", "Robinson"};
+    static boolean[] admins = {true, false,false,false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
+    
     private static UserService instance;
+    
 
     public static UserService createDemoService() {
+
         if (instance == null) {
 
             final UserService userService = new UserService();
@@ -60,8 +62,36 @@ public class UserService {
     private long nextId = 0;
 
     //old header = public synchronized List<User> findAll(String stringFilter) {
-    public synchronized ArrayList<User> findAll(String stringFilter) {
-        ArrayList<User> arrayList = new ArrayList<User>();
+    
+    public synchronized User find (User user){
+    	EntityManager em = getEntityManager();
+    	
+    	//get user with matching username from database
+    	User returnedUser=em.find(User.class, user.getUsername());
+    	
+    	//if it doesn't exist, return null
+    	if(returnedUser == null){
+    		System.err.println("User "+user.getUsername()+" was not found in database");
+    		return null;
+    	}
+    	
+    	return returnedUser;
+    	
+    		
+    }
+    public synchronized List<User> findAll(String stringFilter) {
+    	 EntityManager em = getEntityManager();
+         try {
+             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+             cq.select(cq.from(User.class));
+             Query q = em.createQuery(cq);
+             System.out.println(q.toString());
+             return q.getResultList();
+         } finally {
+             em.close();
+         }
+    	
+    	/*ArrayList<User> arrayList = new ArrayList<User>();
         for (User contact : users.values()) {
             try {
                 boolean passesFilter = (stringFilter == null || stringFilter.isEmpty())
@@ -82,18 +112,77 @@ public class UserService {
                 return (int) (o2.getId() - o1.getId());
             }
         });
-        return arrayList;
+        return arrayList;*/
     }
 
     public synchronized long count() {
-        return users.size();
+    	EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            Root<OurLocation> rt = cq.from(User.class);
+            cq.select(em.getCriteriaBuilder().count(rt));
+            Query q = em.createQuery(cq);
+            return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    	//return users.size();
     }
-
+    
+    //not working
     public synchronized void delete(User value) {
-        users.remove(value.getId());
+    	EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.remove(value.getUsername());
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    	
+        //users.remove(value.getId());
+    }
+    
+    public synchronized void updatePassword(User value) {
+    	EntityManager em = null;
+        try {
+            em = getEntityManager();
+            User user=em.find(User.class, value.getUsername());
+            em.getTransaction().begin();
+            user.setPassword(value.getPassword());
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    	
+        //users.remove(value.getId());
     }
 
     public synchronized void save(User entry) {
+    	EntityManager em = getEntityManager();
+        try {
+        	
+        	//check if user already exists
+        	if(em.find(User.class, entry.getUsername()) == null){
+        		em.getTransaction().begin();
+            	em.persist(entry);
+            	em.getTransaction().commit();
+        	}
+        	else{
+        		System.err.println("Object already exists in database.");
+        	}
+        	
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally{
+            em.close();
+        }
+    	/*
         if (entry.getId() == null) {
             entry.setId(nextId++);
         }
@@ -103,6 +192,10 @@ public class UserService {
             throw new RuntimeException(ex);
         }
         users.put(entry.getId(), entry);
+    	*/
+    }
+    private EntityManager getEntityManager() {
+        return this.emf.createEntityManager();
     }
 
 }
