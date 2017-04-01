@@ -79,6 +79,7 @@ public class UserService {
     	
     		
     }
+    /*
     public synchronized List<User> findAll(String stringFilter) {
     	 EntityManager em = getEntityManager();
          try {
@@ -112,8 +113,8 @@ public class UserService {
                 return (int) (o2.getId() - o1.getId());
             }
         });
-        return arrayList;*/
-    }
+        return arrayList; (*)/
+    }*/
 
     public synchronized long count() {
     	EntityManager em = getEntityManager();
@@ -126,11 +127,10 @@ public class UserService {
         } finally {
             em.close();
         }
-    	//return users.size();
     }
     
-    //not working
-    public synchronized void delete(User value) {
+    //not working, d
+    /*public synchronized void delete(User value) {
     	EntityManager em = null;
         try {
             em = getEntityManager();
@@ -142,9 +142,7 @@ public class UserService {
                 em.close();
             }
         }
-    	
-        //users.remove(value.getId());
-    }
+    }*/
     
     public synchronized void updatePassword(User value) {
     	EntityManager em = null;
@@ -159,8 +157,6 @@ public class UserService {
                 em.close();
             }
         }
-    	
-        //users.remove(value.getId());
     }
 
     public synchronized void save(User entry) {
@@ -169,6 +165,7 @@ public class UserService {
         	
         	//check if user already exists
         	if(em.find(User.class, entry.getUsername()) == null){
+        		System.out.println("Object added to database:"+entry.getUsername());
         		em.getTransaction().begin();
             	em.persist(entry);
             	em.getTransaction().commit();
@@ -182,17 +179,6 @@ public class UserService {
         } finally{
             em.close();
         }
-    	/*
-        if (entry.getId() == null) {
-            entry.setId(nextId++);
-        }
-        try {
-            entry = (User) BeanUtils.cloneBean(entry);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-        users.put(entry.getId(), entry);
-    	*/
     }
     private EntityManager getEntityManager() {
         return this.emf.createEntityManager();
