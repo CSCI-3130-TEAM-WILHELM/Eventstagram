@@ -1,5 +1,6 @@
 package com.vaadin.tutorial.eventstagram;
 
+import java.util.List;
 import java.util.ArrayList;
 
 import com.vaadin.event.ShortcutAction;
@@ -96,15 +97,22 @@ public class LoginForm extends FormLayout {
         }
         //assuming username is presented
         else{
-        	ArrayList <User> usernamelist = getUI().userService.findAll(username.getValue());
-        	int size = usernamelist.size();
-        	if(size==0){
+        	User emptyUser = new User();
+        	emptyUser.setUsername(username.getValue());
+        	//emptyUser.setPassword(password.getValue());
+        	//////////////////////
+        	//emptyUser.setAdmin(true);
+        	//////////////////////
+        	User returnedUser = getUI().userService.find(emptyUser);
+        	if(returnedUser==null){
         		msg = "Invalid username or password.";
+        		//System.err.println("Database didn't have specified user, but could it save?:");
+        		//getUI().userService.save(emptyUser);
         	}
         	//assuming username exists
         	else {
         		//password matches database user password
-        		if (usernamelist.get(0).getPassword().equals(password.getValue())){
+        		if (returnedUser.getPassword().equals(password.getValue())){
         			msg = "Hello "+username.getValue()+".";
         			getUI().profilePageUI.userNameContent.setValue(username.getValue()); //Set the profile page username
         			getUI().showingLoginButton=!getUI().showingLoginButton;              //Swap the showing login button value
@@ -114,14 +122,14 @@ public class LoginForm extends FormLayout {
         			getUI().showingLoginForm=!getUI().showingLoginForm;                  //Swap the login form value
         			getUI().loginForm.setVisible(getUI().showingLoginForm);              //Hide the login form
         			getUI().newEvent.setVisible(!getUI().showingLoginButton); 			 //Show the new Event button
-        			getUI().manageLocationsButton.setVisible(usernamelist.get(0).getAdmin()); //Set the visibility of the manage locations button to the admin status
-        			getUI().currentUser=usernamelist.get(0);							 //Give current user object to parent
+        			getUI().manageLocationsButton.setVisible(returnedUser.getAdmin()); //Set the visibility of the manage locations button to the admin status
+        			getUI().currentUser=returnedUser;							 //Give current user object to parent
         		}
         		//username and password do not match
         		else{
         			msg = "Invalid username or password.";
         			////////////////////////////////////////
-        			System.out.println("DBPass = "+usernamelist.get(0).getPassword()+"\nEntered Pass = "+password.getValue());
+        			//System.out.println("DBPass = "+returnedUser.getPassword()+"\nEntered Pass = "+password.getValue());
 					///////////////////////////////////////
         		}
         	}
