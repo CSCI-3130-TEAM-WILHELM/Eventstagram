@@ -19,6 +19,7 @@ import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
 import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.Grid;
 import com.vaadin.ui.TextField;
 //import com.vaadin.ui.ComboBox;
 
@@ -33,7 +34,7 @@ public class LocationForm extends FormLayout {
     Button submit = new Button("Submit", this::submit);
     Button update = new Button("Update", this::update);
     Button cancel = new Button("Cancel", this::cancel);
-
+    Grid cityList = new Grid();	
     
     BeanFieldGroup<OurLocation> formFieldBindings;
     
@@ -48,14 +49,12 @@ public class LocationForm extends FormLayout {
         venue.setVisible(true);
         address.setVisible(true);
         city = new ComboBox<City>("City");
-        BeanItemContainer<City> container = new BeanItemContainer<>(City.class);          
-        city.setData(container);
         
         city.setVisible(true);
 
-//        city.setContainerDataSource(city);
-//        locationList.setContainerDataSource(new BeanItemContainer<>(OurLocation.class));
-//        city.setData(City.class);
+        cityList.setContainerDataSource(new BeanItemContainer<>(City.class));
+        cityList.setSelectionMode(Grid.SelectionMode.SINGLE);
+        refreshCities();
         cancel.setVisible(true);
     }
 
@@ -66,7 +65,7 @@ public class LocationForm extends FormLayout {
         HorizontalLayout actions = new HorizontalLayout(submit, update,  cancel);
         actions.setSpacing(true);
 
-        addComponents(venue, address, city, actions);
+        addComponents(venue, address, city, actions, cityList);
     }
 
     public void submit(Button.ClickEvent event){
@@ -108,6 +107,10 @@ public class LocationForm extends FormLayout {
         }
         Notification.show(msg, Type.TRAY_NOTIFICATION);
     }
+    void refreshCities() {
+//    	cityList.setContainerDataSource(new BeanItemContainer<>(City.class, getUI().cityService.findAll("")));
+    }
+    
     public void update(Button.ClickEvent event){
 		String msg = "";
         if (venue.getValue()==""){

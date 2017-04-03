@@ -41,55 +41,6 @@ public class LocationService {
         return instance;
     }
 
-/*    private HashMap<Long, OurLocation> locations = new HashMap<>();
-    private long nextId = 0;
-
-    //old header = public synchronized List<User> findAll(String stringFilter) {
-    public synchronized ArrayList<OurLocation> findAll(String stringFilter) {
-        ArrayList<OurLocation> arrayList = new ArrayList<OurLocation>();
-        for (OurLocation location : locations.values()) {
-            try {
-                boolean passesFilter = (stringFilter == null || stringFilter.isEmpty())
-                        || location.toString().toLowerCase()
-                                .contains(stringFilter.toLowerCase());
-                if (passesFilter) {
-                    arrayList.add(location.clone());
-                }
-            } catch (CloneNotSupportedException ex) {
-                Logger.getLogger(LocationService.class.getName()).log(
-                        Level.SEVERE, null, ex);
-            }
-        }
-        Collections.sort(arrayList, new Comparator<OurLocation>() {
-
-            @Override
-            public int compare(OurLocation o1, OurLocation o2) {
-                return (int) (o2.getId() - o1.getId());
-            }
-        });
-        return arrayList;
-    }
-
-    public synchronized long count() {
-        return locations.size();
-    }
-
-    public synchronized void delete(OurLocation value) {
-        locations.remove(value.getId());
-    }
-
-    public synchronized void save(OurLocation entry) {
-        if (entry.getId() == null) {
-            entry.setId(nextId++);
-        }
-        try {
-            entry = (OurLocation) BeanUtils.cloneBean(entry);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-        locations.put(entry.getId(), entry);
-    }
-*/
     public synchronized List<OurLocation> findAll(String stringFilter) {
         EntityManager em = getEntityManager();
         try {

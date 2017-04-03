@@ -34,6 +34,7 @@ public class CityService {
             for (int i = 0; i < 20; i++) {
                 City city = new City();
                 city.setName(cities[i]);
+                city.setId((long) i);
                 cityService.save(city);
             }
             instance = cityService;
@@ -83,6 +84,7 @@ public class CityService {
 
     public synchronized void save(City entry) {
         EntityManager em = getEntityManager();
+        System.out.println("attempting to save" + entry.toString());
         try {
           
             em.getTransaction().begin();
