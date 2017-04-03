@@ -676,5 +676,158 @@ public class AppTests extends TestBenchTestCase
 		
 		Assert.assertEquals(grid.getCell(0, 4).getText(), "Mar 31, 2017 6:00:00 PM");
 	}
+	
+	@Test
+	public void attendingColumnCheck()
+	{
+		openTestUrl();
+		
+		GridElement grid = $(GridElement.class).first();
+		
+		String attendingText = grid.getCell(0, 5).getText();
+		boolean isANumber;
+		try  
+		{  
+			double attendingAmount = Double.parseDouble(attendingText); 
+			isANumber = true;
+		}  
+		catch(NumberFormatException nfe)  
+		{  
+			isANumber = false;  
+		}
+		
+		Assert.assertTrue(isANumber);
+	}
+	
+	@Test
+	public void interestedColumnCheck()
+	{
+		openTestUrl();
+		
+		GridElement grid = $(GridElement.class).first();
+		
+		String attendingText = grid.getCell(0, 6).getText();
+		boolean isANumber;
+		
+		// testing if it is a number or not
+		try  
+		{  
+			double attendingAmount = Double.parseDouble(attendingText); 
+			isANumber = true;
+		}  
+		catch(NumberFormatException e)  
+		{  
+			isANumber = false;  
+		}
+		
+		Assert.assertTrue(isANumber);
+	}
+	
+	@Test
+	public void filteredTitleColumnCheck()
+	{
+		openTestUrl();
+		
+		// getting and entering text into the filter field 
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(0).setValue("pearl");
+		
+		//getting the grid
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals("Pearl Jam", grid.getCell(0, 0).getText());
+	}
+	
+	@Test
+	public void filteredDescriptionColumnCheck()
+	{
+		openTestUrl();
+		
+		// getting and entering text into the filter field 
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(0).setValue("pearl");
+		
+		//getting the grid
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals("Sed sit amet mauris sit amet magna fringilla finibus id in metus. In pulvinar, arcu in accumsan laoreet, enim ex interdum leo, vitae lobortis urna dui in ipsum.", grid.getCell(0, 1).getText());
+	}
+	
+	@Test
+	public void filteredStartTimeColumnCheck()
+	{
+		openTestUrl();
+		
+		// getting and entering text into the filter field 
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(0).setValue("pearl");
+		
+		//getting the grid
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals("Jul 29, 2017 8:00:00 PM", grid.getCell(0, 2).getText());
+	}
+	
+	@Test
+	public void filteredEndTimeColumnCheck()
+	{
+		openTestUrl();
+		
+		// getting and entering text into the filter field 
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(0).setValue("pearl");
+		
+		//getting the grid
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals("Jul 30, 2017 12:00:00 AM", grid.getCell(0, 3).getText());
+	}
+	
+	@Test
+	public void filteredDoorsOpenTimeColumnCheck()
+	{
+		openTestUrl();
+		
+		// getting and entering text into the filter field 
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(0).setValue("pearl");
+		
+		//getting the grid
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals("Jul 29, 2017 6:00:00 PM", grid.getCell(0, 4).getText());
+	}
+	
+	@Test
+	public void filteredAttendingColumnCheck()
+	{
+		openTestUrl();
+		
+		// getting and entering text into the filter field 
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(0).setValue("pearl");
+		
+		//getting the grid
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals("Pearl Jam", grid.getCell(0, 0).getText());
+	}
+	
+	@Test
+	public void filteredInterestedColumnCheck()
+	{
+		openTestUrl();
+		
+		// getting and entering text into the filter field 
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(0).setValue("pearl");
+		
+		//getting the grid
+		GridElement grid = $(GridElement.class).first();
+		
+		Assert.assertEquals("Pearl Jam", grid.getCell(0, 0).getText());
+	}
+	
+	
 
 }
