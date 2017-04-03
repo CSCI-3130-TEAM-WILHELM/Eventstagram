@@ -15,6 +15,8 @@ import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 import com.vaadin.tutorial.eventstagram.backend.OurEventService;
 import com.vaadin.tutorial.eventstagram.backend.User;
 import com.vaadin.tutorial.eventstagram.backend.UserService;
+import com.vaadin.tutorial.eventstagram.backend.City;
+import com.vaadin.tutorial.eventstagram.backend.CityService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -80,6 +82,7 @@ public class EventstagramUI extends UI {
 
     OurEventService service = OurEventService.createDemoService();
     UserService userService = UserService.createDemoService();
+    CityService cityService = CityService.createDemoService();
     LocationService locationService = LocationService.createDemoService();
 
     /*

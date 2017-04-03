@@ -26,26 +26,15 @@ public class LocationService {
             "Brown", "Davis", "Miller", "Wilson", "Moore", "Taylor",
             "Anderson", "Thomas", "Jackson", "White", "Harris", "Martin",
             "Thompson", "Young", "King", "Robinson" };
-    static String[] cities = { "Halifax", "Halifax", "Halifax", "Halifax",
-            "Dartmouth", "Dartmouth", "Halifax", "Halifax", "Halifax", "Dartmouth",
-            "Bedford", "Halifax", "Dartmouth", "Halifax", "Halifax", "Halifax",
-            "Halifax", "Halifax", "Dartmouth", "Halifax" };
-
     
     private static LocationService instance;
-
+    
     public static LocationService createDemoService() {
+
         if (instance == null) {
 
             final LocationService locationService = new LocationService();
-
-            for (int i = 0; i < 20; i++) {
-                OurLocation location = new OurLocation();
-                location.setVenue(venues[i]);
-                location.setAddress(addresses[i]);
-                location.setCity(cities[i]);
-                locationService.save(location);
-            }
+            
             instance = locationService;
         }
 

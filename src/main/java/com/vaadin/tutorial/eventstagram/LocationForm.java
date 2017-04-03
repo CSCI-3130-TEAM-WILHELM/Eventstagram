@@ -3,9 +3,13 @@ package com.vaadin.tutorial.eventstagram;
 //import java.util.ArrayList;
 
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.server.data.DataSource;
 import com.vaadin.tutorial.eventstagram.backend.OurLocation;
+import com.vaadin.tutorial.eventstagram.backend.City;
+import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 //import com.vaadin.tutorial.eventstagram.backend.LocationService;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -14,16 +18,18 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.themes.ValoTheme;
 import com.vaadin.v7.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.v7.data.fieldgroup.FieldGroup;
+import com.vaadin.v7.data.util.BeanItemContainer;
 import com.vaadin.ui.TextField;
+//import com.vaadin.ui.ComboBox;
 
 public class LocationForm extends FormLayout {
 
 	private static final long serialVersionUID = 1L;
     private OurLocation ourLocation = new OurLocation();
+    private ComboBox<City> city;
 	
     TextField venue = new TextField("Venue");
     TextField address = new TextField("Address");
-    TextField city = new TextField("City");
     Button submit = new Button("Submit", this::submit);
     Button update = new Button("Update", this::update);
     Button cancel = new Button("Cancel", this::cancel);
@@ -41,7 +47,15 @@ public class LocationForm extends FormLayout {
     	
         venue.setVisible(true);
         address.setVisible(true);
+        city = new ComboBox<City>("City");
+        BeanItemContainer<City> container = new BeanItemContainer<>(City.class);          
+        city.setData(container);
+        
         city.setVisible(true);
+
+//        city.setContainerDataSource(city);
+//        locationList.setContainerDataSource(new BeanItemContainer<>(OurLocation.class));
+//        city.setData(City.class);
         cancel.setVisible(true);
     }
 
@@ -56,6 +70,7 @@ public class LocationForm extends FormLayout {
     }
 
     public void submit(Button.ClickEvent event){
+    	System.out.println("Submit Pressed");
 		String msg = "";
         if (venue.getValue()==""){
         	msg="Please enter a name for this venue.";
@@ -63,9 +78,9 @@ public class LocationForm extends FormLayout {
         	if (address.getValue()=="") {
         		msg="Please enter an address for this venue.";
         	} else {
-        		if (city.getValue()=="") {
-        			msg="Please enter a city for this venue.";
-        		} else {
+//        		if (city.getValue()=="") {
+//        			msg="Please enter a city for this venue.";
+//        		} else {
         	        try {
         	        	
         	            // Commit the fields from UI to DAO
@@ -88,7 +103,7 @@ public class LocationForm extends FormLayout {
         	        } catch (Exception e) {
         	            // Validation exceptions could be shown here
         	        }
-        		}
+//        		}
         	}
         }
         Notification.show(msg, Type.TRAY_NOTIFICATION);
@@ -101,9 +116,9 @@ public class LocationForm extends FormLayout {
         	if (address.getValue()=="") {
         		msg="Please enter an address for this venue.";
         	} else {
-        		if (city.getValue()=="") {
-        			msg="Please enter a city for this venue.";
-        		} else {
+//        		if (city.getValue()=="") {
+//        			msg="Please enter a city for this venue.";
+//        		} else {
         	        try {
         	        	
         	            // Commit the fields from UI to DAO
@@ -118,14 +133,12 @@ public class LocationForm extends FormLayout {
         	            msg = String.format("Updated '%s %s %s'.", ourLocation.getVenue(),
         	                    ourLocation.getAddress(), ourLocation.getCity());
         	            Notification.show(msg, Type.TRAY_NOTIFICATION);
-        	            getUI().refreshLocations();
-        	            this.setVisible(false);
-        	            getUI().closeLocationButton.setVisible(true);
-        	            getUI().newLocationButton.setVisible(true);
+        	            clearLocationForm();
+        	            closeLocationForm();
         	        } catch (FieldGroup.CommitException e) {
         	            // Validation exceptions could be shown here
         	        }
-        		}
+//        		}
         	}
         }
         Notification.show(msg, Type.TRAY_NOTIFICATION);
@@ -134,20 +147,26 @@ public class LocationForm extends FormLayout {
     public void cancel(Button.ClickEvent event) {
     	System.out.println("Cancel Pressed");
         Notification.show("Cancelled", Type.TRAY_NOTIFICATION);
+    	clearLocationForm();
         closeLocationForm();
     }
 
     void closeLocationForm() {
-    	clearLocationForm();
     	this.setVisible(false);
+    	getUI().locationForm.setVisible(false);
     	getUI().newLocationButton.setVisible(true);
     	getUI().closeLocationButton.setVisible(true);
+    	getUI().locationForm.cancel.setVisible(false);
+    	getUI().refreshLocations();
     }
 
     void clearLocationForm() {
     	venue.setValue("");
     	address.setValue("");
-    	city.setValue("");
+    	city.setSelectedItem(null);
+    	if(ourLocation!=null){
+    		ourLocation.setId(null);
+    	}
     }
 
     void edit(OurLocation ourLocation) {
@@ -157,7 +176,7 @@ public class LocationForm extends FormLayout {
             formFieldBindings = BeanFieldGroup.bindFieldsBuffered(ourLocation,this);
             venue.setValue(this.ourLocation.getVenue());
             address.setValue(this.ourLocation.getAddress());
-            city.setValue(this.ourLocation.getCity());
+//            city.setSelectedItem(this.ourLocation.getCity());
             System.out.println("Editing location id "+this.ourLocation.getId());
             venue.focus();
         }
