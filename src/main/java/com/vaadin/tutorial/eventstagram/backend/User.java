@@ -26,13 +26,13 @@ public class User implements Serializable, Cloneable {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE) 
-    private Long id;
+    //private Long id;
 	
     private String username = "";
     private String password = "";
     private boolean admin = false;
 
-    public Long getId()
+    /*public Long getId()
     {
         return id;
     }
@@ -40,7 +40,7 @@ public class User implements Serializable, Cloneable {
     public void setId(Long id)
     {
         this.id = id;
-    }
+    }*/
 
     public String getUsername()
     {
@@ -82,7 +82,8 @@ public class User implements Serializable, Cloneable {
     @Override
     public String toString()
     {
-        return "Contact{" + "id=" + id + ", User = " + username + '}';
+    	return "Contact{" + ", User = " + username + '}';
+        //return "Contact{" + "id=" + id + ", User = " + username + '}';
     }
 
 }
