@@ -102,6 +102,7 @@ public class CreateAccountForm extends FormLayout {
         else{
         	User emptyUser = new User();
         	emptyUser.setUsername(username.getValue());
+        	emptyUser.setAdmin(false);
         	
         	User returnedUser = getUI().userService.find(emptyUser);
         	
@@ -118,7 +119,7 @@ public class CreateAccountForm extends FormLayout {
 
 	        		else {
 	        			emptyUser.setPassword(password.getValue());
-	        			//getUI().userService.save(emptyUser);
+	        			getUI().userService.save(emptyUser);
 	        			msg = "User Created, please login using your credentials";
 	        			closeForm();
 	            	}
@@ -152,6 +153,7 @@ public class CreateAccountForm extends FormLayout {
     void clearForm() {
     	username.setValue("");
     	password.setValue("");
+    	confirmPassword.setValue("");
     }
 
     void edit(User user) {
