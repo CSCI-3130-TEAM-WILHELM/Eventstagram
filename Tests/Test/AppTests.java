@@ -585,7 +585,7 @@ public class AppTests extends TestBenchTestCase
 		
 		// clicking the new event button
 		allButtons = $(ButtonElement.class).all();
-		allButtons.get(2).click();
+		allButtons.get(0).click();
 		
 		// getting all the text fields
 		allTextFields = $(TextFieldElement.class).all();
@@ -617,7 +617,7 @@ public class AppTests extends TestBenchTestCase
 		
 		// clicking the new event button
 		allButtons = $(ButtonElement.class).all();
-		allButtons.get(2).click();
+		allButtons.get(0).click();
 		
 		// getting all the text fields
 		allTextFields = $(TextFieldElement.class).all();
@@ -654,7 +654,7 @@ public class AppTests extends TestBenchTestCase
 		
 		GridElement grid = $(GridElement.class).first();
 		
-		Assert.assertEquals(grid.getCell(0, 2).getText(), "Dec 3, 2017 8:00:00 PM");
+		Assert.assertEquals(grid.getCell(0, 2).getText(), "Dec 6, 2017 8:00:00 PM");
 	}
 	
 	@Test
@@ -664,7 +664,7 @@ public class AppTests extends TestBenchTestCase
 		
 		GridElement grid = $(GridElement.class).first();
 		
-		Assert.assertEquals(grid.getCell(0, 3).getText(), "Apr 1, 2017 12:00:00 AM");
+		Assert.assertEquals(grid.getCell(0, 3).getText(), "Dec 7, 2017 12:00:00 AM");
 	}
 	
 	@Test
@@ -674,7 +674,7 @@ public class AppTests extends TestBenchTestCase
 		
 		GridElement grid = $(GridElement.class).first();
 		
-		Assert.assertEquals(grid.getCell(0, 4).getText(), "Mar 31, 2017 6:00:00 PM");
+		Assert.assertEquals(grid.getCell(0, 4).getText(), "Dec 6, 2017 6:00:00 PM");
 	}
 	
 	@Test
@@ -708,11 +708,12 @@ public class AppTests extends TestBenchTestCase
 		
 		String attendingText = grid.getCell(0, 6).getText();
 		boolean isANumber;
+		double attendingAmount;
 		
 		// testing if it is a number or not
 		try  
 		{  
-			double attendingAmount = Double.parseDouble(attendingText); 
+			attendingAmount = Double.parseDouble(attendingText); 
 			isANumber = true;
 		}  
 		catch(NumberFormatException e)  
@@ -810,7 +811,22 @@ public class AppTests extends TestBenchTestCase
 		//getting the grid
 		GridElement grid = $(GridElement.class).first();
 		
-		Assert.assertEquals("Pearl Jam", grid.getCell(0, 0).getText());
+		// getting the text
+		String attendingText = grid.getCell(0, 5).getText();
+		boolean isANumber;
+		
+		// testing if it is a number or not
+		try  
+		{  
+			double attendingAmount = Double.parseDouble(attendingText); 
+			isANumber = true;
+		}  
+		catch(NumberFormatException e)  
+		{  
+			isANumber = false;  
+		}
+		
+		Assert.assertTrue(isANumber);
 	}
 	
 	@Test
@@ -825,9 +841,159 @@ public class AppTests extends TestBenchTestCase
 		//getting the grid
 		GridElement grid = $(GridElement.class).first();
 		
-		Assert.assertEquals("Pearl Jam", grid.getCell(0, 0).getText());
+		// getting the text
+		String attendingText = grid.getCell(0, 6).getText();
+		boolean isANumber;
+		
+		// testing if it is a number or not
+		try  
+		{  
+			double attendingAmount = Double.parseDouble(attendingText); 
+			isANumber = true;
+		}  
+		catch(NumberFormatException e)  
+		{  
+			isANumber = false;  
+		}
+		
+		Assert.assertTrue(isANumber);
 	}
 	
+	@Test
+	public void attendingUnusable()
+	{
+		openTestUrl();
+		
+		//getting the grid
+		GridElement grid = $(GridElement.class).first();
+		
+		// clicking the first event
+		grid.getCell(0, 0).click();
+		
+		// getting the labels
+		List<LabelElement> allLabels = $(LabelElement.class).all();
+		
+		// the first label should say that the buttons are unclickable
+		Assert.assertEquals("You must be logged in to use these features.", allLabels.get(0).getText());
+	}
 	
-
+	@Test
+	public void interestedUnusable()
+	{
+		openTestUrl();
+		
+		//getting the grid
+		GridElement grid = $(GridElement.class).first();
+		
+		// clicking the first event
+		grid.getCell(0, 0).click();
+		
+		// getting the labels
+		List<LabelElement> allLabels = $(LabelElement.class).all();
+		
+		// the first label should say that the buttons are unclickable
+		Assert.assertEquals("You must be logged in to use these features.", allLabels.get(0).getText());
+	}
+	
+	@Test
+	public void eventDetailsChangeOnClick()
+	{
+		openTestUrl();
+		
+		//getting the grid
+		GridElement grid = $(GridElement.class).first();
+		
+		// clicking the first event
+		grid.getCell(0, 0).click();
+		
+		// getting the labels
+		List<LabelElement> allLabels = $(LabelElement.class).all();
+		String firstEventName = allLabels.get(1).getText();
+		
+		// clicking the first event
+		grid.getCell(1, 0).click();
+		
+		// getting the labels
+		allLabels = $(LabelElement.class).all();
+		String secondEventName = allLabels.get(1).getText();
+		
+		Assert.assertNotEquals(firstEventName, secondEventName);
+	}
+	
+	@Test
+	public void newPasswordFieldsCleared()
+	{
+		openTestUrl();
+		
+		// The steps to log in
+		ButtonElement loginButton = $(ButtonElement.class).id("loginButtonId");
+		loginButton.click();
+		
+		List<TextFieldElement> allTextFields = $(TextFieldElement.class).all();
+		allTextFields.get(1).setValue("Mike");
+		PasswordFieldElement passwordField = $(PasswordFieldElement.class).first();
+		passwordField.setValue("Jones");
+		
+		// clicking the login submit button
+		List<ButtonElement> allButtons = $(ButtonElement.class).all();
+		allButtons.get(2).click();
+		
+		// clicking the profile page button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(1).click();
+		
+		// clicking the change password button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(4).click();
+		
+		// gets the text fields of changing password
+		List<PasswordFieldElement> allPasswordField = $(PasswordFieldElement.class).all();
+		
+		// old password
+		allPasswordField.get(0).setValue("Jones");
+		// new password 
+		allPasswordField.get(1).setValue("Jones123");;
+		// new password reconfirm
+		allPasswordField.get(2).setValue("Jones123");
+		
+		// clicking the submission button for a new password
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(5).click();
+		
+		// checking out how many buttons are there, the profile page should close leaving 3 buttons
+		allButtons = $(ButtonElement.class).all();
+		Assert.assertEquals(5, allButtons.size());
+		
+		/** Reverting the password **/
+		// clicking the change password button
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(4).click();
+		
+		// gets the text fields of changing password
+		allPasswordField = $(PasswordFieldElement.class).all();
+		
+		// old password
+		allPasswordField.get(0).setValue("Jones123");
+		// new password 
+		allPasswordField.get(1).setValue("Jones");;
+		// new password reconfirm
+		allPasswordField.get(2).setValue("Jones");
+		
+		// clicking the submission button for a new password
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(5).click();
+		
+		// open the change password fields
+		allButtons = $(ButtonElement.class).all();
+		allButtons.get(4).click();
+		
+		allPasswordField = $(PasswordFieldElement.class).all();
+		String oldPassword = allPasswordField.get(0).getText();
+		String newPassword = allPasswordField.get(1).getText();
+		String newPasswordConfirm = allPasswordField.get(2).getText();
+		
+		Assert.assertEquals("", oldPassword);
+		Assert.assertEquals("", newPassword);
+		Assert.assertEquals("", newPasswordConfirm);
+	}
 }
