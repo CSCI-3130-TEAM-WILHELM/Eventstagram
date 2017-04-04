@@ -77,6 +77,7 @@ public class EventstagramUI extends UI {
     EventForm eventForm = new EventForm();
     LoginForm loginForm = new LoginForm();
     LocationForm locationForm = new LocationForm();
+    CreateAccountForm createAccountForm = new CreateAccountForm();
     
     ProfilePageUI profilePageUI = new ProfilePageUI();
 
@@ -118,6 +119,7 @@ public class EventstagramUI extends UI {
         manageLocationsButton.setVisible(false); 			//Set the initial visibility to false
         manageLocationsButton.addClickListener(e -> showLocations()); 		//Show locations on click
         locationForm.setVisible(false);						//Set the initial visibility to false
+        createAccountForm.setVisible(false);
         newLocationButton.setVisible(false); 				//Set the initial visibility to false
         newLocationButton.addClickListener(e -> newLocation());  			//Show the new location form
         closeLocationButton.setVisible(false);				//Set the initial visibility to false
@@ -179,7 +181,7 @@ public class EventstagramUI extends UI {
         eventList.setSizeFull();
         left.setExpandRatio(eventList, 1);
 
-        HorizontalLayout mainLayout = new HorizontalLayout(left, profilePageUI, loginForm);
+        HorizontalLayout mainLayout = new HorizontalLayout(left, profilePageUI, loginForm, createAccountForm);
         mainLayout.setSizeFull();
         mainLayout.setExpandRatio(left, 1);
 
@@ -244,6 +246,12 @@ public class EventstagramUI extends UI {
     	showingLoginForm = !showingLoginForm;
     	
     	loginForm.setVisible(showingLoginForm);
+    }
+    public void openCreateAccountPage()
+    {
+    	//loginForm.setVisible(!showingLoginForm);
+    	//showingLoginForm = !showingLoginForm;
+    	createAccountForm.setVisible(true);
     }
     private void logout(){
     	showingLoginButton=true;							//Change login button state
