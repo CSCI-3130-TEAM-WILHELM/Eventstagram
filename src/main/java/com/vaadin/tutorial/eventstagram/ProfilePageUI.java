@@ -83,7 +83,6 @@ public class ProfilePageUI extends FormLayout
 		//change password of currentUser object (DOES NOT CHANGE DATABASE OBJECT!!)
 		getUI().currentUser.setPassword(newPasswordField.getValue());
 		
-		
 		///////////////////////////////////// changing userservice database object
 		getUI().userService.delete(getUI().currentUser);
 		getUI().userService.save(getUI().currentUser);
@@ -99,6 +98,7 @@ public class ProfilePageUI extends FormLayout
 		}
 		return true;
 	}
+	
 	private void updateInterests()
 	{
 		userInterestsLabel.setValue(interestsTextField.getValue().toString());
@@ -141,7 +141,8 @@ public class ProfilePageUI extends FormLayout
 	}
 	
     @Override
-    public EventstagramUI getUI() {
+    public EventstagramUI getUI()
+    {
         return (EventstagramUI) super.getUI();
     }
 }
