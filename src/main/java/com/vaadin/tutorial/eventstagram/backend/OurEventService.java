@@ -3,7 +3,6 @@ package com.vaadin.tutorial.eventstagram.backend;
 import org.apache.commons.beanutils.BeanUtils;
 
 //import com.vaadin.tutorial.eventstagram.backend.Event;
-
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
