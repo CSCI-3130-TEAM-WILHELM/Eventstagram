@@ -26,7 +26,7 @@ import com.vaadin.ui.TextField;
 
 //CHANGES 2
 
-public class LoginForm extends FormLayout {
+public class CreateAccountForm extends FormLayout {
 
     /**
 	 * 
@@ -36,15 +36,15 @@ public class LoginForm extends FormLayout {
     Button cancel = new Button("Cancel", this::cancel);
     TextField username = new TextField("Username");
     PasswordField password = new PasswordField("Password");
+    PasswordField confirmPassword = new PasswordField("Confirm Password");
     Button submit = new Button("Submit", this::submit);
-    Button createAccount = new Button ("Create Account", this::createAccount);
 
     User user;
     
     // Easily bind forms to beans and manage validation and buffering
     BeanFieldGroup<User> formFieldBindings;
     
-    public LoginForm() {
+    public CreateAccountForm() {
         configureComponents();
         buildLayout();
     }
@@ -70,7 +70,7 @@ public class LoginForm extends FormLayout {
         HorizontalLayout actions = new HorizontalLayout(cancel);
         actions.setSpacing(true);
 
-        addComponents(actions, username, password, submit, createAccount);
+        addComponents(actions, username, password, confirmPassword, submit);
     }
 
     /*
@@ -94,45 +94,42 @@ public class LoginForm extends FormLayout {
         
         if (username.getValue()==""){
         	msg="Please enter a proper username.";
-        	clearLoginForm();
+        }
+        else if (username.getValue().length()<3){
+        	msg="Please enter a username greater than 3 characters";
         }
         //assuming username is presented
         else{
         	User emptyUser = new User();
         	emptyUser.setUsername(username.getValue());
-        	//emptyUser.setPassword(password.getValue());
-        	//////////////////////
-        	//emptyUser.setAdmin(true);
-        	//////////////////////
+        	emptyUser.setAdmin(false);
+        	
         	User returnedUser = getUI().userService.find(emptyUser);
+        	
+        	//username is valid
         	if(returnedUser==null){
-        		msg = "Invalid username or password.";
+        		//ensure password is of some length length
+        		if (password.getValue().length()<4)
+        			msg="please enter a password larger than 4 characters";	
+        		//ensure passwords are the same
+        		else{
+
+	        		if (!password.getValue().equals(confirmPassword.getValue()))
+	        			msg="Passwords do not match";
+
+	        		else {
+	        			emptyUser.setPassword(password.getValue());
+	        			getUI().userService.save(emptyUser);
+	        			msg = "User Created, please login using your credentials";
+	        			closeForm();
+	            	}
+        		}
         		//System.err.println("Database didn't have specified user, but could it save?:");
         		//getUI().userService.save(emptyUser);
         	}
         	//assuming username exists
         	else {
-        		//password matches database user password
-        		if (returnedUser.getPassword().equals(password.getValue())){
-        			msg = "Hello "+username.getValue()+".";
-        			getUI().profilePageUI.userNameLabel.setValue(username.getValue()); //Set the profile page username
-        			getUI().showingLoginButton=!getUI().showingLoginButton;              //Swap the showing login button value
-        			getUI().loginButton.setVisible(getUI().showingLoginButton);          //Hide the login button
-        			getUI().logoutButton.setVisible(!getUI().showingLoginButton);        //Show the logout button
-        			getUI().profilePageButton.setVisible(!getUI().showingLoginButton);   //Show the profile button
-        			getUI().showingLoginForm=!getUI().showingLoginForm;                  //Swap the login form value
-        			getUI().loginForm.setVisible(getUI().showingLoginForm);              //Hide the login form
-        			getUI().newEvent.setVisible(!getUI().showingLoginButton); 			 //Show the new Event button
-        			getUI().manageLocationsButton.setVisible(returnedUser.getAdmin()); //Set the visibility of the manage locations button to the admin status
-        			getUI().currentUser=returnedUser;							 //Give current user object to parent
-        		}
-        		//username and password do not match
-        		else{
-        			msg = "Invalid username or password.";
-        			////////////////////////////////////////
-        			//System.out.println("DBPass = "+returnedUser.getPassword()+"\nEntered Pass = "+password.getValue());
-					///////////////////////////////////////
-        		}
+        		msg = "Username already in use.";
         	}
         }
         
@@ -146,23 +143,17 @@ public class LoginForm extends FormLayout {
     	System.out.println("Cancel Pressed");
         // Place to call business logic.
         Notification.show("Cancelled", Type.TRAY_NOTIFICATION);
-        closeLoginForm();
+        closeForm();
     }
-    public void createAccount(Button.ClickEvent event) {
-    	System.out.println("Create Account button pressed");
-        // Place to call business logic.
-        Notification.show("Creating account", Type.TRAY_NOTIFICATION);
-        closeLoginForm();
-        getUI().openCreateAccountPage();
-    }
-    void closeLoginForm() {
-    	clearLoginForm();
+    void closeForm() {
+    	clearForm();
     	this.setVisible(false);
-    	getUI().showingLoginForm=false;
+    	getUI().createAccountForm.setVisible(false);
     }
-    void clearLoginForm() {
+    void clearForm() {
     	username.setValue("");
     	password.setValue("");
+    	confirmPassword.setValue("");
     }
 
     void edit(User user) {
