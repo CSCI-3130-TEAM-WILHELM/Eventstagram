@@ -42,7 +42,7 @@ import com.vaadin.v7.ui.TextField;
 
 
 @Title("Eventstagram")
-@Theme("valo")
+@Theme("runo")
 @Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
 public class EventstagramUI extends UI {
 	
@@ -206,7 +206,11 @@ public class EventstagramUI extends UI {
 /*        eventList.setContainerDataSource(new BeanItemContainer<>(
         		Event.class, eventservice.findAll(stringFilter)));
 */
+    	if (stringFilter.equals("")||stringFilter==null)
         eventList.setContainerDataSource(new BeanItemContainer<>(
+                OurEvent.class, service.getAll()));
+    	else
+    	eventList.setContainerDataSource(new BeanItemContainer<>(
                 OurEvent.class, service.findAll(stringFilter)));
     	eventForm.setVisible(false);
         profilePageUI.setVisible(false);

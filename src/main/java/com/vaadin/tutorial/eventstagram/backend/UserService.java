@@ -57,8 +57,6 @@ public class UserService {
 
         return instance;
     }
-
-    private HashMap<Long, User> users = new HashMap<>();
     private long nextId = 0;
 
     //old header = public synchronized List<User> findAll(String stringFilter) {

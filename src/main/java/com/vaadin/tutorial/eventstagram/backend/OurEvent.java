@@ -17,9 +17,11 @@ public class OurEvent implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) 
-	private long id=-1;							//Unique event ID
+	@Id 
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    
+    private long id=-1;							//Unique event ID
     
 	private String title="";					//Title	
 	private Date releaseDate;					//Date to be published
