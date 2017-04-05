@@ -51,6 +51,7 @@ public class EventstagramUI extends UI {
 	protected boolean showingLoginForm = false;
 	protected boolean showingLoginButton = true;
 	protected boolean eventEditing = false;
+	protected boolean showLocations = false;
 
     /*
      * Hundreds of widgets. Vaadin's user interface components are just Java
@@ -126,6 +127,7 @@ public class EventstagramUI extends UI {
         closeLocationButton.addClickListener(e -> closeManager());
         
         profilePageButton.addClickListener(e -> openProfilePage());
+        manageLocationsButton.addClickListener(e -> openLocation());
 
         filter.setInputPrompt("Filter Events...");
 //        filter.setPlaceholder("Filter Events...");
@@ -155,7 +157,8 @@ public class EventstagramUI extends UI {
         refreshLocations();
     } 
 
-    /*
+
+	/*
      * Robust layouts.
      *
      * Layouts are components that contain other components. HorizontalLayout
@@ -224,6 +227,12 @@ public class EventstagramUI extends UI {
     	showingProfilePage = !showingProfilePage;
     	profilePageUI.setVisible(showingProfilePage);
     }
+    private void openLocation()
+    {
+    	showLocations =!showLocations;
+    	locationForm.setVisible(showLocations);
+   	
+    }
     private void showLocations(){
     	locationList.setVisible(true);
     	newLocationButton.setVisible(true);
@@ -241,6 +250,7 @@ public class EventstagramUI extends UI {
     	newLocationButton.setVisible(false);
     	closeLocationButton.setVisible(false);
     }
+    
     private void openLoginPage()
     {
     	showingLoginForm = !showingLoginForm;

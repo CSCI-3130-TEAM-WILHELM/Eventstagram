@@ -187,6 +187,7 @@ public class LocationForm extends FormLayout {
         submit.setVisible(false);
         this.setVisible(true);
     }
+    
 
     @Override
     public EventstagramUI getUI() {

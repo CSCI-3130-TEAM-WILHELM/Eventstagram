@@ -8,6 +8,7 @@
  * @brief ProfilePageUI		Used to display the logged in users information to them
  */
 
+
 package com.vaadin.tutorial.eventstagram;
 
 //import com.vaadin.server.VaadinRequest;
