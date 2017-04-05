@@ -2,6 +2,7 @@ package com.vaadin.tutorial.eventstagram;
 
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.tutorial.eventstagram.backend.OurEvent;
+import com.vaadin.tutorial.eventstagram.backend.User;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.FormLayout;
@@ -98,8 +99,9 @@ public class EventForm extends FormLayout {
     }
 */ 
   //method to update user's attendance
-    private void attendingEvent()
+    private void attendingEvent( )
     {
+    	
     	attendingButton.setEnabled(false);
     	ourEvent.setAttending(ourEvent.getAttending()+1);
     	attendingCountLabel.setValue(ourEvent.getAttending() + " people attending");    		

@@ -89,6 +89,9 @@ public class ProfilePageUI extends FormLayout
 		//change password of currentUser and update database
 		getUI().currentUser.setPassword(newPasswordField.getValue());
 		getUI().userService.updatePassword(getUI().currentUser);
+		newPasswordField.clear(); //clears field after submits
+		oldPasswordField.clear();
+		confirmNewPasswordField.clear();
 
 		return true;
 	}
