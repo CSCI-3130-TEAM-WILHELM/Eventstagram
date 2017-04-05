@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import com.vaadin.tutorial.eventstagram.backend.City;
+import javax.persistence.ManyToOne;
 
 
 @Entity(name = "Location")
@@ -16,12 +19,14 @@ public class OurLocation implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
 	
 	private String venue = "";
 	private String address = "";
-    private String city = "";
+	
+	@ManyToOne
+	private City city;
 
     public Long getId()
     {
@@ -53,12 +58,12 @@ public class OurLocation implements Serializable, Cloneable {
         this.address = address;
     }
     
-    public String getCity()
+    public City getCity()
     {
         return city;
     }
 
-    public void setCity(String city)
+    public void setCity(City city)
     {
         this.city = city;
     }

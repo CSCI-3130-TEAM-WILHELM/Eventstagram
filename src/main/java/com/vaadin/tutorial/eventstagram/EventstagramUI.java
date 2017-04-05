@@ -15,6 +15,8 @@ import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 import com.vaadin.tutorial.eventstagram.backend.OurEventService;
 import com.vaadin.tutorial.eventstagram.backend.User;
 import com.vaadin.tutorial.eventstagram.backend.UserService;
+import com.vaadin.tutorial.eventstagram.backend.City;
+import com.vaadin.tutorial.eventstagram.backend.CityService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -40,7 +42,7 @@ import com.vaadin.v7.ui.TextField;
 
 
 @Title("Eventstagram")
-@Theme("valo")
+@Theme("runo")
 @Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
 public class EventstagramUI extends UI {
 	
@@ -75,11 +77,13 @@ public class EventstagramUI extends UI {
     EventForm eventForm = new EventForm();
     LoginForm loginForm = new LoginForm();
     LocationForm locationForm = new LocationForm();
+    CreateAccountForm createAccountForm = new CreateAccountForm();
     
     ProfilePageUI profilePageUI = new ProfilePageUI();
 
     OurEventService service = OurEventService.createDemoService();
     UserService userService = UserService.createDemoService();
+    CityService cityService = CityService.createDemoService();
     LocationService locationService = LocationService.createDemoService();
 
     /*
@@ -115,6 +119,7 @@ public class EventstagramUI extends UI {
         manageLocationsButton.setVisible(false); 			//Set the initial visibility to false
         manageLocationsButton.addClickListener(e -> showLocations()); 		//Show locations on click
         locationForm.setVisible(false);						//Set the initial visibility to false
+        createAccountForm.setVisible(false);
         newLocationButton.setVisible(false); 				//Set the initial visibility to false
         newLocationButton.addClickListener(e -> newLocation());  			//Show the new location form
         closeLocationButton.setVisible(false);				//Set the initial visibility to false
@@ -143,6 +148,8 @@ public class EventstagramUI extends UI {
         
         locationList.setVisible(false); 													//Hide the locationList by default
         locationList.setContainerDataSource(new BeanItemContainer<>(OurLocation.class));	//Pull data from the location class
+        locationList.setColumnOrder("venue", "address", "city"); 							//
+        locationList.removeColumn("id");
         locationList.setSelectionMode(Grid.SelectionMode.SINGLE);							//Only allow one item to be selected at a time
         locationList.addSelectionListener(e -> locationForm.edit((OurLocation) locationList.getSelectedRow()));
         refreshLocations();
@@ -174,7 +181,7 @@ public class EventstagramUI extends UI {
         eventList.setSizeFull();
         left.setExpandRatio(eventList, 1);
 
-        HorizontalLayout mainLayout = new HorizontalLayout(left, profilePageUI, loginForm);
+        HorizontalLayout mainLayout = new HorizontalLayout(left, profilePageUI, loginForm, createAccountForm);
         mainLayout.setSizeFull();
         mainLayout.setExpandRatio(left, 1);
 
@@ -199,19 +206,18 @@ public class EventstagramUI extends UI {
 /*        eventList.setContainerDataSource(new BeanItemContainer<>(
         		Event.class, eventservice.findAll(stringFilter)));
 */
+    	if (stringFilter.equals("")||stringFilter==null)
         eventList.setContainerDataSource(new BeanItemContainer<>(
+                OurEvent.class, service.getAll()));
+    	else
+    	eventList.setContainerDataSource(new BeanItemContainer<>(
                 OurEvent.class, service.findAll(stringFilter)));
     	eventForm.setVisible(false);
         profilePageUI.setVisible(false);
         loginForm.setVisible(showingLoginForm);
     }
     void refreshLocations() {
-        refreshLocations(filter.getValue());
-    }
-    private void refreshLocations(String stringFilter) {
-        locationList.setContainerDataSource(new BeanItemContainer<>(
-                OurLocation.class, locationService.findAll(stringFilter)));
-        locationForm.setVisible(false);
+    	locationList.setContainerDataSource(new BeanItemContainer<>(OurLocation.class, locationService.findAll(null)));
     }
     
     /**!
@@ -230,6 +236,8 @@ public class EventstagramUI extends UI {
     private void newLocation(){
     	newLocationButton.setVisible(false);
     	closeLocationButton.setVisible(false);
+    	locationForm.submit.setVisible(true);
+    	locationForm.update.setVisible(false);
     	locationForm.setVisible(true);
     }
     private void closeManager(){
@@ -242,6 +250,12 @@ public class EventstagramUI extends UI {
     	showingLoginForm = !showingLoginForm;
     	
     	loginForm.setVisible(showingLoginForm);
+    }
+    public void openCreateAccountPage()
+    {
+    	//loginForm.setVisible(!showingLoginForm);
+    	//showingLoginForm = !showingLoginForm;
+    	createAccountForm.setVisible(true);
     }
     private void logout(){
     	showingLoginButton=true;							//Change login button state

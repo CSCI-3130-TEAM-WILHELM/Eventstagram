@@ -12,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -87,6 +88,7 @@ public class OurEventService {
     private long nextId = 0;
 
 //    public synchronized List<? extends com.vaadin.ui.Component.Event> findAll(String stringFilter) {
+   /*
     public synchronized List<OurEvent> findAll(String stringFilter) {
         ArrayList arrayList = new ArrayList();
         for (OurEvent ourEvent : events.values()) {
@@ -110,27 +112,116 @@ public class OurEventService {
             }
         });
         return arrayList;
+    }*/
+    public synchronized OurEvent find (OurEvent event){
+    	EntityManager em = getEntityManager();
+    	
+    	//get user with matching username from database
+    	OurEvent returnedEvent=em.find(OurEvent.class, event.getId());
+    	
+    	//if it doesn't exist, return null
+    	if(returnedEvent == null){
+    		System.err.println("User "+event.getTitle()+" was not found in database");
+    		return null;
+    	}
+    	
+    	return returnedEvent;
+    }
+    public synchronized List<OurEvent> getAll (){
+    	EntityManager em = getEntityManager();
+    	List<OurEvent> results = em
+                .createQuery("Select a from OurEvent a", OurEvent.class)
+                .getResultList();
+    	return results;
+    }
+    public synchronized List<OurEvent> findAll (String value){
+    	EntityManager em = getEntityManager();
+    	/*
+    	if (isNumeric(value)){
+	    	List<OurEvent> results = em
+	    			.createQuery("SELECT e " +
+	                   "FROM OurEvent e " +
+	                   "WHERE e.start BETWEEN :start AND :end")
+	    			.setParameter("start", new Date(), TemporalType.DATE)
+	    			.setParameter("end", new Date(), TemporalType.DATE)
+	    			.getResultList();
+	    	return results;
+    	}*/
+	    
+	    	List<OurEvent> results = em
+	                .createQuery("Select a from OurEvent a WHERE a.title LIKE '%"+value+"%' OR a.description LIKE '%"+value+"%'")
+	                .getResultList();
+	    	return results;
+	    
+    	
+    }
+    public static boolean isNumeric(String str)  
+    {  
+      try  
+      {  
+        double d = Double.parseDouble(str);  
+      }  
+      catch(NumberFormatException nfe)  
+      {  
+        return false;  
+      }  
+      return true;  
     }
 
     public synchronized long count() {
-        return events.size();
+    	EntityManager em = getEntityManager();
+    	
+    	String sql = "SELECT COUNT(id) FROM OurEvent";
+    	Query q = em.createQuery(sql);
+    	long count = (long)q.getSingleResult();
+        return count;
     }
 
-    public synchronized void delete(OurEvent value) {
-        events.remove(value.getId());
+    public synchronized void delete(OurEvent input) {
+    	EntityManager em = getEntityManager();
+        
+    	try {
+        	//check if user already exists
+        	if(em.find(User.class, input.getId()) == null){
+        		System.out.println("Object added to database:"+input.getTitle());
+        		em.getTransaction().begin();
+            	em.remove(input);
+            	em.getTransaction().commit();
+        	}
+        	else{
+        		System.err.println("Object already exists in database.");
+        	}
+        	
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        } finally{
+            em.close();
+        }
     }
 
     public synchronized void save(OurEvent entry) {
-        if (entry.getId() == -1) {
-            entry.setId(nextId++);
-        }
+    	EntityManager em = getEntityManager();
         try {
-            entry = (OurEvent) BeanUtils.cloneBean(entry);
+        	
+        	//check if event already exists
+        	if(em.find(OurEvent.class, entry.getId()) == null){
+        		System.out.println("Object added to database:"+entry.getTitle());
+        		em.getTransaction().begin();
+            	em.persist(entry);
+            	em.getTransaction().commit();
+        	}
+        	else{
+        		System.err.println("Object already exists in database.");
+        	}
+        	
         } catch (Exception ex) {
             throw new RuntimeException(ex);
+        } finally{
+            em.close();
         }
-        events.put(entry.getId(), entry);
     }
-
+    private EntityManager getEntityManager() {
+        return this.emf.createEntityManager();
+    }
 
 }

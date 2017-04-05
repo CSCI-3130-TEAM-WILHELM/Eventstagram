@@ -40,6 +40,7 @@ public class EventForm extends FormLayout {
     Button attendingButton = new Button("Attending");
     Button interestedButton = new Button("Interested");
     Label loginWarning = new Label("You must be logged in to use these features.");
+    Button submitButton = new Button ("Submit",this::submitEvent);
     		
     // Easily bind forms to beans and manage validation and buffering
     BeanFieldGroup<OurEvent> formFieldBindings;
@@ -70,7 +71,7 @@ public class EventForm extends FormLayout {
         HorizontalLayout dates = new HorizontalLayout(start, eventStart, end, eventEnd, open, eventOpen);
         dates.setSpacing(true);
 
-        addComponents(actions, title, eventTitle, description, eventDescription, dates, attendingCountLabel, interestedCountLabel);
+        addComponents(actions, title, eventTitle, description, eventDescription, dates, attendingCountLabel, interestedCountLabel, submitButton);
     }
 
     
@@ -112,6 +113,18 @@ public class EventForm extends FormLayout {
     		interestedCountLabel.setValue(ourEvent.getInterested() + " people interested");
     	}    	
     }
+    public void submitEvent(Button.ClickEvent event){
+    	OurEvent input = new OurEvent();
+    	input.setTitle(title.getValue());
+    	input.setDescription(description.getValue());
+    	input.setOpen(open.getValue());
+    	input.setStart(start.getValue());
+    	input.setEnd(end.getValue());
+    	
+    	getUI().service.save(input);
+    	getUI().refreshEvents();
+    	closeEventForm();
+    }
     
   //method to update user's interestedness
     private void interestedEvent()
@@ -144,6 +157,7 @@ public class EventForm extends FormLayout {
         eventOpen.setVisible(false);
         attendingCountLabel.setVisible(false);
     	interestedCountLabel.setVisible(false);
+    	submitButton.setVisible(true);
     
         this.ourEvent = ourEvent;
         if (ourEvent != null) {
@@ -170,6 +184,7 @@ public class EventForm extends FormLayout {
 		eventEnd.setVisible(true);
 		open.setVisible(false);
 		eventOpen.setVisible(true);
+		submitButton.setVisible(false);
 		attendingButton.getParent().setVisible(true);
 		attendingButton.setEnabled(isLoggedin);
 		interestedButton.setEnabled(isLoggedin);
@@ -193,7 +208,18 @@ public class EventForm extends FormLayout {
         }
         setVisible(ourEvent != null);
     }
-
+    void closeEventForm() {
+    	clearEventForm();
+    	this.setVisible(false);
+    	getUI().showingLoginForm=false;
+    }
+    void clearEventForm(){
+    	title.setValue("");
+    	description.setValue("");
+    	start.setValue(null);
+    	end.setValue(null);
+    	open.setValue(null);
+    }
     @Override
     public EventstagramUI getUI() {
         return (EventstagramUI) super.getUI();

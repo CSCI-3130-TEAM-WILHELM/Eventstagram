@@ -17,9 +17,11 @@ public class OurEvent implements Serializable, Cloneable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) 
-	private long id=-1;							//Unique event ID
+	@Id 
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    
+    private long id=-1;							//Unique event ID
     
 	private String title="";					//Title	
 	private Date releaseDate;					//Date to be published
@@ -130,7 +132,7 @@ public class OurEvent implements Serializable, Cloneable {
 
 @Override
 	public String toString() {
-		return "Event{" + "id=" + id + ", Title = " + title + '}';
+		return "Event{" + "id=" + id + ", Title = " + title + ", Start Time = " + start+ ", /nDescription = " + description+"}";
 	}
 
 }
