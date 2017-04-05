@@ -28,11 +28,8 @@ public class ProfilePageUI extends FormLayout
 	 */
 	private static final long serialVersionUID = 1L;
 	Label userNameLabel = new Label("Your username");
-	Label userNameContent = new Label("");
 	Label userInterestsLabel = new Label("Your interests");
 	Label locationLabel = new Label("You are here");
-	
-	
 	
 	Button changeInterestButton = new Button("Modify Interests");
 	TextField interestsTextField = new TextField("My interests");
@@ -77,19 +74,19 @@ public class ProfilePageUI extends FormLayout
 	//INCOMPLETE
 	private boolean compareNewtoOldPassword() {
 		if (!oldPasswordField.getValue().equals(getUI().currentUser.getPassword())){
-			//////////////////////////////////////////////////////////////////
 			System.err.println("New and Old Passwords do not match");
 			System.err.println("Current Pass ="+getUI().currentUser.getPassword());
 			System.err.println("New Pass ="+newPasswordField.getValue());
-			//////////////////////////////////////////////////////////////////
-			
 			Notification.show("New and Old passwords do not match.", Type.TRAY_NOTIFICATION);
 			return false;
 		}
-		//change password of currentUser and update database
+		//change password of currentUser object (DOES NOT CHANGE DATABASE OBJECT!!)
 		getUI().currentUser.setPassword(newPasswordField.getValue());
-		getUI().userService.updatePassword(getUI().currentUser);
-
+		
+		///////////////////////////////////// changing userservice database object
+		getUI().userService.delete(getUI().currentUser);
+		getUI().userService.save(getUI().currentUser);
+		/////////////////////////////////////
 		return true;
 	}
 
@@ -101,6 +98,7 @@ public class ProfilePageUI extends FormLayout
 		}
 		return true;
 	}
+	
 	private void updateInterests()
 	{
 		userInterestsLabel.setValue(interestsTextField.getValue().toString());
@@ -124,15 +122,15 @@ public class ProfilePageUI extends FormLayout
         setMargin(true);
 
         if (extraPieces == 0)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
+        	addComponents(userNameLabel, userInterestsLabel, locationLabel, 
         			  	  changeInterestButton, changePasswordButton);
         
         if (extraPieces == 1)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
+        	addComponents(userNameLabel, userInterestsLabel, locationLabel, 
         			  	  changeInterestButton, changePasswordButton, changeInterestButton,
         			  	  interestsTextField, submitNewInterestsButton);
         else if (extraPieces == 2)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
+        	addComponents(userNameLabel, userInterestsLabel, locationLabel, 
   			  	  		  changeInterestButton, changePasswordButton, oldPasswordField,
   			  	  		  newPasswordField, confirmNewPasswordField, submitNewPasswordButton);
 	}
@@ -143,7 +141,8 @@ public class ProfilePageUI extends FormLayout
 	}
 	
     @Override
-    public EventstagramUI getUI() {
+    public EventstagramUI getUI()
+    {
         return (EventstagramUI) super.getUI();
     }
 }
