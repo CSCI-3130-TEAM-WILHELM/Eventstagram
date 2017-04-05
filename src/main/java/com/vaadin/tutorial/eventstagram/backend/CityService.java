@@ -13,43 +13,44 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-public class LocationService {
+public class CityService {
 
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("EventstagramDB");
 
     // Create dummy data by randomly combining first and last names
-    static String[] venues = { "Peter", "Aliee", "John", "Mike", "Olivia",
-            "Nina", "Alex", "Rita", "Dan", "Umberto", "Henrik", "Rene", "Lisa",
-            "Linda", "Timothy", "Daniel", "Brian", "George", "Scott",
-            "Jennifer" };
-    static String[] addresses = { "Smith", "Johnson", "Williams", "Jones",
-            "Brown", "Davis", "Miller", "Wilson", "Moore", "Taylor",
-            "Anderson", "Thomas", "Jackson", "White", "Harris", "Martin",
-            "Thompson", "Young", "King", "Robinson" };
-    
-    private static LocationService instance;
-    
-    public static LocationService createDemoService() {
+    static String[] cities = { "Halifax", "Halifax", "Halifax", "Halifax",
+            "Dartmouth", "Dartmouth", "Halifax", "Halifax", "Halifax", "Dartmouth",
+            "Bedford", "Halifax", "Dartmouth", "Halifax", "Halifax", "Halifax",
+            "Halifax", "Halifax", "Dartmouth", "Halifax" };
 
+    
+    private static CityService instance;
+
+    public static CityService createDemoService() {
         if (instance == null) {
 
-            final LocationService locationService = new LocationService();
-            
-            instance = locationService;
+            final CityService cityService = new CityService();
+
+            for (int i = 0; i < 20; i++) {
+                City city = new City();
+                city.setName(cities[i]);
+                city.setId((long) i);
+                cityService.save(city);
+            }
+            instance = cityService;
         }
 
         return instance;
     }
 
-    public synchronized List<OurLocation> findAll(String stringFilter) {
+    public synchronized List<City> findAll(String stringFilter) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(OurLocation.class));
+            cq.select(cq.from(City.class));
             Query q = em.createQuery(cq);
             return q.getResultList();
-        } 
-        finally {
+        } finally {
             em.close();
         }
     }
@@ -58,55 +59,51 @@ public class LocationService {
        EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<OurLocation> rt = cq.from(OurLocation.class);
+            Root<City> rt = cq.from(City.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        } 
-        finally {
+        } finally {
             em.close();
         }
     }
 
-    public synchronized void delete(OurLocation value) {
+    public synchronized void delete(City value) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             em.remove(value);
             em.getTransaction().commit();
-        } 
-        finally {
+        } finally {
             if (em != null) {
                 em.close();
             }
         }
     }
 
-    public synchronized void save(OurLocation entry) {
+    public synchronized void save(City entry) {
         EntityManager em = getEntityManager();
+        System.out.println("attempting to save" + entry.toString());
         try {
           
             em.getTransaction().begin();
             em.persist(entry);
             em.getTransaction().commit();
-        } 
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }finally
         {
             em.close();
         }
     }
-    public synchronized void update(OurLocation entry) {
+    public synchronized void update(City entry) {
         EntityManager em = getEntityManager();
         
         try {
-            OurLocation ourLocation = em.find(OurLocation.class, entry.getId());
+            City city = em.find(City.class, entry.getId());
             em.getTransaction().begin();
-            ourLocation.setVenue(entry.getVenue());
-            ourLocation.setAddress(entry.getAddress());
-            ourLocation.setCity(entry.getCity());
+            city.setName(entry.getName());
             em.getTransaction().commit();
         } catch (Exception ex) {
             throw new RuntimeException(ex);

@@ -130,7 +130,7 @@ public class OurEvent implements Serializable, Cloneable {
 
 @Override
 	public String toString() {
-		return "Event{" + "id=" + id + ", Title = " + title + '}';
+		return "Event{" + "id=" + id + ", Title = " + title + ", Start Time = " + start+ ", /nDescription = " + description+"}";
 	}
 
 }

@@ -5,6 +5,7 @@
 		<class>com.vaadin.tutorial.eventstagram.backend.OurLocation</class>
 		<class>com.vaadin.tutorial.eventstagram.backend.OurEvent</class>
 		<class>com.vaadin.tutorial.eventstagram.backend.User</class>
+		<class>com.vaadin.tutorial.eventstagram.backend.City</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
 			<property name="javax.persistence.jdbc.url" value="jdbc:h2:./EvenstagramDB"/>
