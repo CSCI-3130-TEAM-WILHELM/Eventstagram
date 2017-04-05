@@ -108,7 +108,8 @@ public class LocationService {
             cq.select(cq.from(OurLocation.class));
             Query q = em.createQuery(cq);
             return q.getResultList();
-        } finally {
+        } 
+        finally {
             em.close();
         }
     }
@@ -121,7 +122,8 @@ public class LocationService {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        } finally {
+        } 
+        finally {
             em.close();
         }
     }
@@ -133,7 +135,8 @@ public class LocationService {
             em.getTransaction().begin();
             em.remove(value);
             em.getTransaction().commit();
-        } finally {
+        } 
+        finally {
             if (em != null) {
                 em.close();
             }
@@ -148,7 +151,8 @@ public class LocationService {
             em.getTransaction().begin();
             em.persist(entry);
             em.getTransaction().commit();
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) {
             throw new RuntimeException(ex);
         }finally
         {

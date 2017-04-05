@@ -1,5 +1,8 @@
 package com.vaadin.tutorial.eventstagram;
 
+import java.util.ArrayList;
+
+//import com.vaadin.server.AbstractErrorMessage.ContentMode;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 import com.vaadin.ui.Button;
@@ -7,6 +10,7 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.v7.data.fieldgroup.BeanFieldGroup;
+import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.DateField;
 import com.vaadin.ui.TextField;
 //import com.vaadin.ui.TextArea;
@@ -25,7 +29,7 @@ public class EventForm extends FormLayout {
 	private static final long serialVersionUID = 1L;
 	OurEvent ourEvent;
     Label eventTitle = new Label();
-    Label eventDescription = new Label();
+    Label eventDescription = new Label("\n",com.vaadin.shared.ui.label.ContentMode.PREFORMATTED);
     TextField title = new TextField("Title");
     TextField description = new TextField("Description");
     Label eventStart = new Label("Start: ");
@@ -188,6 +192,12 @@ public class EventForm extends FormLayout {
             eventOpen.setValue("Doors Open: "+ourEvent.getOpen()+"     ");
             eventTitle.setValue(ourEvent.getTitle());
             eventDescription.setValue(ourEvent.getDescription());
+            
+            //ArrayList<Label> descriptionLabels = createDescriptionLabels(ourEvent.getDescription());
+            /*for(Label current: descriptionLabels){
+            	current.setVisible(true);
+            	addComponents(current);
+            }*/
             attendingCountLabel.setValue(ourEvent.getAttending()+" people attending");
         	interestedCountLabel.setValue(ourEvent.getInterested()+" people interested");
         }
@@ -198,4 +208,17 @@ public class EventForm extends FormLayout {
     public EventstagramUI getUI() {
         return (EventstagramUI) super.getUI();
     }
+    
+    private ArrayList<Label> createDescriptionLabels(String description){
+    	ArrayList<Label> DescriptionLabel = new ArrayList<Label>();
+    	String [] splitdescription = description.split(".");
+    	int size = splitdescription.length;
+    	Label current; 
+    	for(int i=0; i<size; i++){
+    		current = new Label(splitdescription[i]);
+    		DescriptionLabel.add(current);
+    	}   	
+    	return DescriptionLabel;
+    }
+    
 }

@@ -111,6 +111,7 @@ public class LocationForm extends FormLayout {
         }
         setVisible(ourLocation != null);
     }
+    
 
     @Override
     public EventstagramUI getUI() {

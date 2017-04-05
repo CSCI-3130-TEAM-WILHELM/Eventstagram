@@ -74,7 +74,6 @@ public class ProfilePageUI extends FormLayout
 		}
 	}
 	
-	//INCOMPLETE
 	private boolean compareNewtoOldPassword() {
 		if (!oldPasswordField.getValue().equals(getUI().currentUser.getPassword())){
 			System.err.println("New and Old Passwords do not match");
