@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.vaadin.tutorial.eventstagram.backend.City;
 import com.vaadin.tutorial.eventstagram.backend.Contact;
 import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 import com.vaadin.tutorial.eventstagram.backend.OurLocation;
@@ -76,17 +77,6 @@ public class ObjectClassTests extends TestCase
 		Assert.assertEquals("Contact{" + "id=" + id + ", event = " + event + "}", contact.toString());
 	}
 	
-	@Test
-	public void testSettingUserId()
-	{
-	    Long id = (long) 45;
-	    
-	    User user = new User();
-	    user.setId(id);
-	    
-	    Assert.assertEquals(id, user.getId());
-	}
-	
 	public void testSettingUsername()
 	{
 		String username = "B";
@@ -120,13 +110,11 @@ public class ObjectClassTests extends TestCase
 	@Test
 	public void testCloningUser()
 	{
-	    Long id = (long) 45;
 		String username = "B";
 	    String password = "R";
 	    boolean isAdmin = false;
 		
 	    User user = new User();
-	    user.setId(id);
 	    user.setUsername(username);
 	    user.setPassword(password);
 	    user.setAdmin(isAdmin);
@@ -149,35 +137,31 @@ public class ObjectClassTests extends TestCase
 	@Test
 	public void testMakingUser()
 	{
-	    Long id = (long) 45;
 		String username = "B";
 	    String password = "R";
 	    boolean isAdmin = false;
 	    
 	    User user = new User();
-	    user.setId(id);
 	    user.setUsername(username);
 	    user.setPassword(password);
 	    user.setAdmin(isAdmin);
 	    
-	    Assert.assertEquals("Contact{" + "id=" + id + ", User = " + username + '}', user.toString());
+	    Assert.assertEquals("Contact{" + ", User = " + username + '}', user.toString());
 	}
 	
 	@Test
 	public void testMakingAdminUser()
 	{
-	    Long id = (long) 45;
 		String username = "B";
 	    String password = "R";
 	    boolean isAdmin = true;
 	    
 	    User user = new User();
-	    user.setId(id);
 	    user.setUsername(username);
 	    user.setPassword(password);
 	    user.setAdmin(isAdmin);
 	    
-	    Assert.assertEquals("Contact{" + "id=" + id + ", User = " + username + "}", user.toString());
+	    Assert.assertEquals("Contact{" + ", User = " + username + "}", user.toString());
 	}
 	
 	@Test
@@ -200,6 +184,31 @@ public class ObjectClassTests extends TestCase
 		ourEvent.setTitle(title);
 		
 		Assert.assertEquals(title, ourEvent.getTitle());
+	}
+	
+	@Test
+	public void testStartTimeOurEvent()
+	{	
+		String date = " 2011-01-18 00:00:00.0";
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyy-mm-dd hh:mm:ss"); 
+		Date finishedDate;
+		
+		try
+		{
+			finishedDate = dateFormat.parse(date);
+		}
+		catch (ParseException e)
+		{
+			e.printStackTrace();
+			finishedDate = null;
+		} 
+					
+		Date start = finishedDate;			
+		
+		OurEvent ourEvent = new OurEvent();
+		ourEvent.setStart(start);
+		
+		Assert.assertEquals(start, ourEvent.getStart());
 	}
 	
 	@Test
@@ -410,6 +419,7 @@ public class ObjectClassTests extends TestCase
 		ourEvent.setId(id);
 		ourEvent.setTitle(title);
 		ourEvent.setReleaseDates(releaseDate);
+		ourEvent.setStart(start);
 		ourEvent.setOpen(open);
 		ourEvent.setEnd(end);
 		ourEvent.setLocationId(locationId);
@@ -417,7 +427,7 @@ public class ObjectClassTests extends TestCase
 		ourEvent.setAttending(attending);
 		ourEvent.setInterested(interested);
 		
-		Assert.assertEquals("Event{" + "id=" + id + ", Title = " + title + '}', ourEvent.toString());
+		Assert.assertEquals("Event{" + "id=" + id + ", Title = " + title + ", Start Time = " + start+ ", /nDescription = " + description+"}", ourEvent.toString());
 	}
 	
 	@Test
@@ -439,7 +449,7 @@ public class ObjectClassTests extends TestCase
 	    OurLocation ourLocation = new OurLocation();
 	    ourLocation.setVenue(venue);
 	    
-	    Assert.assertEquals(venue, ourLocation.toString());
+	    Assert.assertEquals(venue, ourLocation.getVenue());
 	}
 	
 	@Test
@@ -456,7 +466,9 @@ public class ObjectClassTests extends TestCase
 	@Test
 	public void testCitiesOurLocatiion()
 	{
-	    String city = "E";
+	    City city = new City();
+	    city.setId((long) 22);
+	    city.setName("E");
 	    
 	    OurLocation ourLocation = new OurLocation();
 	    ourLocation.setCity(city);
@@ -470,7 +482,9 @@ public class ObjectClassTests extends TestCase
 	    long id = 45;
 		String venue = "B";
 		String address = "R";
-	    String city = "E";
+	    City city = new City();
+	    city.setId((long) 22);
+	    city.setName("E");
 	    
 	    OurLocation ourLocation = new OurLocation();
 	    ourLocation.setId(id);
@@ -478,6 +492,42 @@ public class ObjectClassTests extends TestCase
 	    ourLocation.setAddress(address);
 	    ourLocation.setCity(city);
 	    
-	    Assert.assertEquals("OurLocation{" + "id=" + id + ", venue = " + venue + ", address = " + address + ", city = " + city + "}", ourLocation.toString());
+	    Assert.assertEquals("OurLocation{" + "id=" + id + ", venue = " + venue + ", address = " + address + ", city = " + city.toString() + "}", ourLocation.toString());
 	}
+
+	@Test
+	public void testSettingNameCity()
+	{
+		Long id = (long) 45;
+		
+		City city = new City();
+		city.setId(id);
+		
+		Assert.assertEquals(id, city.getId());
+	}
+	
+	@Test
+	public void testSettingIdCity()
+	{
+		String name = "b";
+		
+		City city = new City();
+		city.setName(name);
+		
+		Assert.assertEquals(name, city.getName());
+	}
+	
+	@Test
+	public void testMakingCity()
+	{
+		Long id = (long) 45;
+		String name = "b";
+		
+		City city = new City();
+		city.setId(id);
+		city.setName(name);
+		
+		Assert.assertEquals("City{" + "id=" + id + ", name = " + name + "}", city.toString());
+	}
+	
 }

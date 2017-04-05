@@ -104,7 +104,58 @@ public class ServiceClassTests extends TestCase
 	}
 	
 	@Test
-	public void creatingNewInstanceOurEvent()
+	public void testIsNumericPosOurEventService()
+	{
+		String number = "45";
+		
+		OurEventService ourEventService = new OurEventService();
+		
+		boolean isNumber = ourEventService.isNumeric(number);
+		
+		Assert.assertTrue(isNumber);
+	}
+	
+	@Test
+	public void testIsNumericNegOurEventService()
+	{
+		String number = "-45";
+		
+		OurEventService ourEventService = new OurEventService();
+		
+		boolean isNumber = ourEventService.isNumeric(number);
+		
+		Assert.assertTrue(isNumber);
+	}
+	
+	@Test
+	public void testIsNumericDecOurEventService()
+	{
+		String number = "45.661675";
+		
+		OurEventService ourEventService = new OurEventService();
+		
+		boolean isNumber = ourEventService.isNumeric(number);
+		
+		Assert.assertTrue(isNumber);
+	}
+	
+	@Test
+	public void testIsNumericNaNOurEventService()
+	{
+		String number = "B";
+		
+		OurEventService ourEventService = new OurEventService();
+		
+		boolean isNumber = ourEventService.isNumeric(number);
+		
+		if (isNumber)
+			Assert.assertTrue(false);
+		else
+			Assert.assertTrue(true);
+	}
+	
+	@Test
+	public void testCreatingNewInstanceOurEvent()
 	{
 		OurEventService ourEventService = OurEventService.createDemoService();
 		
@@ -259,32 +310,47 @@ public class ServiceClassTests extends TestCase
 	}
 	
 	@Test
-	public void testGetListOfUsers()
+	public void testFindingUser()
 	{
 		UserService userService = UserService.createDemoService();
 		
-		List<User> users = userService.findAll("");
+		User user = new User();
+		user.setUsername("Peter");
 		
-		if (users == null)
+		user = userService.find(user);
+		
+		if (user == null)
 			Assert.assertTrue(false);
 		else
 			Assert.assertTrue(true);
 	}
 	
 	@Test
-	public void testDeleteUserFromService()
+	public void testChangePasswordUserFromService()
 	{
 		UserService userService = UserService.createDemoService();
 		
-		List<User> users = userService.findAll("");
+		User user = new User();
+		user.setUsername("Peter");
 		
-		int originalSize = users.size();
+		user = userService.find(user);
 		
-		userService.delete(users.get(0));
-		
-		users = userService.findAll("");
-		
-		Assert.assertNotEquals(originalSize, users.size());
+		if (user == null)
+			Assert.assertTrue(false);
+		else
+		{
+			String firstPassword = user.getPassword();
+			
+			user.setPassword("Smith123");
+			userService.updatePassword(user);
+			
+			user = userService.find(user);
+			
+			Assert.assertNotEquals(firstPassword, user.getPassword());
+			
+			user.setPassword(firstPassword);
+			userService.updatePassword(user);
+		}
 	}
 	
 	@Test
@@ -292,18 +358,17 @@ public class ServiceClassTests extends TestCase
 	{
 		UserService userService = UserService.createDemoService();
 		
-		List<User> users = userService.findAll("");
+		User user = new User();
+		user.setAdmin(false);
+		user.setPassword("b");
+		user.setUsername("b");
 		
-		int originalSize = users.size();
+		userService.save(user);
 		
-		User newUser = users.get(0);
-		newUser.setId(null);
+		User newUser = new User();
+		newUser = userService.find(user);
 		
-		userService.save(newUser);
-		
-		users = userService.findAll("");
-		
-		Assert.assertNotEquals(originalSize, users.size());
+		Assert.assertEquals(user.toString(), newUser.toString());
 	}
 
 }
