@@ -2,14 +2,11 @@ package com.vaadin.tutorial.eventstagram;
 
 //import java.util.ArrayList;
 
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.data.DataSource;
 import com.vaadin.tutorial.eventstagram.backend.OurLocation;
-import com.vaadin.tutorial.eventstagram.backend.City;
 import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 //import com.vaadin.tutorial.eventstagram.backend.LocationService;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -27,14 +24,13 @@ public class LocationForm extends FormLayout {
 
 	private static final long serialVersionUID = 1L;
     private OurLocation ourLocation = new OurLocation();
-    private ComboBox<City> city;
 	
     TextField venue = new TextField("Venue");
     TextField address = new TextField("Address");
+    TextField city = new TextField("City");
     Button submit = new Button("Submit", this::submit);
     Button update = new Button("Update", this::update);
     Button cancel = new Button("Cancel", this::cancel);
-    Grid cityList = new Grid();	
     
     BeanFieldGroup<OurLocation> formFieldBindings;
     
@@ -48,13 +44,7 @@ public class LocationForm extends FormLayout {
     	
         venue.setVisible(true);
         address.setVisible(true);
-        city = new ComboBox<City>("City");
-        
         city.setVisible(true);
-
-        cityList.setContainerDataSource(new BeanItemContainer<>(City.class));
-        cityList.setSelectionMode(Grid.SelectionMode.SINGLE);
-        refreshCities();
         cancel.setVisible(true);
     }
 
@@ -65,7 +55,7 @@ public class LocationForm extends FormLayout {
         HorizontalLayout actions = new HorizontalLayout(submit, update,  cancel);
         actions.setSpacing(true);
 
-        addComponents(venue, address, city, actions, cityList);
+        addComponents(venue, address, city, actions);
     }
 
     public void submit(Button.ClickEvent event){
@@ -166,7 +156,7 @@ public class LocationForm extends FormLayout {
     void clearLocationForm() {
     	venue.setValue("");
     	address.setValue("");
-    	city.setSelectedItem(null);
+    	city.setValue("");
     	if(ourLocation!=null){
     		ourLocation.setId(null);
     	}

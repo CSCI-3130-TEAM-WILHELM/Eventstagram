@@ -7,7 +7,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.vaadin.tutorial.eventstagram.backend.City;
 import com.vaadin.tutorial.eventstagram.backend.Contact;
 import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 import com.vaadin.tutorial.eventstagram.backend.OurLocation;
@@ -464,27 +463,12 @@ public class ObjectClassTests extends TestCase
 	}
 	
 	@Test
-	public void testCitiesOurLocatiion()
-	{
-	    City city = new City();
-	    city.setId((long) 22);
-	    city.setName("E");
-	    
-	    OurLocation ourLocation = new OurLocation();
-	    ourLocation.setCity(city);
-	    
-	    Assert.assertEquals(city, ourLocation.getCity());
-	}
-	
-	@Test
 	public void testMakingOurLocatiion()
 	{
 	    long id = 45;
 		String venue = "B";
 		String address = "R";
-	    City city = new City();
-	    city.setId((long) 22);
-	    city.setName("E");
+	    String city = "A";
 	    
 	    OurLocation ourLocation = new OurLocation();
 	    ourLocation.setId(id);
@@ -495,39 +479,4 @@ public class ObjectClassTests extends TestCase
 	    Assert.assertEquals("OurLocation{" + "id=" + id + ", venue = " + venue + ", address = " + address + ", city = " + city.toString() + "}", ourLocation.toString());
 	}
 
-	@Test
-	public void testSettingNameCity()
-	{
-		Long id = (long) 45;
-		
-		City city = new City();
-		city.setId(id);
-		
-		Assert.assertEquals(id, city.getId());
-	}
-	
-	@Test
-	public void testSettingIdCity()
-	{
-		String name = "b";
-		
-		City city = new City();
-		city.setName(name);
-		
-		Assert.assertEquals(name, city.getName());
-	}
-	
-	@Test
-	public void testMakingCity()
-	{
-		Long id = (long) 45;
-		String name = "b";
-		
-		City city = new City();
-		city.setId(id);
-		city.setName(name);
-		
-		Assert.assertEquals("City{" + "id=" + id + ", name = " + name + "}", city.toString());
-	}
-	
 }

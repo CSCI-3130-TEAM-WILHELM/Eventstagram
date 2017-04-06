@@ -1,17 +1,11 @@
 package com.vaadin.tutorial.eventstagram.backend;
 
-import org.apache.commons.beanutils.BeanUtils;
-
 import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import com.vaadin.tutorial.eventstagram.backend.City;
-import javax.persistence.ManyToOne;
-
 
 @Entity(name = "Location")
 public class OurLocation implements Serializable, Cloneable {
@@ -24,9 +18,7 @@ public class OurLocation implements Serializable, Cloneable {
 	
 	private String venue = "";
 	private String address = "";
-	
-	@ManyToOne
-	private City city;
+	private String city;
 
     public Long getId()
     {
@@ -58,12 +50,12 @@ public class OurLocation implements Serializable, Cloneable {
         this.address = address;
     }
     
-    public City getCity()
+    public String getCity()
     {
         return city;
     }
 
-    public void setCity(City city)
+    public void setCity(String city)
     {
         this.city = city;
     }
