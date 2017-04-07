@@ -87,7 +87,7 @@ public class EventForm extends FormLayout {
         addComponents(actions, title, eventTitle, description, eventDescription, dates, attendingCountLabel, interestedCountLabel, submitButton);
     }
 
-    
+     
     /*
     public void save(Button.ClickEvent event) {
         try {
