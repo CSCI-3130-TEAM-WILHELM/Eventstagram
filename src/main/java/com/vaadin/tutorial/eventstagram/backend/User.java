@@ -2,6 +2,8 @@ package com.vaadin.tutorial.eventstagram.backend;
 
 import org.apache.commons.beanutils.BeanUtils;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -31,6 +33,9 @@ public class User implements Serializable, Cloneable {
     private String username = "";
     private String password = "";
     private boolean admin = false;
+    
+    private List<Long> interestedList = new ArrayList<Long>();
+    private List<Long> attendingList = new ArrayList<Long>();
 
     /*public Long getId()
     {
@@ -45,8 +50,25 @@ public class User implements Serializable, Cloneable {
     public String getUsername()
     {
         return username;
+    }  
+    public void addInterestedEvent(OurEvent event){
+    	interestedList.add(event.getId());
     }
-
+    public void addAttendingEvent(OurEvent event){
+    	attendingList.add(event.getId());
+    }
+    public void removeInterestedEvent(OurEvent event){
+    	interestedList.remove(event.getId());
+    }
+    public void removeAttendingEvent(OurEvent event){
+    	attendingList.remove(event.getId());
+    }
+    public List<Long> getAttendingList(){
+    	return attendingList;
+    }
+    public List<Long> getInterestedList(){
+    	return interestedList;
+    }
     public void setUsername(String username)
     {
         this.username = username;

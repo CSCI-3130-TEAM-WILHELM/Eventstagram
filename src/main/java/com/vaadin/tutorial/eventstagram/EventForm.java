@@ -38,7 +38,9 @@ public class EventForm extends FormLayout {
     private Label attendingCountLabel = new Label();
     private Label interestedCountLabel = new Label();    
     Button attendingButton = new Button("Attending");
+    Button notAttendingButton = new Button("Not Attending");
     Button interestedButton = new Button("Interested");
+    Button notInterestedButton = new Button("Not Interested");
     Label loginWarning = new Label("You must be logged in to use these features.");
     Button submitButton = new Button ("Submit",this::submitEvent);
     		
@@ -60,6 +62,17 @@ public class EventForm extends FormLayout {
     	open.setResolution(Resolution.MINUTE);
     	eventLocationLabel.setValue("Dalhousie University");
     	loginWarning.setVisible(true);
+    	
+    	try{
+	    	if(getUI().currentUser.getAttendingList().contains(ourEvent.getId()))
+	    		attendingButton.setEnabled(false);
+	    	if(getUI().currentUser.getInterestedList().contains(ourEvent.getId()))
+	    		interestedButton.setEnabled(false);
+    	}
+    	catch (Exception e){
+    		System.err.println("No user logged in");
+    	}
+    	
         setVisible(false);
     }
 
@@ -104,6 +117,8 @@ public class EventForm extends FormLayout {
     	attendingButton.setEnabled(false);
     	ourEvent.setAttending(ourEvent.getAttending()+1);
     	attendingCountLabel.setValue(ourEvent.getAttending() + " people attending");    		
+
+    	getUI().userService.find(getUI().currentUser).addAttendingEvent(ourEvent);
     	
     	//if they were previously interested
     	if (!interestedButton.isEnabled())
@@ -133,6 +148,8 @@ public class EventForm extends FormLayout {
     	ourEvent.setInterested(ourEvent.getInterested()+1);
     	interestedCountLabel.setValue(ourEvent.getInterested()+" people interested");
     	
+    	getUI().userService.find(getUI().currentUser).addInterestedEvent(ourEvent);
+
     	//if they were previously attending
     	if (!attendingButton.isEnabled())
     	{
