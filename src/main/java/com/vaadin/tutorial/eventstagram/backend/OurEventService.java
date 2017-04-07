@@ -134,6 +134,28 @@ public class OurEventService {
                 .getResultList();
     	return results;
     }
+    public synchronized List<OurEvent> findAll (Date value){
+    	EntityManager em = getEntityManager();
+    		//System.out.println("just value:"+value+"\ngetDate():"+value.getDate()+"\ntoString():"+value.toString()+"\nsqlDate thing : "+(value.getYear()+1900)+"-"+value.getMonth()+1+"-"+value.getDate()+"'");
+	    	//System.out.println("Select a from OurEvent a WHERE a.start='"+(value.getYear()+1900)+"-"+value.getMonth()+1+"-"+value.getDate()+"' OR a.open = '"+(value.getYear()+1900)+"-"+value.getMonth()+1+"-"+value.getDate()+"'");
+	    	List<OurEvent> results = em
+	                .createQuery("Select a from OurEvent a WHERE a.start >='"+(value.getYear()+1900)+"-"+(value.getMonth()+1)+"-"+value.getDate()+"' AND a.start < '"+(value.getYear()+1900)+"-"+(value.getMonth()+1)+"-"+(value.getDate()+1)+"'")
+	                .getResultList();
+	    	return results;
+	    
+    	
+    }
+    public synchronized List<OurEvent> findAll (String stringValue, Date value){
+    	EntityManager em = getEntityManager();
+    		//System.out.println("just value:"+value+"\ngetDate():"+value.getDate()+"\ntoString():"+value.toString()+"\nsqlDate thing : "+(value.getYear()+1900)+"-"+value.getMonth()+1+"-"+value.getDate()+"'");
+	    	//System.out.println("Select a from OurEvent a WHERE a.start='"+(value.getYear()+1900)+"-"+value.getMonth()+1+"-"+value.getDate()+"' OR a.open = '"+(value.getYear()+1900)+"-"+value.getMonth()+1+"-"+value.getDate()+"'");
+	    	List<OurEvent> results = em
+	                .createQuery("Select a from OurEvent a WHERE a.start >='"+(value.getYear()+1900)+"-"+(value.getMonth()+1)+"-"+value.getDate()+"' AND a.start < '"+(value.getYear()+1900)+"-"+(value.getMonth()+1)+"-"+(value.getDate()+1)+"' AND (a.title LIKE '%"+stringValue+"%' OR a.description LIKE '%"+stringValue+"%')")
+	                .getResultList();
+	    	return results;
+	    
+    	
+    }
     public synchronized List<OurEvent> findAll (String value){
     	EntityManager em = getEntityManager();
     	/*
@@ -147,7 +169,6 @@ public class OurEventService {
 	    			.getResultList();
 	    	return results;
     	}*/
-	    
 	    	List<OurEvent> results = em
 	                .createQuery("Select a from OurEvent a WHERE a.title LIKE '%"+value+"%' OR a.description LIKE '%"+value+"%'")
 	                .getResultList();
