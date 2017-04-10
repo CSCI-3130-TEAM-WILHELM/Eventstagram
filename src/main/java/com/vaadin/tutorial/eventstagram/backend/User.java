@@ -31,7 +31,8 @@ public class User implements Serializable, Cloneable {
     private String username = "";
     private String password = "";
     private boolean admin = false;
-
+    private String interests = "";
+    
     /*public Long getId()
     {
         return id;
@@ -68,6 +69,16 @@ public class User implements Serializable, Cloneable {
     
     public void setAdmin(boolean admin){
     	this.admin = admin;
+    }
+    
+    public String getInterests()
+    {
+    	return interests;
+    }
+    
+    public void setInterests(String interests)
+    {
+    	this.interests = interests;
     }
 
     @Override

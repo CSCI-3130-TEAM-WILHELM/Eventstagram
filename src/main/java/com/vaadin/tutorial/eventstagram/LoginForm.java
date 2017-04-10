@@ -115,7 +115,7 @@ public class LoginForm extends FormLayout {
         		//password matches database user password
         		if (returnedUser.getPassword().equals(password.getValue())){
         			msg = "Hello "+username.getValue()+".";
-        			getUI().profilePageUI.userNameLabel.setValue(username.getValue()); //Set the profile page username
+        			getUI().profilePageUI.userNameContent.setValue(username.getValue()); //Set the profile page username
         			getUI().showingLoginButton=!getUI().showingLoginButton;              //Swap the showing login button value
         			getUI().loginButton.setVisible(getUI().showingLoginButton);          //Hide the login button
         			getUI().logoutButton.setVisible(!getUI().showingLoginButton);        //Show the logout button
@@ -123,8 +123,9 @@ public class LoginForm extends FormLayout {
         			getUI().showingLoginForm=!getUI().showingLoginForm;                  //Swap the login form value
         			getUI().loginForm.setVisible(getUI().showingLoginForm);              //Hide the login form
         			getUI().newEvent.setVisible(!getUI().showingLoginButton); 			 //Show the new Event button
-        			getUI().manageLocationsButton.setVisible(returnedUser.getAdmin()); //Set the visibility of the manage locations button to the admin status
-        			getUI().currentUser=returnedUser;							 //Give current user object to parent
+        			getUI().manageLocationsButton.setVisible(returnedUser.getAdmin()); 	//Set the visibility of the manage locations button to the admin status
+        			getUI().currentUser=returnedUser;									//Give current user object to parent
+        			getUI().profilePageUI.userInterestsContent.setValue(returnedUser.getInterests()); //Set the profile page user interests
         		}
         		//username and password do not match
         		else{

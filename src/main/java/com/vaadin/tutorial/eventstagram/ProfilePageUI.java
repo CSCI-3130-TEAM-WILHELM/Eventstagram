@@ -29,13 +29,19 @@ public class ProfilePageUI extends FormLayout
 	private static final long serialVersionUID = 1L;
 	Label userNameLabel = new Label("Your username");
 	Label userNameContent = new Label("");
+	Label empty0 = new Label("");
+	
 	Label userInterestsLabel = new Label("Your interests");
+	Label userInterestsContent = new Label("");
+	Label empty1 = new Label("");
+	
 	Label locationLabel = new Label("You are here");
+	Label empty2 = new Label("");
 	
 	
 	
 	Button changeInterestButton = new Button("Modify Interests");
-	TextField interestsTextField = new TextField("My interests");
+	TextField interestsTextField = new TextField();
 	Button submitNewInterestsButton = new Button("Submit Interests");
 	
 	Button changePasswordButton = new Button("Change Password");
@@ -52,7 +58,7 @@ public class ProfilePageUI extends FormLayout
 	
 	private void modifyUserInterests()
 	{
-		interestsTextField.setValue(userInterestsLabel.getValue().toString());
+		interestsTextField.setValue(userInterestsContent.getValue().toString());
 		
 		clearLayout();
 		
@@ -101,9 +107,12 @@ public class ProfilePageUI extends FormLayout
 		}
 		return true;
 	}
+	
 	private void updateInterests()
 	{
-		userInterestsLabel.setValue(interestsTextField.getValue().toString());
+		getUI().currentUser.setInterests(interestsTextField.getValue());
+		getUI().userService.updateInterests(getUI().currentUser); // commit changes to database
+		userInterestsContent.setValue(getUI().currentUser.getInterests());
 		
 		clearLayout();
 		
@@ -124,17 +133,18 @@ public class ProfilePageUI extends FormLayout
         setMargin(true);
 
         if (extraPieces == 0)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
-        			  	  changeInterestButton, changePasswordButton);
+        	addComponents(userNameLabel, userNameContent, empty0, userInterestsLabel, 
+        				  userInterestsContent, changeInterestButton, empty1, locationLabel, empty2,
+        			  	  changePasswordButton);
         
         if (extraPieces == 1)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
-        			  	  changeInterestButton, changePasswordButton, changeInterestButton,
-        			  	  interestsTextField, submitNewInterestsButton);
+        	addComponents(userNameLabel, userNameContent, empty0, userInterestsLabel, 
+        				  interestsTextField, submitNewInterestsButton, empty1, locationLabel, 
+        				  empty2, changePasswordButton);
         else if (extraPieces == 2)
-        	addComponents(userNameLabel, userNameContent, userInterestsLabel, locationLabel, 
-  			  	  		  changeInterestButton, changePasswordButton, oldPasswordField,
-  			  	  		  newPasswordField, confirmNewPasswordField, submitNewPasswordButton);
+        	addComponents(userNameLabel, userNameContent, empty0, userInterestsLabel, 
+        				  userInterestsContent, changeInterestButton, empty1, locationLabel, empty2, 
+  			  	  		  oldPasswordField, newPasswordField, confirmNewPasswordField, submitNewPasswordButton);
 	}
 	
 	private void clearLayout()

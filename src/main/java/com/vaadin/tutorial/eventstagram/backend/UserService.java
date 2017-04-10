@@ -50,6 +50,7 @@ public class UserService {
                 user.setUsername(usernames[i]);
                 user.setPassword(passwords[i]);
                 user.setAdmin(admins[i]);
+                user.setInterests("none");
                 userService.save(user);
             }
             instance = userService;
@@ -155,6 +156,23 @@ public class UserService {
                 em.close();
             }
         }
+    }
+    
+    public synchronized void updateInterests(User who)
+    {
+    	EntityManager em = getEntityManager();
+    	try 
+    	{
+    		User user = em.find(User.class, who.getUsername());
+    		em.getTransaction().begin();
+    		user.setInterests(who.getInterests());
+    		em.getTransaction().commit();
+    	} 
+    	
+    	finally 
+    	{
+    		em.close();
+    	}
     }
 
     public synchronized void save(User entry) {
