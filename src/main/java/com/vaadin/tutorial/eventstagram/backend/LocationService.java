@@ -1,13 +1,8 @@
 package com.vaadin.tutorial.eventstagram.backend;
 
-import org.apache.commons.beanutils.BeanUtils;
-
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
@@ -44,7 +39,7 @@ public class LocationService {
     public synchronized List<OurLocation> findAll(String stringFilter) {
         EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            CriteriaQuery<Object> cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(OurLocation.class));
             Query q = em.createQuery(cq);
             return q.getResultList();
@@ -52,11 +47,18 @@ public class LocationService {
             em.close();
         }
     }
+    public synchronized List<OurLocation> getAll (){
+    	EntityManager em = getEntityManager();
+    	List<OurLocation> results = em
+                .createQuery("Select a from OurLocation a", OurLocation.class)
+                .getResultList();
+    	return results;
+    }
 
     public synchronized long count() {
        EntityManager em = getEntityManager();
         try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            CriteriaQuery<Object> cq = em.getCriteriaBuilder().createQuery();
             Root<OurLocation> rt = cq.from(OurLocation.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);

@@ -15,8 +15,6 @@ import com.vaadin.tutorial.eventstagram.backend.OurEvent;
 import com.vaadin.tutorial.eventstagram.backend.OurEventService;
 import com.vaadin.tutorial.eventstagram.backend.User;
 import com.vaadin.tutorial.eventstagram.backend.UserService;
-import com.vaadin.tutorial.eventstagram.backend.City;
-import com.vaadin.tutorial.eventstagram.backend.CityService;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
@@ -28,6 +26,7 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.ui.DateField;
 import com.vaadin.v7.ui.Grid;
 import com.vaadin.v7.ui.TextField;
 
@@ -75,6 +74,7 @@ public class EventstagramUI extends UI {
     Button newLocationButton = new Button("New Location");					//Add a button to allow admins to add a new location
     Button closeLocationButton = new Button("Close");						//Add a button to allow admins to close the location manager
     
+    DateField dateFilter = new DateField();
     EventForm eventForm = new EventForm();
     LoginForm loginForm = new LoginForm();
     LocationForm locationForm = new LocationForm();
@@ -84,7 +84,6 @@ public class EventstagramUI extends UI {
 
     OurEventService service = OurEventService.createDemoService();
     UserService userService = UserService.createDemoService();
-    CityService cityService = CityService.createDemoService();
     LocationService locationService = LocationService.createDemoService();
 
     /*
@@ -112,6 +111,9 @@ public class EventstagramUI extends UI {
     	
         newEvent.addClickListener(e -> eventForm.edit(new OurEvent()));
       
+        dateFilter.setVisible(true);
+        dateFilter.setDateFormat("yyyy/MM/dd");
+        
         loginButton.addClickListener(e -> openLoginPage());
         logoutButton.setVisible(!showingLoginButton);       //Set the visibility of the logout button opposite of the login button
         logoutButton.addClickListener(e -> logout()); 		//Add the action to the logout button
@@ -132,6 +134,7 @@ public class EventstagramUI extends UI {
         filter.setInputPrompt("Filter Events...");
 //        filter.setPlaceholder("Filter Events...");
         filter.addTextChangeListener(e -> refreshEvents(e.getText()));
+        dateFilter.addValueChangeListener(e -> refreshEvents());
 //        filter.addValueChangeListener(e -> refreshEvents(e.getValue()));
        
 //        eventList.setWidth("80%");
@@ -169,7 +172,7 @@ public class EventstagramUI extends UI {
      * choose to setup layout declaratively with Vaadin Designer, CSS and HTML.
      */
     private void buildLayout() {
-        HorizontalLayout actions = new HorizontalLayout(filter, newEvent, manageLocationsButton, profilePageButton,loginButton, logoutButton);
+        HorizontalLayout actions = new HorizontalLayout(filter, dateFilter,newEvent, manageLocationsButton, profilePageButton,loginButton, logoutButton);
         
         actions.setWidth("100%");
         filter.setWidth("100%");
@@ -208,12 +211,33 @@ public class EventstagramUI extends UI {
 /*        eventList.setContainerDataSource(new BeanItemContainer<>(
         		Event.class, eventservice.findAll(stringFilter)));
 */
+    	//Filter is empty
     	if (stringFilter.equals("")||stringFilter==null)
-        eventList.setContainerDataSource(new BeanItemContainer<>(
-                OurEvent.class, service.getAll()));
+    		//date filter is also empty
+    		if(dateFilter.getValue()==null){
+    		System.out.println("Showing all events");
+	        eventList.setContainerDataSource(new BeanItemContainer<>(
+	                OurEvent.class, service.getAll()));
+    		}
+    		//filter is empty, but date filter is not
+    		else {
+    			System.out.println("Finding Date Specific Query");
+    			eventList.setContainerDataSource(new BeanItemContainer<>(
+    	                OurEvent.class, service.findAll(dateFilter.getValue())));
+    		}
+    	//filter is occupied
     	else
-    	eventList.setContainerDataSource(new BeanItemContainer<>(
-                OurEvent.class, service.findAll(stringFilter)));
+    		//date filter is empty
+    		if(dateFilter.getValue()==null){
+	    	eventList.setContainerDataSource(new BeanItemContainer<>(
+	                OurEvent.class, service.findAll(stringFilter)));
+    		}
+    		//date filter is also occupied
+    		else{
+    			eventList.setContainerDataSource(new BeanItemContainer<>(
+    	                OurEvent.class, service.findAll(stringFilter, dateFilter.getValue())));
+        		
+    		}
     	eventForm.setVisible(false);
         profilePageUI.setVisible(false);
         loginForm.setVisible(showingLoginForm);
